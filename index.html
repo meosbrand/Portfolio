@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Ajekigbe | AI Innovator · Cybersecurity Expert · Vibe Coder</title>
+    <meta name="description"
+        content="Michael Ajekigbe helps B2B companies get cybersecurity-compliant in 10 business days. AI innovator, cybersecurity content marketing expert, documentation pro for SMBs, and web designer.">
+    <link rel="stylesheet" href="index.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <a href="#home" class="logo">
+                <div class="logo-monogram">MA</div>
+                <span>Michael Ajekigbe</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Expertise</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about">About</a>
+        <a href="#skills">Expertise</a>
+        <a href="#projects">Projects</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="home" class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Available for projects
+            </div>
+            <h1>Hi, I'm <span class="gradient-text">Michael</span></h1>
+            <div class="typing-line">
+                <span id="typed-text"></span><span class="typing-cursor"></span>
+            </div>
+            <p class="hero-description">
+                I help B2B companies get cybersecurity-compliant in 10 business days without
+                hiring a $180K CISO. On the side, I build AI solutions that actually solve problems.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn-primary">View My Work ↓</a>
+                <a href="#contact" class="btn-outline">Get In Touch</a>
+                <a href="#" class="btn-outline" id="hero-resume" download>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download Resume
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Who I Am</span>
+                <h2 class="section-title">The <span class="gradient-text">Polymath</span> at the Intersection</h2>
+                <p class="section-subtitle">AI, cybersecurity, content, and code — woven together to solve real problems
+                    for real businesses.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text reveal reveal-left">
+                    <p>Three years ago, I was doing marketing and writing Python scripts in college. Then I fell into
+                        cybersecurity and realized most small businesses are one ransomware attack away from disaster —
+                        not because they're reckless, but because cybersecurity is expensive, confusing, and full of
+                        jargon.</p>
+                    <p>So I decided to fix that. Now I create complete cybersecurity documentation packages — security
+                        policies, risk assessments, incident response plans, compliance roadmaps. What normally takes
+                        companies 3-6 months? I deliver it in <strong>10 business days</strong>.</p>
+                    <p>I also build AI tools with clean interfaces that people actually want to use, and design websites
+                        that make businesses look as good online as they are in real life.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">10</div>
+                            <div class="stat-label">Day Delivery</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Years CyberSec</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">12+</div>
+                            <div class="stat-label">Projects Built</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual reveal reveal-right">
+                    <div class="about-card">
+                        <div class="about-card-icon">🧠</div>
+                        <div class="about-card-title">Builder · Writer · Protector</div>
+                        <div class="about-card-tags">
+                            <span>AI</span>
+                            <span>Cybersecurity</span>
+                            <span>Content</span>
+                            <span>Web Design</span>
+                            <span>Python</span>
+                            <span>Vibe Coding</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS / EXPERTISE ==================== -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">What I Do</span>
+                <h2 class="section-title">Four <span class="gradient-text">Pillars</span> of Expertise</h2>
+                <p class="section-subtitle">A unique stack blending security, intelligence, content, and code.</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card reveal reveal-scale stagger-1">
+                    <span class="skill-icon">🤖</span>
+                    <h3>AI & Automation</h3>
+                    <p>Building intelligent tools — from autonomous pentesting frameworks to NLP-powered chatbots — that
+                        solve real problems without buzzword bingo.</p>
+                    <div class="skill-tags">
+                        <span>Python</span>
+                        <span>Google Gemini</span>
+                        <span>NLP</span>
+                        <span>LLM Red-Teaming</span>
+                        <span>ADK</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-scale stagger-2">
+                    <span class="skill-icon">🛡️</span>
+                    <h3>Cybersecurity & Compliance</h3>
+                    <p>Helping SMBs (15-200 employees) go from zero to fully compliant in 10 business days. Security
+                        policies, risk assessments, incident response — the works.</p>
+                    <div class="skill-tags">
+                        <span>Risk Assessment</span>
+                        <span>Compliance</span>
+                        <span>IDS/NIDS</span>
+                        <span>Snort</span>
+                        <span>Pen Testing</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-scale stagger-3">
+                    <span class="skill-icon">📝</span>
+                    <h3>Technical Documentation & Content</h3>
+                    <p>Writing cybersecurity content that doesn't read like a PhD thesis. Medium articles, documentation
+                        packages, and compliance roadmaps that are clear, practical, and actually readable.</p>
+                    <div class="skill-tags">
+                        <span>Content Marketing</span>
+                        <span>Medium</span>
+                        <span>Security Policies</span>
+                        <span>B2B Writing</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-scale stagger-4">
+                    <span class="skill-icon">🎨</span>
+                    <h3>Web Design & Vibe Coding</h3>
+                    <p>Designing and building modern websites that feel premium, not template-ish. From brand sites to
+                        interactive dashboards — if it lives on the web, I make it shine.</p>
+                    <div class="skill-tags">
+                        <span>HTML / CSS / JS</span>
+                        <span>React</span>
+                        <span>Next.js</span>
+                        <span>Figma</span>
+                        <span>UI/UX</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROJECTS ==================== -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">My Work</span>
+                <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+                <p class="section-subtitle">Real tools and solutions I've built — not just demos.</p>
+            </div>
+            <div class="projects-grid">
+
+                <!-- Project 1: AI Pentesting -->
+                <div class="project-card featured reveal reveal-scale stagger-1">
+                    <div class="project-header">
+                        <div class="project-icon">🔴</div>
+                        <div class="project-links">
+                            <a href="https://github.com/meosbrand/autonomous-ai-pentesting-tool" target="_blank"
+                                rel="noopener" title="View on GitHub"><svg width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Autonomous AI Pentesting Tool</h3>
+                        <p>Auto-RedTeam ADK — orchestrates automated adversarial attacks against target LLMs using an
+                            iterative Red Team → Target → Judge loop powered by Google Gemini, with an intelligent Tree
+                            of Attacks branching strategy. Real-time cyberpunk dashboard included.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>Python</span>
+                        <span>Google ADK</span>
+                        <span>Gemini</span>
+                        <span>AI Red-Teaming</span>
+                        <span>LLM Security</span>
+                    </div>
+                </div>
+
+                <!-- Project 2: Aabo -->
+                <div class="project-card reveal reveal-scale stagger-2">
+                    <div class="project-header">
+                        <div class="project-icon">💬</div>
+                        <div class="project-links">
+                            <a href="https://github.com/meosbrand/Aabo" target="_blank" rel="noopener"
+                                title="View on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Aabo — WhatsApp Security</h3>
+                        <p>A WhatsApp-first cybersecurity solution for SMBs. Because not every business owner wants to
+                            log into another dashboard — security alerts and compliance checks, delivered where they
+                            already are.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>WhatsApp API</span>
+                        <span>Security</span>
+                        <span>SMB</span>
+                    </div>
+                </div>
+
+                <!-- Project 3: Betty Pride -->
+                <div class="project-card reveal reveal-scale stagger-3">
+                    <div class="project-header">
+                        <div class="project-icon">👔</div>
+                        <div class="project-links">
+                            <a href="https://github.com/meosbrand/betty-pride-website" target="_blank" rel="noopener"
+                                title="View on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Betty Pride Limited Website</h3>
+                        <p>Professional website for a garment manufacturing company with 40+ years of experience.
+                            Showcasing quality uniforms, kids wear, custom branding, and professional attire.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>HTML</span>
+                        <span>TypeScript</span>
+                        <span>Web Design</span>
+                    </div>
+                </div>
+
+                <!-- Project 4: ShieldPoint -->
+                <div class="project-card reveal reveal-scale stagger-4">
+                    <div class="project-header">
+                        <div class="project-icon">🛡️</div>
+                        <div class="project-links">
+                            <a href="https://github.com/meosbrand/ShieldPoint" target="_blank" rel="noopener"
+                                title="View on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>ShieldPoint — IDS Extension</h3>
+                        <p>A browser extension that functions as an online intrusion detection system, rewarding users
+                            with points for keeping their devices protected. Gamifying cybersecurity.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>Browser Extension</span>
+                        <span>IDS</span>
+                        <span>Gamification</span>
+                    </div>
+                </div>
+
+                <!-- Project 5: Snort3 Installer -->
+                <div class="project-card reveal reveal-scale stagger-5">
+                    <div class="project-header">
+                        <div class="project-icon">🐷</div>
+                        <div class="project-links">
+                            <a href="https://github.com/meosbrand/Snort3-installer-NIDS-" target="_blank" rel="noopener"
+                                title="View on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Snort3 NIDS Installer</h3>
+                        <p>One-click installer script for Snort3 and all dependencies. Making network intrusion
+                            detection setup painless for security professionals.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>Shell</span>
+                        <span>Snort3</span>
+                        <span>NIDS</span>
+                        <span>DevOps</span>
+                    </div>
+                </div>
+
+                <!-- Project 6: NLP Term Paper -->
+                <div class="project-card reveal reveal-scale stagger-5">
+                    <div class="project-header">
+                        <div class="project-icon">💬</div>
+                        <div class="project-links">
+                            <a href="https://docs.google.com/document/d/1HWU-3AzPJEk5WDmzyuFlfIOt_1drmymEwqbrN4YSg3U/edit?usp=sharing"
+                                target="_blank" rel="noopener" title="View Paper"><svg width="20" height="20"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>NLP for Conversational Chatbots</h3>
+                        <p>Term paper exploring Natural Language Processing in conversational chatbots — a case study of
+                            a banking system. Research into how NLP transforms customer interactions in financial
+                            services.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span>NLP</span>
+                        <span>Research</span>
+                        <span>Chatbots</span>
+                        <span>Banking</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ACHIEVEMENTS ==================== -->
+    <section id="achievements">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Track Record</span>
+                <h2 class="section-title">Achievements & <span class="gradient-text">Credentials</span></h2>
+            </div>
+            <div class="achievements-grid">
+                <div class="achievement-card reveal reveal-scale stagger-1">
+                    <span class="achievement-icon">🏅</span>
+                    <h3>OCI Certified</h3>
+                    <p>Oracle Cloud Infrastructure certified professional.</p>
+                </div>
+                <div class="achievement-card reveal reveal-scale stagger-2">
+                    <span class="achievement-icon">🎓</span>
+                    <h3>Google Certified</h3>
+                    <p>Certified by Google in cybersecurity and IT Support.</p>
+                </div>
+                <div class="achievement-card reveal reveal-scale stagger-3">
+                    <span class="achievement-icon">⚡</span>
+                    <h3>10-Day Compliance</h3>
+                    <p>Complete cybersecurity documentation packages delivered in 10 business days — what others take
+                        3-6 months to do.</p>
+                </div>
+                <div class="achievement-card reveal reveal-scale stagger-4">
+                    <span class="achievement-icon">✍️</span>
+                    <h3>Medium Writer</h3>
+                    <p>Publishing security awareness content on Medium and explaining cybersecurity without the jargon.
+                    </p>
+                </div>
+                <div class="achievement-card reveal reveal-scale stagger-5">
+                    <span class="achievement-icon">🎤</span>
+                    <h3>AI & Security Tutor</h3>
+                    <p>Volunteering as a tutor in AI and security for students, sharing knowledge with the next
+                        generation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Get In Touch</span>
+                <h2 class="section-title">Let's <span class="gradient-text">Work Together</span></h2>
+                <p class="section-subtitle">Have a project in mind, need compliance help, or want to talk AI? I'd love
+                    to hear from you.</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info reveal reveal-left">
+                    <h3>Let's connect.</h3>
+                    <p>Whether you're an SMB owner who needs security docs yesterday, a startup looking for an AI
+                        solution, or someone who just wants to build something cool — let's talk.</p>
+                    <div class="contact-links">
+                        <a href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank" rel="noopener"
+                            class="contact-link">
+                            <span class="contact-link-icon"><svg width="20" height="20" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg></span>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/meosbrand" target="_blank" rel="noopener" class="contact-link">
+                            <span class="contact-link-icon"><svg width="20" height="20" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+                                </svg></span>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener" class="contact-link">
+                            <span class="contact-link-icon"><svg width="20" height="20" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+                                </svg></span>
+                            <span>Medium</span>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form reveal reveal-right" id="contactForm">
+                    <!-- FormSubmit.co config -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_subject" value="New Portfolio Contact — Michael Ajekigbe">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitBtn">Send Message →</button>
+                    <p class="form-status" id="formStatus"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank" rel="noopener"
+                    title="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg></a>
+                <a href="https://github.com/meosbrand" target="_blank" rel="noopener" title="GitHub"><svg width="18"
+                        height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+                    </svg></a>
+                <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener" title="Medium"><svg width="18"
+                        height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+                    </svg></a>
+            </div>
+            <a href="#" class="footer-resume" id="footer-resume" download>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download Resume
+            </a>
+            <p class="footer-text">
+                © 2026 <span>Michael Ajekigbe</span>. Designed & built by me.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
