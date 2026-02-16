@@ -1,92 +1,70 @@
-# 🚀 Michael Ajekigbe — Portfolio
+# Michael Ajekigbe
 
-> **AI Innovator · Cybersecurity Expert · Documentation Pro · Vibe Coder**
+**Cybersecurity Expert · AI Builder · Technical Writer**
 
-A premium, high-contrast personal portfolio built with pure **HTML**, **CSS**, and **JavaScript** — no frameworks, no dependencies. Designed to showcase my work at the intersection of AI, cybersecurity, and content.
+I help B2B companies become cybersecurity-compliant in 10 days — not months. I build AI-powered security tools, write clear documentation, and design websites that convert.
 
-🔗 **[View Live Site](#)** *(deploy link here)*
-
----
-
-## ✨ Features
-
-### Design & UX
-- **High-contrast dark theme** — near-black backgrounds (`#010104`) with vivid cyan/violet accents
-- **Bold typography** — Outfit (800 weight) for headings, DM Sans for body text
-- **Glassmorphism cards** — frosted glass effect with subtle blur and gradient borders
-- **Fully responsive** — optimized for desktop, tablet, and mobile (3 breakpoints)
-- **Professional SVG favicon** — MA monogram matching the site branding
-
-### Interactions & Animations
-- 🌀 **Animated particle canvas** — interactive hero background with mouse-reactive particles
-- ⌨️ **Typing animation** — rotating role titles in the hero section
-- 📊 **Scroll progress bar** — gradient indicator showing page position
-- 🔢 **Animated stat counters** — numbers count up with easeOutExpo when scrolled into view
-- 🌊 **Hero parallax** — content shifts and fades on scroll for depth
-- 🃏 **3D card tilt** — skill, project, and achievement cards respond to cursor position
-- ✨ **Cursor glow** — radial cyan highlight follows your mouse across cards
-- 🧲 **Magnetic buttons** — CTAs subtly shift toward your cursor
-- 👁️ **Scroll reveal** — sections fade and slide in as they enter the viewport
-
-### Functionality
-- 📧 **Contact form** — sends submissions to email via [FormSubmit.co](https://formsubmit.co) AJAX API
-- 📥 **CSV export** — form submissions saved to localStorage; press `Ctrl+Shift+D` to download as CSV
-- 🍔 **Mobile menu** — hamburger navigation for smaller screens
-- 🔗 **Active nav highlighting** — current section highlighted in the navigation
+[View Portfolio](#) · [LinkedIn](https://www.linkedin.com/in/michael-ajekigbe/) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01)
 
 ---
 
-## 🛠️ Tech Stack
+## What I Do
 
-| Layer | Technology |
-|-------|-----------|
-| Structure | HTML5 (semantic) |
-| Styling | Vanilla CSS (custom properties, grid, flexbox) |
-| Logic | Vanilla JavaScript (ES6+) |
-| Icons | Inline SVG |
-| Fonts | [Outfit](https://fonts.google.com/specimen/Outfit), [DM Sans](https://fonts.google.com/specimen/DM+Sans) via Google Fonts |
-| Email | [FormSubmit.co](https://formsubmit.co) (free, no backend) |
+### Cybersecurity Compliance — Fast
+Most SMBs are one ransomware attack away from disaster but can't afford to wait 6 months for a consultant. I deliver complete cybersecurity documentation packages — policies, risk assessments, incident response plans, compliance roadmaps — in **10 business days**. SOC2, ISO 27001, NIST — covered.
 
-**Zero dependencies. Zero build step. Just open `index.html`.**
+### AI Security Tools
+I build tools that do real work:
+
+- **Autonomous AI Pentesting** — an adversarial testing framework that orchestrates Red Team → Target → Judge attack loops against LLMs using Google Gemini and the Agent Development Kit
+- **Aabo** — a WhatsApp-first cybersecurity platform delivering security alerts and compliance checks directly to business owners where they already communicate
+- **ShieldPoint IDS** — a browser extension that functions as an intrusion detection system and gamifies safe browsing with a points reward system
+- **Snort3 NIDS Installer** — one-click setup script for Snort3 and all dependencies on Linux
+
+### Technical Writing
+I publish practical security content on [Medium](https://medium.com/@yungbayo01) and volunteer as an AI & cybersecurity tutor for students and early-career professionals. Complex topics, plain language.
 
 ---
 
-## 📁 Project Structure
+## Credentials
+
+| Certification | Issuer |
+|---|---|
+| OCI Certified | Oracle |
+| Cybersecurity & IT Support | Google |
+
+---
+
+## Tech I Work With
+
+`Python` `Google Gemini` `LangChain` `Pentesting` `Snort` `Risk Assessment` `React` `Tailwind CSS` `Bash` `Linux`
+
+---
+
+## This Portfolio
+
+A single-page site built from scratch — no frameworks, no CMS. Dark cinematic design with interactive particle backgrounds, 3D card effects, and scroll-triggered animations. Zero dependencies.
 
 ```
-Portfolio/
-├── index.html      # Main page structure and content
-├── index.css       # Complete design system and responsive styles
-├── script.js       # All interactions, animations, and form handling
-├── favicon.svg     # Professional MA monogram favicon
-└── README.md       # You are here
+index.html    — structure and content
+index.css     — design system
+script.js     — animations and interactions
 ```
-
----
-
-## 🚀 Getting Started
 
 ```bash
-# Clone the repository
 git clone https://github.com/meosbrand/Portfolio.git
-
-# Open in browser
 open Portfolio/index.html
-# or just double-click index.html
 ```
 
-No install. No build. No config. It just works.
-
 ---
 
-## 📬 Contact
+## Let's Work Together
 
-- **LinkedIn** — [michael-ajekigbe](https://www.linkedin.com/in/michael-ajekigbe/)
-- **GitHub** — [meosbrand](https://github.com/meosbrand)
-- **Medium** — [@yungbayo01](https://medium.com/@yungbayo01)
+Need security compliance fast? Building something with AI? Just want to talk shop?
+
+**Email:** yungbayo01@gmail.com
+**LinkedIn:** [michael-ajekigbe](https://www.linkedin.com/in/michael-ajekigbe/)
 
 ---
-
-## 📄 License
 
 © 2026 Michael Ajekigbe. All rights reserved.
