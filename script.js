@@ -143,7 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }});
         };
 
-        closeMenu.addEventListener('click', closeMobileMenu);
+        if (closeMenu) {
+            closeMenu.addEventListener('click', closeMobileMenu);
+        }
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMobileMenu);
         });
