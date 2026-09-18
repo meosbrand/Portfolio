@@ -1,205 +1,132 @@
-gsap.registerPlugin(ScrollTrigger);
+/* =========================================================
+   Michael Ajekigbe — Portfolio
+   Vanilla JS. No dependencies.
+   ========================================================= */
+(function () {
+    "use strict";
 
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 1. Initial Setup to Hide Elements for Animation ---
-    // We set opacity:0 here to avoid FOUC for animated elements
-    // The HTML has opacity-0 classes but we reinforce/animate here
-    gsap.set('.project-card, .skill-card, .achievement-card, .section-header', {
-        opacity: 0,
-        y: 30
-    });
+    /* ---------- Theme (light / dark) ---------- */
+    var root = document.documentElement;
+    var toggle = document.getElementById("themeToggle");
 
-    // --- 2. Hero Animations ---
-    const tl = gsap.timeline();
-    // HTML elements already have opacity-0 class, so we animate TO visible
-    tl.to('.hero-badge', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
-      .to('.hero-title', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
-      .to('.hero-typing', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
-      .to('.hero-desc', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
-      .to('.hero-btns', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6');
+    function storedTheme() {
+        try { return localStorage.getItem("theme"); } catch (e) { return null; }
+    }
+    function saveTheme(t) {
+        try { localStorage.setItem("theme", t); } catch (e) {}
+    }
 
-    // --- 3. Typing Effect ---
-    const text = ["AI Innovator", "Cybersecurity Expert", "Vibe Coder"];
-    let count = 0;
-    let index = 0;
-    let currentText = "";
-    let letter = "";
+    var saved = storedTheme();
+    if (saved === "light" || saved === "dark") {
+        root.setAttribute("data-theme", saved);
+    }
 
-    (function type() {
-        if (count === text.length) {
-            count = 0;
-        }
-        currentText = text[count];
-        letter = currentText.slice(0, ++index);
-
-        const typedElement = document.getElementById('typed-text');
-        if (typedElement) {
-            typedElement.textContent = letter;
-        }
-
-        if (letter.length === currentText.length) {
-            count++;
-            index = 0;
-            setTimeout(type, 2000);
-        } else {
-            setTimeout(type, 100);
-        }
-    })();
-
-    // --- 4. Scroll Animations ---
-    
-    // Generic Section Headers
-    gsap.utils.toArray('.section-header').forEach(header => {
-        gsap.to(header, {
-            scrollTrigger: {
-                trigger: header,
-                start: 'top 80%',
-            },
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power2.out'
-        });
-    });
-
-    // Skills
-    ScrollTrigger.batch('.skill-card', {
-        start: 'top 85%',
-        onEnter: batch => gsap.to(batch, {opacity: 1, y: 0, stagger: 0.15, overwrite: true})
-    });
-
-    // Projects
-    ScrollTrigger.batch('.project-card', {
-        start: 'top 85%',
-        onEnter: batch => gsap.to(batch, {opacity: 1, y: 0, stagger: 0.15, overwrite: true})
-    });
-    
-    // Achievements
-    ScrollTrigger.batch('.achievement-card', {
-        start: 'top 90%',
-        onEnter: batch => gsap.to(batch, {opacity: 1, y: 0, stagger: 0.1, overwrite: true})
-    });
-    
-    // About
-    gsap.fromTo('.about-text', 
-        { opacity: 0, x: -50 },
-        {
-            scrollTrigger: { trigger: '.about-text', start: 'top 80%' },
-            opacity: 1, x: 0, duration: 1, ease: 'power3.out'
-        }
-    );
-    gsap.fromTo('.about-visual', 
-        { opacity: 0, x: 50 },
-        {
-            scrollTrigger: { trigger: '.about-visual', start: 'top 80%' },
-            opacity: 1, x: 0, duration: 1, ease: 'power3.out'
-        }
-    );
-
-    // Contact
-    gsap.fromTo('.contact-info', 
-        { opacity: 0, x: -30 },
-        {
-            scrollTrigger: { trigger: '.contact-info', start: 'top 80%' },
-            opacity: 1, x: 0, duration: 1
-        }
-    );
-    gsap.fromTo('.contact-form-container', 
-        { opacity: 0, x: 30 },
-        {
-            scrollTrigger: { trigger: '.contact-form-container', start: 'top 80%' },
-            opacity: 1, x: 0, duration: 1
-        }
-    );
-
-    // --- 5. Scroll Progress Bar ---
-    gsap.to('.scroll-progress', {
-        width: '100%',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0
-        }
-    });
-
-    // --- 6. Mobile Menu ---
-    const hamburger = document.getElementById('hamburger');
-    const closeMenu = document.getElementById('closeMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.remove('hidden');
-            mobileMenu.classList.add('flex');
-            gsap.fromTo(mobileMenu, {opacity: 0}, {opacity: 1, duration: 0.3});
-        });
-        
-        const closeMobileMenu = () => {
-            gsap.to(mobileMenu, {opacity: 0, duration: 0.3, onComplete: () => {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-            }});
-        };
-
-        if (closeMenu) {
-            closeMenu.addEventListener('click', closeMobileMenu);
-        }
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+    if (toggle) {
+        toggle.addEventListener("click", function () {
+            var prefersDark = window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches;
+            var current = root.getAttribute("data-theme") ||
+                (prefersDark ? "dark" : "light");
+            var next = current === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", next);
+            saveTheme(next);
         });
     }
 
-    // --- 7. Canvas Particles ---
-    const canvas = document.getElementById('hero-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+    /* ---------- Loaded flag (hero underline etc.) ---------- */
+    window.addEventListener("load", function () {
+        document.body.classList.add("loaded");
+    });
+    // fallback in case load already fired
+    if (document.readyState === "complete") document.body.classList.add("loaded");
+
+    /* ---------- Nav: shrink on scroll + progress bar ---------- */
+    var nav = document.getElementById("nav");
+    var progress = document.getElementById("progress");
+
+    function onScroll() {
+        var y = window.scrollY || window.pageYOffset;
+        if (nav) nav.classList.toggle("scrolled", y > 24);
+
+        if (progress) {
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            var pct = h > 0 ? (y / h) * 100 : 0;
+            progress.style.width = pct + "%";
         }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.2;
-                this.vy = (Math.random() - 0.5) * 0.2;
-                this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(0, 255, 255, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+    }
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+        if (!ticking) {
+            window.requestAnimationFrame(function () { onScroll(); ticking = false; });
+            ticking = true;
         }
+    }, { passive: true });
+    onScroll();
 
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
+    /* ---------- Mobile menu ---------- */
+    var burger = document.getElementById("burger");
+    var closeMenu = document.getElementById("closeMenu");
+    var mobileMenu = document.getElementById("mobileMenu");
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+    function setMenu(open) {
+        if (!mobileMenu) return;
+        mobileMenu.classList.toggle("open", open);
+        document.body.style.overflow = open ? "hidden" : "";
+    }
+    if (burger) burger.addEventListener("click", function () { setMenu(true); });
+    if (closeMenu) closeMenu.addEventListener("click", function () { setMenu(false); });
+    if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(function (a) {
+            a.addEventListener("click", function () { setMenu(false); });
+        });
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    var reveals = document.querySelectorAll(".reveal:not(.in)");
+    if ("IntersectionObserver" in window && reveals.length) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in");
+                    io.unobserve(entry.target);
+                }
             });
-            requestAnimationFrame(animate); 
-        }
-        animate();
+        }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+        reveals.forEach(function (el) { io.observe(el); });
+    } else {
+        reveals.forEach(function (el) { el.classList.add("in"); });
     }
-});
+
+    /* ---------- Contact form (FormSubmit AJAX) ---------- */
+    var form = document.getElementById("contactForm");
+    var status = document.getElementById("formStatus");
+
+    if (form) {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var btn = form.querySelector('button[type="submit"]');
+            var honey = form.querySelector('input[name="_honey"]');
+            if (honey && honey.value) return; // bot trap
+
+            if (status) { status.style.color = "var(--muted)"; status.textContent = "Sending…"; }
+            if (btn) btn.disabled = true;
+
+            fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: { Accept: "application/json" }
+            }).then(function (res) {
+                if (res.ok) {
+                    form.reset();
+                    if (status) { status.style.color = "var(--green)"; status.textContent = "Thanks — I'll get back to you soon."; }
+                } else {
+                    throw new Error("Bad response");
+                }
+            }).catch(function () {
+                if (status) { status.style.color = "var(--clay)"; status.textContent = "Something went wrong. Email me directly: yungbayo01@gmail.com"; }
+            }).finally(function () {
+                if (btn) btn.disabled = false;
+            });
+        });
+    }
+})();
