@@ -1,502 +1,367 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Michael Ajekigbe | Cybersecurity Expert & AI Innovator</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Michael Ajekigbe — Cybersecurity in plain language</title>
+    <meta name="description" content="Michael Ajekigbe makes cybersecurity make sense for the small businesses big vendors ignore. Compliance in 10 days, AI security tools, and security writing people actually read."/>
+    <meta name="author" content="Michael Ajekigbe"/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Michael Ajekigbe — Cybersecurity in plain language"/>
+    <meta property="og:description" content="I make security make sense for the businesses big vendors ignore — compliance, AI tools, and writing without the jargon."/>
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="index.css"/>
-
-    <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              colors: {
-                "primary": "#00ffff",
-                "accent-violet": "#8b5cf6",
-                "background-light": "#f5f8f8",
-                "background-dark": "#010104",
-                "card-bg": "rgba(255, 255, 255, 0.03)",
-              },
-              fontFamily: {
-                "display": ["Space Grotesk"],
-                "body": ["DM Sans"]
-              },
-              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-            },
-          },
-        }
-    </script>
 </head>
-<body class="bg-background-dark text-background-light font-body">
+<body>
 
-<canvas id="hero-canvas"></canvas>
-<div class="scroll-progress"></div>
+<div class="progress" id="progress"></div>
 
-<nav id="navbar" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-8 py-3 glass-panel rounded-full flex items-center space-x-8 transition-all duration-300 w-11/12 md:w-auto justify-between md:justify-start">
-    <a class="text-primary font-display font-bold text-xl logo" href="#">MA.<span class="text-white">dev</span></a>
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+    <a class="brand" href="#top">Michael Ajekigbe<span class="dot">.</span></a>
 
-    <div class="hidden md:flex items-center space-x-6 text-sm font-medium tracking-wide">
-        <a class="hover:text-primary transition-colors" href="#about">About</a>
-        <a class="hover:text-primary transition-colors" href="#expertise">Expertise</a>
-        <a class="hover:text-primary transition-colors" href="#projects">Projects</a>
-        <a class="hover:text-primary transition-colors" href="#achievements">Achievements</a>
-        <a class="hover:text-primary transition-colors" href="#contact">Contact</a>
+    <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#belief">Belief</a>
+        <a href="#work">Work</a>
+        <a href="#writing">Writing</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+            <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn--primary nav-cta" href="#contact">Let's talk</a>
+        <button class="burger" id="burger" aria-label="Open menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
     </div>
+</header>
 
-    <a class="hidden md:block bg-primary text-background-dark px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-tighter hover:scale-105 transition-transform" href="#contact">Hire Me</a>
-
-    <div class="md:hidden text-white cursor-pointer" id="hamburger">
-        <span class="material-icons-round">menu</span>
+<!-- ================= MOBILE MENU ================= -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mm-top">
+        <span class="brand">Michael Ajekigbe<span class="dot">.</span></span>
+        <button class="close-menu" id="closeMenu" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
     </div>
-</nav>
-
-<div id="mobileMenu" class="fixed inset-0 bg-background-dark/95 backdrop-blur-xl z-40 hidden flex-col items-center justify-center space-y-8 text-2xl font-display font-bold">
-    <a href="#about" class="hover:text-primary">About</a>
-    <a href="#expertise" class="hover:text-primary">Expertise</a>
-    <a href="#projects" class="hover:text-primary">Projects</a>
-    <a href="#achievements" class="hover:text-primary">Achievements</a>
-    <a href="#contact" class="hover:text-primary">Contact</a>
-    <div class="text-white cursor-pointer absolute top-8 right-8" id="closeMenu">
-        <span class="material-icons-round text-4xl">close</span>
+    <nav>
+        <a href="#about"><span class="n">01</span> About</a>
+        <a href="#belief"><span class="n">02</span> Belief</a>
+        <a href="#work"><span class="n">03</span> Work</a>
+        <a href="#writing"><span class="n">04</span> Writing</a>
+        <a href="#contact"><span class="n">05</span> Contact</a>
+    </nav>
+    <div class="mm-foot">
+        <a href="https://github.com/meosbrand" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Medium</a>
     </div>
 </div>
 
-<section id="home" class="hero relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
-    <div class="relative z-10 text-center max-w-4xl pt-20">
-        <div class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8 hero-badge opacity-0 translate-y-4">
-            <span class="w-2 h-2 bg-primary rounded-full pulse"></span>
-            <span class="text-xs font-medium tracking-widest uppercase">Available for new projects</span>
-        </div>
+<main id="top">
 
-        <h1 class="text-6xl md:text-8xl font-display font-bold mb-6 tracking-tight leading-none opacity-0 translate-y-8 hero-title">
-            Hi, I’m <span class="text-gradient">Michael</span>
-        </h1>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-glow two"></div>
+        <div class="wrap">
+            <span class="hero-badge reveal in"><span class="live"></span> Available for new work · Lagos, NG</span>
 
-        <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto font-medium h-8 hero-typing">
-            <span id="typed-text"></span><span class="animate-pulse text-primary">|</span>
-        </p>
+            <h1 class="reveal in d1">
+                I make security <em>make&nbsp;sense</em> — for the businesses everyone <span class="u">else ignores.</span>
+            </h1>
 
-        <p class="text-base md:text-lg text-white/60 mb-12 max-w-2xl mx-auto font-light leading-relaxed hero-desc opacity-0 translate-y-4">
-            I help B2B companies become cybersecurity-compliant in 10 days.
-            From AI pentesting tools to sleek web apps, I build solutions that actually solve problems.
-        </p>
+            <p class="hero-sub reveal in d2">
+                I'm Michael — a cybersecurity builder, AI tinkerer, and writer. I turn
+                compliance, threat protection, and dense security jargon into things a
+                small-business owner can actually understand and act on.
+            </p>
 
-        <div class="flex flex-col md:flex-row items-center justify-center gap-4 hero-btns opacity-0 translate-y-4">
-            <a class="w-full md:w-auto px-8 py-4 bg-primary text-background-dark font-display font-bold rounded-lg hover:scale-105 hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] transition-all" href="#projects">
-                View My Work
-            </a>
-            <a class="w-full md:w-auto px-8 py-4 border border-white/20 hover:border-primary/50 hover:text-primary font-display font-bold rounded-lg backdrop-blur-sm transition-all" href="#contact">
-                Get In Touch
-            </a>
-        </div>
-    </div>
+            <div class="hero-actions reveal in d3">
+                <a class="btn btn--primary" href="#work">See the work <span class="ar">↗</span></a>
+                <a class="btn btn--ghost" href="#contact">Start a conversation</a>
+            </div>
 
-    <div class="absolute bottom-10 animate-bounce opacity-40">
-        <span class="material-icons-round text-3xl">keyboard_arrow_down</span>
-    </div>
-</section>
-
-<section class="py-24 px-6 md:px-12 max-w-7xl mx-auto" id="about">
-    <div class="about-grid grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div class="space-y-8 about-text">
-            <h2 class="text-4xl font-display font-bold flex items-center gap-4 section-header">
-                <span class="text-primary">/</span> About Me
-            </h2>
-            <div class="text-lg text-white/80 leading-relaxed space-y-4">
-                <p>
-                    Three years ago, I was writing Python scripts in college. Then I discovered that most small businesses are one ransomware attack away from disaster.
-                </p>
-                <p>
-                    So I decided to fix that. I create complete cybersecurity documentation packages — policies, risk assessments, compliance roadmaps — delivered in <strong>10 business days</strong>, not months.
-                </p>
-                <p>
-                    I also build AI tools with clean interfaces and design websites that make businesses look as good online as they are in real life. I call it "vibe coding" — technical rigor meets immersive design.
-                </p>
+            <div class="hero-meta reveal in d4">
+                <div class="stat"><div class="num">10</div><div class="lbl">Business days to full compliance docs</div></div>
+                <div class="stat"><div class="num">12+</div><div class="lbl">Security &amp; AI tools shipped</div></div>
+                <div class="stat"><div class="num">2</div><div class="lbl">Certs — Google &amp; Oracle Cloud</div></div>
+                <div class="stat"><div class="num">∞</div><div class="lbl">Zero-jargon guarantee</div></div>
             </div>
         </div>
+    </section>
 
-        <div class="relative about-visual">
-            <div class="glass-panel p-8 rounded-2xl grid grid-cols-2 gap-8 relative overflow-hidden">
-                <div class="space-y-2 stat-item">
-                    <p class="text-4xl font-display font-bold text-accent-violet stat-number">10</p>
-                    <p class="text-sm uppercase tracking-widest text-white/50">Day Delivery</p>
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>Plain-language security</span>
+            <span>WhatsApp-first protection</span>
+            <span>AI that does real work</span>
+            <span>Compliance without the fear</span>
+            <span>Built for the hustle</span>
+            <span>Plain-language security</span>
+            <span>WhatsApp-first protection</span>
+            <span>AI that does real work</span>
+            <span>Compliance without the fear</span>
+            <span>Built for the hustle</span>
+        </div>
+    </div>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section" id="about">
+        <div class="wrap">
+            <div class="about-grid">
+                <div class="about-body reveal">
+                    <span class="eyebrow">01 — About</span>
+                    <h2 class="h-sec">Security shouldn't need a translator.</h2>
+                    <p>
+                        Three years ago I was writing Python scripts in college. Then it clicked:
+                        most small businesses are one ransomware email away from disaster — and
+                        the whole industry is busy talking to Fortune 500 CISOs instead of them.
+                    </p>
+                    <p>
+                        So I picked a lane. I build <strong>cybersecurity that ordinary business
+                        owners can actually use</strong> — complete documentation packages
+                        (policies, risk assessments, compliance roadmaps) delivered in
+                        <strong>10 business days, not six months</strong>, plus AI tools and clear
+                        writing that meet people where they already work.
+                    </p>
+                    <p>
+                        My roots shape the work. <span class="drop text-green">Ààbò</span> — Yoruba for
+                        <em>protection, sanctuary</em> — is my north star: security that feels like a
+                        trusted guard, not a vendor pitch. Technical rigor, warm delivery. I call it
+                        building things that actually solve the problem.
+                    </p>
                 </div>
-                <div class="space-y-2 stat-item">
-                    <p class="text-4xl font-display font-bold text-primary stat-number">2+</p>
-                    <p class="text-sm uppercase tracking-widest text-white/50">Years CyberSec</p>
+
+                <aside class="about-card reveal d1">
+                    <h3>At a glance</h3>
+                    <ul>
+                        <li><span class="k">Based in</span><span class="v">Lagos, Nigeria</span></li>
+                        <li><span class="k">Focus</span><span class="v accent">SMB security &amp; AI</span></li>
+                        <li><span class="k">Certified</span><span class="v">Google · Oracle Cloud</span></li>
+                        <li><span class="k">Writes on</span><span class="v">Medium</span></li>
+                        <li><span class="k">Teaches</span><span class="v">AI &amp; security, free</span></li>
+                        <li><span class="k">Building</span><span class="v accent">Ààbò</span></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BELIEF / MANIFESTO ================= -->
+    <section class="section manifesto" id="belief">
+        <span class="mark" aria-hidden="true">“</span>
+        <div class="wrap reveal">
+            <span class="eyebrow">02 — What I believe</span>
+            <blockquote>
+                Big security brands can't talk to small businesses. So they don't
+                protect themselves — because <em>nobody told them what they actually
+                needed to hear, in words they understood.</em>
+            </blockquote>
+            <p class="attrib">
+                — from my writing on why enterprise cybersecurity content fails the 33 million
+                small businesses that need it most. Whitepapers full of acronyms aren't
+                communication; they're credential signalling. My work is the opposite: say the
+                true thing, plainly, to the person who has to act on it.
+            </p>
+        </div>
+    </section>
+
+    <!-- ================= SERVICES ================= -->
+    <section class="section" id="services">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <span class="eyebrow">03 — What I do</span>
+                    <h2 class="h-sec">Three ways I help you sleep at night.</h2>
                 </div>
-                <div class="space-y-2 stat-item">
-                    <p class="text-4xl font-display font-bold text-accent-violet stat-number">12+</p>
-                    <p class="text-sm uppercase tracking-widest text-white/50">Projects Built</p>
+                <p class="lead">No retainers full of jargon. Clear scope, fast delivery, work you can point to.</p>
+            </div>
+
+            <div class="services">
+                <article class="svc reveal">
+                    <span class="idx">/ 01</span>
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                    <h3>Compliance, in 10 days</h3>
+                    <p>Complete cybersecurity documentation — policies, risk assessments, incident response, compliance roadmaps — mapped to SOC 2, ISO 27001 and NIST. Delivered in business days, not quarters.</p>
+                    <div class="tags"><span class="tag">SOC 2</span><span class="tag">ISO 27001</span><span class="tag">NIST</span><span class="tag">Risk</span></div>
+                </article>
+
+                <article class="svc reveal d1">
+                    <span class="idx">/ 02</span>
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3 3 3 3 0 0 0 6 0 3 3 0 0 0 3-3 3 3 0 0 0 0-6 3 3 0 0 0-3-3 3 3 0 0 0-3-3z"/><path d="M12 8v8M9 12h6"/></svg></div>
+                    <h3>AI security tools</h3>
+                    <p>Practical tools that do real work — autonomous LLM red-teaming, a WhatsApp-first security co-pilot, intrusion detection, one-click installers. Clean interfaces over serious engineering.</p>
+                    <div class="tags"><span class="tag">Python</span><span class="tag">Gemini</span><span class="tag">n8n</span><span class="tag">Automation</span></div>
+                </article>
+
+                <article class="svc reveal d2">
+                    <span class="idx">/ 03</span>
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11a0 0 0 0 1 0 0H4z"/><path d="M8 12h8M8 16h5"/></svg></div>
+                    <h3>Writing people finish</h3>
+                    <p>Security content, policy, and awareness material in plain English (and Pidgin, and Yoruba). I turn dense risk into stories a non-technical owner reads to the end — and acts on.</p>
+                    <div class="tags"><span class="tag">Content</span><span class="tag">Policy</span><span class="tag">Awareness</span></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WORK ================= -->
+    <section class="section section--alt" id="work">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <span class="eyebrow">04 — Selected work</span>
+                    <h2 class="h-sec">Real tools. Not demos.</h2>
                 </div>
-                <div class="space-y-2 stat-item">
-                    <p class="text-4xl font-display font-bold text-primary stat-number">5★</p>
-                    <p class="text-sm uppercase tracking-widest text-white/50">Client Rating</p>
+                <a class="btn btn--ghost" href="https://github.com/meosbrand" target="_blank" rel="noopener">All on GitHub <span class="ar">↗</span></a>
+            </div>
+
+            <div class="work-list">
+                <a class="work reveal" href="https://github.com/meosbrand/Aabo" target="_blank" rel="noopener">
+                    <div class="w-idx">01</div>
+                    <div>
+                        <div class="w-title">Ààbò <span class="flag">Flagship</span></div>
+                        <p class="w-desc">A WhatsApp-first cybersecurity co-pilot for African small businesses — scam &amp; fake-page alerts, auto-backup, plain-language awareness tips, and a one-tap panic button. Protection where owners actually live: their chat app.</p>
+                        <div class="w-tech"><span>n8n</span><span>WhatsApp API</span><span>OpenAI</span><span>Firebase</span><span>SMB</span></div>
+                    </div>
+                    <div class="w-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
+                </a>
+
+                <a class="work reveal" href="https://github.com/meosbrand/autonomous-ai-pentesting-tool" target="_blank" rel="noopener">
+                    <div class="w-idx">02</div>
+                    <div>
+                        <div class="w-title">Autonomous AI Pentesting</div>
+                        <p class="w-desc">An adversarial testing framework that runs an iterative Red Team → Target → Judge attack loop against LLMs, powered by Google Gemini and the Agent Development Kit. Automates the hunt for model weaknesses.</p>
+                        <div class="w-tech"><span>Python</span><span>Google ADK</span><span>Gemini</span><span>LLM Security</span></div>
+                    </div>
+                    <div class="w-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
+                </a>
+
+                <a class="work reveal" href="https://github.com/meosbrand/ShieldPoint" target="_blank" rel="noopener">
+                    <div class="w-idx">03</div>
+                    <div>
+                        <div class="w-title">ShieldPoint IDS</div>
+                        <p class="w-desc">A browser extension that works as an online intrusion detection system and rewards users with points for safe browsing. Turns everyday security into something people want to do.</p>
+                        <div class="w-tech"><span>JavaScript</span><span>Browser</span><span>Gamification</span></div>
+                    </div>
+                    <div class="w-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
+                </a>
+
+                <a class="work reveal" href="https://github.com/meosbrand/Snort3-installer-NIDS-" target="_blank" rel="noopener">
+                    <div class="w-idx">04</div>
+                    <div>
+                        <div class="w-title">Snort3 NIDS Installer</div>
+                        <p class="w-desc">A one-click script that installs Snort3 and every dependency it needs. Takes network intrusion detection setup from a painful afternoon to a single command.</p>
+                        <div class="w-tech"><span>Bash</span><span>Linux</span><span>Snort3</span><span>NIDS</span></div>
+                    </div>
+                    <div class="w-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WRITING ================= -->
+    <section class="section" id="writing">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <span class="eyebrow">05 — Writing</span>
+                    <h2 class="h-sec">I think out loud, in plain language.</h2>
                 </div>
+                <a class="btn btn--ghost" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Read on Medium <span class="ar">↗</span></a>
+            </div>
+
+            <div class="writing">
+                <a class="post reveal" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
+                    <span class="cat">Positioning</span>
+                    <h3>Why Big Cybersecurity Brands Can't Talk to Small Businesses</h3>
+                    <p>Enterprise vendors write for Fortune 500 CISOs. So 33 million small businesses get ignored — or confused. Here's the gap, and the content that actually fills it.</p>
+                    <span class="more">Read the piece <span class="ar">↗</span></span>
+                </a>
+
+                <a class="post reveal d1" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
+                    <span class="cat">Guides</span>
+                    <h3>The 10-Minute Security Audit for Non-Technical Owners</h3>
+                    <p>A 15-point check across access, devices, phishing, backups and data sharing — with a fix-today / this-week / this-month scorecard anyone can run.</p>
+                    <span class="more">On Medium <span class="ar">↗</span></span>
+                </a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-background-dark/50" id="expertise">
-    <div class="mb-16 text-center section-header">
-        <h2 class="text-4xl font-display font-bold mb-4">Core Expertise</h2>
-        <div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
-    </div>
+    <!-- ================= CONTACT ================= -->
+    <section class="section section--alt contact" id="contact">
+        <div class="wrap">
+            <div class="contact-grid">
+                <div class="reveal">
+                    <span class="eyebrow">06 — Contact</span>
+                    <h2>Let's make your security <em>make sense.</em></h2>
+                    <p class="lead">Need compliance docs fast? Building something with AI? Want security content that people actually read? Tell me what you're up against.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 skills-grid">
-        <div class="gradient-border rounded-xl p-8 group hover:scale-[1.02] transition-all duration-300 skill-card">
-            <div class="w-12 h-12 mb-6 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                <span class="material-icons-round">psychology</span>
-            </div>
-            <h3 class="text-2xl font-display font-bold mb-4 group-hover:text-primary transition-colors">AI & Automation</h3>
-            <p class="text-white/60 mb-6">Building intelligent tools — from autonomous pentesting frameworks to NLP chatbots — that solve real problems.</p>
-            <div class="flex flex-wrap gap-2">
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Python</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Gemini</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">LangChain</span>
+                    <div class="contact-links">
+                        <a href="mailto:yungbayo01@gmail.com">
+                            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+                            <span class="meta"><span class="k">Email</span><span class="v">yungbayo01@gmail.com</span></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank" rel="noopener">
+                            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.5 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></span>
+                            <span class="meta"><span class="k">LinkedIn</span><span class="v">michael-ajekigbe</span></span>
+                        </a>
+                        <a href="https://github.com/meosbrand" target="_blank" rel="noopener">
+                            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></span>
+                            <span class="meta"><span class="k">GitHub</span><span class="v">meosbrand</span></span>
+                        </a>
+                    </div>
+                </div>
+
+                <form class="form reveal d1" id="contactForm" action="https://formsubmit.co/yungbayo01@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false"/>
+                    <input type="hidden" name="_template" value="table"/>
+                    <input type="hidden" name="_subject" value="New message from your portfolio"/>
+                    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off"/>
+
+                    <div class="field">
+                        <label for="name">Your name</label>
+                        <input id="name" name="name" type="text" placeholder="Jane Doe" required/>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" placeholder="jane@company.com" required/>
+                    </div>
+                    <div class="field">
+                        <label for="message">What are you working on?</label>
+                        <textarea id="message" name="message" placeholder="Tell me about your business and what's keeping you up at night…" required></textarea>
+                    </div>
+                    <button class="btn btn--primary" type="submit">Send it over <span class="ar">↗</span></button>
+                    <p class="form-status" id="formStatus"></p>
+                </form>
             </div>
         </div>
+    </section>
+</main>
 
-        <div class="gradient-border rounded-xl p-8 group hover:scale-[1.02] transition-all duration-300 skill-card">
-            <div class="w-12 h-12 mb-6 rounded-lg bg-accent-violet/10 flex items-center justify-center text-accent-violet group-hover:bg-accent-violet group-hover:text-white transition-colors">
-                <span class="material-icons-round">security</span>
-            </div>
-            <h3 class="text-2xl font-display font-bold mb-4 group-hover:text-accent-violet transition-colors">Cybersecurity</h3>
-            <p class="text-white/60 mb-6">Architecting zero-trust environments and ensuring compliance (SOC2, ISO 27001) for SMBs.</p>
-            <div class="flex flex-wrap gap-2">
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Pentesting</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Risk Assessment</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Snort</span>
-            </div>
-        </div>
-
-        <div class="gradient-border rounded-xl p-8 group hover:scale-[1.02] transition-all duration-300 skill-card">
-            <div class="w-12 h-12 mb-6 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                <span class="material-icons-round">article</span>
-            </div>
-            <h3 class="text-2xl font-display font-bold mb-4 group-hover:text-primary transition-colors">Technical Writing</h3>
-            <p class="text-white/60 mb-6">Distilling complex concepts into clear, actionable documentation and security policies.</p>
-            <div class="flex flex-wrap gap-2">
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Content Marketing</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Policies</span>
-            </div>
-        </div>
-
-        <div class="gradient-border rounded-xl p-8 group hover:scale-[1.02] transition-all duration-300 skill-card">
-            <div class="w-12 h-12 mb-6 rounded-lg bg-accent-violet/10 flex items-center justify-center text-accent-violet group-hover:bg-accent-violet group-hover:text-white transition-colors">
-                <span class="material-icons-round">auto_fix_high</span>
-            </div>
-            <h3 class="text-2xl font-display font-bold mb-4 group-hover:text-accent-violet transition-colors">Web Design</h3>
-            <p class="text-white/60 mb-6">Building high-performance web applications with a focus on immersive aesthetics and speed.</p>
-            <div class="flex flex-wrap gap-2">
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">React</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">Tailwind</span>
-                <span class="text-[10px] px-2 py-1 rounded border border-white/10 uppercase font-bold text-white/50">UI/UX</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-24 px-6 md:px-12 max-w-7xl mx-auto" id="projects">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 section-header">
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="wrap footer-grid">
         <div>
-            <h2 class="text-4xl font-display font-bold mb-2">Featured Projects</h2>
-            <p class="text-white/50">Real tools and solutions I've built — not just demos.</p>
+            <a class="brand" href="#top">Michael Ajekigbe<span class="dot">.</span></a>
+            <p class="copy">© 2026 · Security in plain language · Lagos, NG</p>
         </div>
-        <a class="group flex items-center gap-2 text-primary font-bold hover:text-white transition-colors" href="https://github.com/meosbrand" target="_blank">
-            View GitHub <span class="material-icons-round group-hover:translate-x-1 transition-transform">east</span>
-        </a>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 projects-grid">
-        <div class="group relative rounded-2xl overflow-hidden glass-panel project-card hover:shadow-[0_0_30px_rgba(0,255,255,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent-violet/20 flex items-center justify-center text-primary border border-white/10">
-                        <span class="material-icons-round text-2xl">bug_report</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold uppercase tracking-widest border border-primary/20">Security</span>
-                    </div>
-                </div>
-
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">Autonomous AI Pentesting</h3>
-                <p class="text-white/60 text-sm mb-6 flex-grow">
-                    Orchestrates automated adversarial attacks against LLMs using an iterative Red Team → Target → Judge loop powered by Google Gemini.
-                </p>
-
-                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div class="flex gap-2 opacity-60">
-                        <span class="text-xs">Python</span>
-                        <span class="text-xs">•</span>
-                        <span class="text-xs">Google ADK</span>
-                    </div>
-                    <a class="inline-flex items-center gap-2 text-primary font-bold text-sm hover:text-white" href="https://github.com/meosbrand/autonomous-ai-pentesting-tool" target="_blank">
-                        Code <span class="material-icons-round text-lg">open_in_new</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="group relative rounded-2xl overflow-hidden glass-panel project-card hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-violet/20 to-primary/20 flex items-center justify-center text-accent-violet border border-white/10">
-                        <span class="material-icons-round text-2xl">chat</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] bg-accent-violet/10 text-accent-violet px-2 py-1 rounded font-bold uppercase tracking-widest border border-accent-violet/20">SaaS</span>
-                    </div>
-                </div>
-
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-accent-violet transition-colors">Aabo — WhatsApp Security</h3>
-                <p class="text-white/60 text-sm mb-6 flex-grow">
-                    A WhatsApp-first cybersecurity solution for SMBs. Delivering security alerts and compliance checks directly where business owners live.
-                </p>
-
-                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div class="flex gap-2 opacity-60">
-                        <span class="text-xs">API</span>
-                        <span class="text-xs">•</span>
-                        <span class="text-xs">SMB</span>
-                    </div>
-                    <a class="inline-flex items-center gap-2 text-accent-violet font-bold text-sm hover:text-white" href="https://github.com/meosbrand/Aabo" target="_blank">
-                        Code <span class="material-icons-round text-lg">open_in_new</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="group relative rounded-2xl overflow-hidden glass-panel project-card hover:shadow-[0_0_30px_rgba(0,255,255,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent-violet/20 flex items-center justify-center text-primary border border-white/10">
-                        <span class="material-icons-round text-2xl">extension</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold uppercase tracking-widest border border-primary/20">Extension</span>
-                    </div>
-                </div>
-
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">ShieldPoint IDS</h3>
-                <p class="text-white/60 text-sm mb-6 flex-grow">
-                    Browser extension that functions as an online intrusion detection system, rewarding users with points for safe browsing. Gamifying security.
-                </p>
-
-                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div class="flex gap-2 opacity-60">
-                        <span class="text-xs">JS</span>
-                        <span class="text-xs">•</span>
-                        <span class="text-xs">Gamification</span>
-                    </div>
-                    <a class="inline-flex items-center gap-2 text-primary font-bold text-sm hover:text-white" href="https://github.com/meosbrand/ShieldPoint" target="_blank">
-                        Code <span class="material-icons-round text-lg">open_in_new</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="group relative rounded-2xl overflow-hidden glass-panel project-card hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-violet/20 to-primary/20 flex items-center justify-center text-accent-violet border border-white/10">
-                        <span class="material-icons-round text-2xl">terminal</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] bg-accent-violet/10 text-accent-violet px-2 py-1 rounded font-bold uppercase tracking-widest border border-accent-violet/20">DevOps</span>
-                    </div>
-                </div>
-
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-accent-violet transition-colors">Snort3 NIDS Installer</h3>
-                <p class="text-white/60 text-sm mb-6 flex-grow">
-                    One-click installer script for Snort3 and all dependencies. Making network intrusion detection setup painless.
-                </p>
-
-                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div class="flex gap-2 opacity-60">
-                        <span class="text-xs">Bash</span>
-                        <span class="text-xs">•</span>
-                        <span class="text-xs">Linux</span>
-                    </div>
-                    <a class="inline-flex items-center gap-2 text-accent-violet font-bold text-sm hover:text-white" href="https://github.com/meosbrand/Snort3-installer-NIDS-" target="_blank">
-                        Code <span class="material-icons-round text-lg">open_in_new</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5" id="achievements">
-    <div class="mb-16 text-center section-header">
-        <span class="text-xs uppercase tracking-[0.2em] text-primary font-bold">Track Record</span>
-        <h2 class="text-4xl font-display font-bold mt-3">Achievements & <span class="text-gradient">Credentials</span></h2>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 achievements-grid">
-        <!-- OCI Certified -->
-        <div class="group relative rounded-2xl overflow-hidden glass-panel achievement-card hover:shadow-[0_0_30px_rgba(0,255,255,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent-violet/20 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                        <span class="material-icons-round text-2xl">cloud_done</span>
-                    </div>
-                    <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold uppercase tracking-widest border border-primary/20">Cloud</span>
-                </div>
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">OCI Certified</h3>
-                <p class="text-white/60 text-sm flex-grow">Oracle Cloud Infrastructure certified professional.</p>
-            </div>
-        </div>
-
-        <!-- Google Certified -->
-        <div class="group relative rounded-2xl overflow-hidden glass-panel achievement-card hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-violet/20 to-primary/20 flex items-center justify-center text-accent-violet border border-white/10 group-hover:bg-accent-violet group-hover:text-white transition-colors">
-                        <span class="material-icons-round text-2xl">school</span>
-                    </div>
-                    <span class="text-[10px] bg-accent-violet/10 text-accent-violet px-2 py-1 rounded font-bold uppercase tracking-widest border border-accent-violet/20">Certified</span>
-                </div>
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-accent-violet transition-colors">Google Certified</h3>
-                <p class="text-white/60 text-sm flex-grow">Certified by Google in cybersecurity and IT support disciplines.</p>
-            </div>
-        </div>
-
-        <!-- 10-Day Compliance -->
-        <div class="group relative rounded-2xl overflow-hidden glass-panel achievement-card hover:shadow-[0_0_30px_rgba(0,255,255,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent-violet/20 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                        <span class="material-icons-round text-2xl">bolt</span>
-                    </div>
-                    <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold uppercase tracking-widest border border-primary/20">Speed</span>
-                </div>
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">10-Day Compliance</h3>
-                <p class="text-white/60 text-sm flex-grow">Complete cybersecurity documentation packages delivered in 10 business days.</p>
-            </div>
-        </div>
-
-        <!-- Medium Writer -->
-        <div class="group relative rounded-2xl overflow-hidden glass-panel achievement-card hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-accent-violet/20 to-primary/20 flex items-center justify-center text-accent-violet border border-white/10 group-hover:bg-accent-violet group-hover:text-white transition-colors">
-                        <span class="material-icons-round text-2xl">edit_note</span>
-                    </div>
-                    <span class="text-[10px] bg-accent-violet/10 text-accent-violet px-2 py-1 rounded font-bold uppercase tracking-widest border border-accent-violet/20">Content</span>
-                </div>
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-accent-violet transition-colors">Medium Writer</h3>
-                <p class="text-white/60 text-sm flex-grow">Publishing practical security awareness content in plain language.</p>
-            </div>
-        </div>
-
-        <!-- AI & Security Tutor -->
-        <div class="group relative rounded-2xl overflow-hidden glass-panel achievement-card hover:shadow-[0_0_30px_rgba(0,255,255,0.15)] transition-all sm:col-span-2 lg:col-span-1">
-            <div class="p-8 relative h-full flex flex-col">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent-violet/20 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                        <span class="material-icons-round text-2xl">record_voice_over</span>
-                    </div>
-                    <span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold uppercase tracking-widest border border-primary/20">Teaching</span>
-                </div>
-                <h3 class="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">AI & Security Tutor</h3>
-                <p class="text-white/60 text-sm flex-grow">Volunteering as a tutor in AI and cybersecurity for students and early professionals.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-24 px-6 md:px-12 max-w-7xl mx-auto" id="contact">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 contact-wrapper">
-        <div class="contact-info">
-            <h2 class="text-5xl font-display font-bold mb-8">Let’s secure your <span class="text-gradient">digital future.</span></h2>
-            <p class="text-xl text-white/60 mb-12">Whether you need security docs, an AI solution, or just want to chat vibe coding.</p>
-
-            <div class="space-y-6">
-                <div class="flex items-center gap-6 group">
-                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-primary border border-white/10 group-hover:border-primary transition-colors">
-                        <span class="material-icons-round">alternate_email</span>
-                    </div>
-                    <div>
-                        <p class="text-sm text-white/40 uppercase tracking-widest">Email</p>
-                        <p class="font-bold">yungbayo01@gmail.com</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-6">
-                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-accent-violet border border-white/10">
-                        <span class="material-icons-round">language</span>
-                    </div>
-                    <div>
-                        <p class="text-sm text-white/40 uppercase tracking-widest">Social</p>
-                        <div class="flex gap-4 font-bold">
-                            <a class="hover:text-primary transition-colors" href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank">LinkedIn</a>
-                            <a class="hover:text-primary transition-colors" href="https://github.com/meosbrand" target="_blank">GitHub</a>
-                            <a class="hover:text-primary transition-colors" href="https://medium.com/@yungbayo01" target="_blank">Medium</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-panel p-10 rounded-2xl relative contact-form-container">
-            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/10 blur-3xl rounded-full"></div>
-
-            <form id="contactForm" class="space-y-6 relative z-10">
-                <input type="hidden" name="_captcha" value="false"/>
-                <input type="hidden" name="_template" value="table"/>
-                <input type="hidden" name="_subject" value="New Portfolio Contact — Michael Ajekigbe"/>
-                <input type="text" name="_honey" style="display:none"/>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-xs font-bold uppercase tracking-widest text-white/50">Your Name</label>
-                        <input name="name" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:ring-0 transition-all text-white placeholder-white/20" placeholder="John Doe" type="text" required/>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-xs font-bold uppercase tracking-widest text-white/50">Email Address</label>
-                        <input name="email" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:ring-0 transition-all text-white placeholder-white/20" placeholder="john@example.com" type="email" required/>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase tracking-widest text-white/50">Message</label>
-                    <textarea name="message" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary focus:ring-0 transition-all text-white placeholder-white/20" placeholder="Tell me about your project..." rows="4" required></textarea>
-                </div>
-
-                <button id="submitBtn" class="w-full py-4 bg-primary text-background-dark font-display font-bold rounded-lg hover:shadow-[0_0_25px_rgba(0,255,255,0.4)] transition-all flex items-center justify-center gap-2" type="submit">
-                    Send Message <span class="material-icons-round text-lg">send</span>
-                </button>
-                <p id="formStatus" class="font-bold text-center"></p>
-            </form>
-        </div>
-    </div>
-</section>
-
-<footer class="py-12 px-6 border-t border-white/5">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        <div class="flex flex-col items-center md:items-start gap-4">
-            <a class="text-primary font-display font-bold text-2xl" href="#">MA.<span class="text-white">dev</span></a>
-            <p class="text-sm text-white/40">© 2026 Michael Ajekigbe. All rights reserved.</p>
-        </div>
-
-        <div class="flex gap-4">
-            <a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-primary text-white/60 hover:text-primary transition-all" href="https://github.com/meosbrand" target="_blank">
-                <span class="material-icons-round text-sm">code</span>
-            </a>
-            <a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-accent-violet text-white/60 hover:text-accent-violet transition-all" href="https://medium.com/@yungbayo01" target="_blank">
-                <span class="material-icons-round text-sm">article</span>
-            </a>
+        <div class="socials">
+            <a href="https://github.com/meosbrand" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+            <a href="https://www.linkedin.com/in/michael-ajekigbe/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.5 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></a>
+            <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener" aria-label="Medium"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12c0 3.04-2.46 5.5-5.49 5.5S2.56 15.04 2.56 12s2.46-5.5 5.49-5.5S13.54 8.96 13.54 12zM19.5 12c0 2.86-1.23 5.18-2.74 5.18S14.02 14.86 14.02 12s1.23-5.18 2.74-5.18S19.5 9.14 19.5 12zM22 12c0 2.56-.43 4.64-.97 4.64S20.06 14.56 20.06 12s.43-4.64.97-4.64S22 9.44 22 12z"/></svg></a>
         </div>
     </div>
 </footer>

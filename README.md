@@ -1,28 +1,26 @@
 # Michael Ajekigbe
 
-**Cybersecurity Expert · AI Builder · Technical Writer**
+**Cybersecurity in plain language · AI builder · Technical writer**
 
-I help B2B companies become cybersecurity-compliant in 10 days — not months. I build AI-powered security tools, write clear documentation, and design websites that convert.
+I make security *make sense* — for the small businesses big vendors ignore. Complete compliance documentation in 10 days, AI security tools that do real work, and writing people actually finish.
 
-[View Portfolio](#) · [LinkedIn](https://www.linkedin.com/in/michael-ajekigbe/) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01)
+[LinkedIn](https://www.linkedin.com/in/michael-ajekigbe/) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01) · yungbayo01@gmail.com
 
 ---
 
-## What I Do
+## What I do
 
-### Cybersecurity Compliance — Fast
-Most SMBs are one ransomware attack away from disaster but can't afford to wait 6 months for a consultant. I deliver complete cybersecurity documentation packages — policies, risk assessments, incident response plans, compliance roadmaps — in **10 business days**. SOC2, ISO 27001, NIST — covered.
+### Compliance, in 10 days
+Most SMBs are one ransomware email away from disaster — and can't wait six months for a consultant. I deliver complete cybersecurity documentation packages (policies, risk assessments, incident response plans, compliance roadmaps) in **10 business days**. Mapped to SOC 2, ISO 27001 and NIST.
 
-### AI Security Tools
-I build tools that do real work:
+### AI security tools
+- **Ààbò** — a WhatsApp-first cybersecurity co-pilot for African small businesses: scam & fake-page alerts, auto-backup, plain-language awareness tips, and a one-tap panic button
+- **Autonomous AI Pentesting** — an adversarial framework running Red Team → Target → Judge attack loops against LLMs with Google Gemini + the Agent Development Kit
+- **ShieldPoint IDS** — a browser extension that acts as an intrusion detection system and gamifies safe browsing
+- **Snort3 NIDS Installer** — one-command setup for Snort3 and every dependency on Linux
 
-- **Autonomous AI Pentesting** — an adversarial testing framework that orchestrates Red Team → Target → Judge attack loops against LLMs using Google Gemini and the Agent Development Kit
-- **Aabo** — a WhatsApp-first cybersecurity platform delivering security alerts and compliance checks directly to business owners where they already communicate
-- **ShieldPoint IDS** — a browser extension that functions as an intrusion detection system and gamifies safe browsing with a points reward system
-- **Snort3 NIDS Installer** — one-click setup script for Snort3 and all dependencies on Linux
-
-### Technical Writing
-I publish practical security content on [Medium](https://medium.com/@yungbayo01) and volunteer as an AI & cybersecurity tutor for students and early-career professionals. Complex topics, plain language.
+### Writing people finish
+I publish practical security content on [Medium](https://medium.com/@yungbayo01) in plain English — no acronyms, no credential-signalling — and volunteer as an AI & cybersecurity tutor.
 
 ---
 
@@ -30,26 +28,23 @@ I publish practical security content on [Medium](https://medium.com/@yungbayo01)
 
 | Certification | Issuer |
 |---|---|
-| OCI Certified | Oracle |
+| Oracle Cloud Infrastructure | Oracle |
 | Cybersecurity & IT Support | Google |
 
 ---
 
-## Tech I Work With
+## About this site
 
-`Python` `Google Gemini` `LangChain` `Pentesting` `Snort` `Risk Assessment` `React` `Tailwind CSS` `Bash` `Linux`
-
----
-
-## This Portfolio
-
-A single-page site built from scratch — no frameworks, no CMS. Dark cinematic design with interactive particle backgrounds, 3D card effects, and scroll-triggered animations. Zero dependencies.
+A single-page portfolio built from scratch — **no frameworks, no build step, zero JS dependencies**. Warm editorial design system drawn from the Ààbò brand (deep pine green = safety, warm cream = clean, terracotta = roots), with a light/dark theme toggle, scroll-reveal motion, and an accessible, reduced-motion-friendly build.
 
 ```
-index.html    — structure and content
-index.css     — design system
-script.js     — animations and interactions
+index.html   — structure and content
+index.css    — design tokens + full design system
+script.js    — theme toggle, reveals, nav, form (vanilla JS)
+favicon.svg  — sanctuary shield mark
 ```
+
+**Fonts:** Fraunces (display) · Inter (body) · Space Mono (labels) — all via Google Fonts.
 
 ```bash
 git clone https://github.com/meosbrand/Portfolio.git
@@ -58,13 +53,13 @@ open Portfolio/index.html
 
 ---
 
-## Let's Work Together
+## Let's work together
 
-Need security compliance fast? Building something with AI? Just want to talk shop?
+Need compliance docs fast? Building something with AI? Want security content people actually read?
 
 **Email:** yungbayo01@gmail.com
 **LinkedIn:** [michael-ajekigbe](https://www.linkedin.com/in/michael-ajekigbe/)
 
 ---
 
-© 2026 Michael Ajekigbe. All rights reserved.
+© 2026 Michael Ajekigbe · Security in plain language · Lagos, NG
