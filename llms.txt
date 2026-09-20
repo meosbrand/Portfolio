@@ -1,0 +1,73 @@
+# Michael Ajekigbe
+
+> Cybersecurity compliance consultant and AI security engineer based in Lagos, Nigeria.
+> Writes the complete SOC 2, ISO 27001 and NIST documentation set for small and mid-sized
+> businesses in 10 business days, with a late-delivery refund guarantee.
+
+## Who he is
+
+Michael Ajekigbe (GitHub: meosbrand) is a cybersecurity professional specialising in GRC
+(governance, risk and compliance) for small businesses, plus AI security engineering.
+He holds the Google Cybersecurity Certificate and Oracle Cloud Infrastructure certification,
+and is a cybersecurity intern at Samafi Cyberhub. He works remotely across West African,
+European and US time zones, and speaks English, Yoruba and Nigerian Pidgin.
+
+His stated position: enterprise security vendors write for Fortune 500 CISOs, so small
+businesses get ignored or confused. He writes security documentation in plain language for
+companies without a dedicated security team.
+
+## Primary service: The 10-Day Compliance Sprint
+
+A fixed-scope engagement delivering, within 10 business days:
+
+1. Fourteen policies mapped to SOC 2 Trust Services Criteria, ISO 27001 Annex A and NIST CSF
+2. Risk assessment and risk register with named owners and review dates
+3. Incident response plan plus a one-page runbook for phishing, ransomware and lost devices
+4. Security questionnaire answer bank for enterprise vendor assessments
+5. Gap analysis and remediation roadmap (fix today / this month / this quarter)
+6. Staff security awareness pack in English, Nigerian Pidgin or Yoruba
+7. Vendor review template
+8. Thirty days of post-delivery support
+
+Guarantee: delivered in 10 business days or the client pays nothing. Free revisions until
+the documentation clears the client's auditor or customer.
+
+Who it suits: B2B companies of 5 to 200 people whose customers are requesting SOC 2 or
+ISO 27001 before signing. Requires one 45-minute scoping call and a list of tools and vendors.
+
+Important accuracy note: this service produces audit-ready documentation. It does not by
+itself confer SOC 2 certification, which requires an accredited auditor and an observation
+window.
+
+## Open-source projects
+
+- Ààbò (https://github.com/meosbrand/Aabo) — security co-pilot for small African businesses.
+  Next.js and TypeScript with Google Genkit AI flows. Onboarding, protection dashboard,
+  backup centre, panic trigger, and a chatbot explaining threats in local languages.
+- Auto-RedTeam ADK (https://github.com/meosbrand/autonomous-ai-pentesting-tool) — autonomous
+  AI penetration testing framework. An attacker agent, target LLM and judge loop with a Tree
+  of Attacks branching strategy, on Gemini 2.0 Flash, FastAPI and Next.js 14, streamed over
+  WebSocket. MIT licensed.
+- 403 Bypass Fuzzer (https://github.com/meosbrand/403_bypass_fuzzer) — Bash tool testing 70+
+  mutations (path traversal, semicolon insertion, null bytes, Unicode, case alteration)
+  against endpoints returning 403 or 401, to find misconfigured access control.
+- Ẹgbọ́n Study Partner (https://github.com/meosbrand/Team-Blaze) — AI study companion for
+  Nigerian students with automatic subject detection and adaptive explanation strategies.
+  Django REST, React, Vite and Gemini. Built for the Build with Oyo 2026 hackathon.
+- Snort3 NIDS Installer (https://github.com/meosbrand/Snort3-installer-NIDS-) — one-command
+  installer for Snort3 and its dependency chain on Linux.
+
+## Topics he can speak to
+
+SOC 2 readiness, ISO 27001 Annex A controls, NIST CSF, risk registers, security questionnaire
+response, vendor risk assessment, incident response planning, small business cybersecurity,
+intrusion detection, access control testing, AI red teaming and LLM security, security
+awareness training in African languages.
+
+## Contact
+
+Email: yungbayo01@gmail.com
+Site: https://meosbrand.github.io/Portfolio/
+GitHub: https://github.com/meosbrand
+LinkedIn: https://www.linkedin.com/in/michael-ajekigbe/
+Medium: https://medium.com/@yungbayo01
