@@ -1,8 +1,10 @@
 # Michael Ajekigbe
 
-**Cybersecurity compliance for small business · AI security engineer · Lagos, Nigeria**
+**Cybersecurity · AI · Web development — Lagos, Nigeria**
 
-I write the complete SOC 2, ISO 27001 and NIST documentation set for small businesses in 10 business days. If I miss the date, you pay nothing.
+I secure the system, build the AI inside it, and ship the site it runs on. Most security people can't build and most developers can't secure, so working across all three is the point.
+
+I also sell one productised service: the complete SOC 2, ISO 27001 and NIST documentation set in 10 business days.
 
 [LinkedIn](https://www.linkedin.com/in/michael-ajekigbe) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01) · yungbayo01@gmail.com
 
@@ -42,6 +44,9 @@ To be clear about scope: this produces audit-ready documentation. It does not by
 | [403 Bypass Fuzzer](https://github.com/meosbrand/403_bypass_fuzzer) | Throws 70+ mutations at endpoints returning 403 to find misconfigured access control | Bash, curl |
 | [Ẹgbọ́n Study Partner](https://github.com/meosbrand/Team-Blaze) | AI study companion for Nigerian students with automatic subject detection. Build with Oyo 2026 hackathon | Django REST, React, Gemini |
 | [Snort3 NIDS Installer](https://github.com/meosbrand/Snort3-installer-NIDS-) | One-command install for Snort3 and its whole dependency chain | Bash, Linux |
+| [Betty Pride](https://github.com/meosbrand/betty-pride-website) | Site for a Nigerian garment manufacturer with four decades behind it | HTML, TypeScript, UI design |
+
+Two more client builds are in private repos: the official site for SamaFi Cyberhub, and a property site for Tony Multiventures.
 
 ---
 

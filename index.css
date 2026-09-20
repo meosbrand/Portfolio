@@ -697,3 +697,38 @@ main { position: relative; z-index: 1; }
 .pricing-note { margin-top: 1.8rem; font-size: .93rem; color: var(--muted); max-width: 72ch; line-height: 1.6; }
 
 @media (max-width: 940px) { .pricing { grid-template-columns: 1fr; } .tier.featured { order: -1; } }
+
+/* ---------- Portrait ---------- */
+.portrait { margin: 0; position: relative; }
+.portrait img {
+    width: 100%; height: auto; border-radius: var(--radius-lg);
+    border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+    filter: saturate(1.02);
+}
+.portrait figcaption {
+    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--muted); margin-top: .9rem; text-align: right;
+}
+
+/* About: prose left, portrait + facts stacked right */
+.about-grid { grid-template-columns: 1.3fr .85fr; }
+.about-side { display: flex; flex-direction: column; gap: 1.4rem; position: sticky; top: 6rem; }
+.about-side .about-card { position: static; top: auto; }
+
+/* ---------- Work category tag ---------- */
+.w-cat {
+    display: inline-block;
+    font-family: var(--font-mono); font-size: .64rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--clay); margin-bottom: .55rem;
+}
+.work-note {
+    margin-top: 2rem; font-size: .95rem; color: var(--muted);
+    max-width: 70ch; line-height: 1.6;
+}
+.work-note strong { color: var(--ink-soft); font-weight: 600; }
+
+@media (max-width: 940px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-side { position: relative; top: 0; flex-direction: column; }
+    .portrait { max-width: 340px; }
+}
