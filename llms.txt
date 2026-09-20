@@ -29,8 +29,16 @@ A fixed-scope engagement delivering, within 10 business days:
 7. Vendor review template
 8. Thirty days of post-delivery support
 
-Guarantee: delivered in 10 business days or the client pays nothing. Free revisions until
-the documentation clears the client's auditor or customer.
+Pricing: from $1,500 USD for 5 to 25 people on a single framework; from $3,000 for 26 to 75
+people across up to two frameworks; custom quote above 75 people, three frameworks, or when
+technical security work is included. Half payable up front, half on delivery, in USD or NGN.
+Capacity is two engagements per month.
+
+Guarantee: the ten-day clock starts the morning after the scoping call, once the client's tool
+and vendor list is in hand, and pauses only while waiting on the client, who is notified the
+same day. If delivery is late the client is refunded in full and keeps the documents. Any
+document the client's auditor or customer challenges is rewritten free for 60 days. The
+guarantee covers the documentation itself, not controls the client has not yet implemented.
 
 Who it suits: B2B companies of 5 to 200 people whose customers are requesting SOC 2 or
 ISO 27001 before signing. Requires one 45-minute scoping call and a list of tools and vendors.

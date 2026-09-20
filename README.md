@@ -23,7 +23,9 @@ What lands in your inbox on day ten:
 7. Vendor review template
 8. Thirty days of support after delivery
 
-Delivered in 10 business days or you don't pay. Free revisions until it clears your auditor or your client.
+**Pricing.** From $1,500 for 5 to 25 people on one framework. From $3,000 for up to 75 people across two. Custom above that. Half up front, half on delivery, USD or NGN.
+
+**Guarantee.** The clock starts the morning after our call, once I have your tool and vendor list, and pauses only while I'm waiting on you. Late means a full refund and you keep the documents. Anything your auditor challenges, I rewrite free for 60 days. That covers my documents, not controls you haven't built yet.
 
 Worth your time if you are a 5 to 200 person B2B company and customers have started asking for SOC 2 or ISO 27001 before they'll sign. Not worth your time if you want a rubber stamp without changing anything.
 

@@ -662,3 +662,38 @@ main { position: relative; z-index: 1; }
 }
 .post h3 { text-wrap: balance; }
 @media (max-width: 940px) { .writing { grid-template-columns: 1fr; } }
+
+/* ---------- Pricing ---------- */
+.pricing-wrap { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid var(--line); }
+.pricing-head h3 { font-family: var(--font-display); font-weight: 460; font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; }
+.pricing-head p { color: var(--ink-soft); max-width: 62ch; margin-top: .9rem; font-size: 1.02rem; line-height: 1.6; }
+
+.pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 2.4rem; align-items: start; }
+.tier {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.8rem 1.6rem;
+    position: relative;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.tier:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+.tier.featured { border-color: var(--green); border-width: 1.5px; box-shadow: var(--shadow); }
+.t-flag {
+    position: absolute; top: -11px; left: 1.6rem;
+    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
+    background: var(--green); color: var(--on-green); border-radius: 100px; padding: .3rem .75rem;
+}
+.t-name { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.t-price { font-family: var(--font-display); font-weight: 520; font-size: clamp(1.7rem, 3vw, 2.15rem); letter-spacing: -0.02em; margin-top: .7rem; line-height: 1; color: var(--green); }
+.t-who { font-size: .9rem; color: var(--ink-soft); margin-top: .7rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+.tier ul { list-style: none; padding: 0; margin-top: 1.1rem; display: flex; flex-direction: column; gap: .7rem; }
+.tier li { font-size: .92rem; color: var(--ink-soft); line-height: 1.5; padding-left: 1.5rem; position: relative; }
+.tier li::before {
+    content: ""; position: absolute; left: 0; top: .42em;
+    width: 11px; height: 6px; border-left: 1.8px solid var(--green); border-bottom: 1.8px solid var(--green);
+    transform: rotate(-45deg);
+}
+.pricing-note { margin-top: 1.8rem; font-size: .93rem; color: var(--muted); max-width: 72ch; line-height: 1.6; }
+
+@media (max-width: 940px) { .pricing { grid-template-columns: 1fr; } .tier.featured { order: -1; } }
