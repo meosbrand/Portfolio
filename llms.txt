@@ -57,6 +57,25 @@ window.
 - Snort3 NIDS Installer (https://github.com/meosbrand/Snort3-installer-NIDS-) — one-command
   installer for Snort3 and its dependency chain on Linux.
 
+## Published writing
+
+All at https://medium.com/@yungbayo01
+
+- "Why big cybersecurity brands can't talk to small businesses (and what actually works)" —
+  enterprise vendors write for Fortune 500 CISOs, leaving 33 million small businesses with
+  content they cannot use. Argues that acronym-heavy whitepapers are credential signalling
+  rather than communication.
+- "Your employees are your biggest security risk. Here's how to fix that." — 68% of breaches
+  involve a human element (Verizon DBIR 2025). Walks through why phishing exploits authority
+  bias, time pressure and pattern matching, and how to build security awareness without an
+  IT department.
+- "Passwords are dead. Here's what actually protects your business now." — why complex
+  substituted passwords are weaker than long passphrases, and the three technologies replacing
+  passwords: MFA (blocks 99.9% of account compromise), passkeys, and password managers.
+- "How to protect your business data when employees work from anywhere" — SMBs are targeted
+  nearly four times more than large organisations, and remote work adds roughly $173,000 to
+  average breach cost (IBM 2025). Seven practices starting with VPN, MFA and MDM.
+
 ## Topics he can speak to
 
 SOC 2 readiness, ISO 27001 Annex A controls, NIST CSF, risk registers, security questionnaire
@@ -69,5 +88,5 @@ awareness training in African languages.
 Email: yungbayo01@gmail.com
 Site: https://devmeo.me/
 GitHub: https://github.com/meosbrand
-LinkedIn: https://www.linkedin.com/in/michael-ajekigbe/
+LinkedIn: https://www.linkedin.com/in/michael-ajekigbe
 Medium: https://medium.com/@yungbayo01

@@ -4,7 +4,7 @@
 
 I write the complete SOC 2, ISO 27001 and NIST documentation set for small businesses in 10 business days. If I miss the date, you pay nothing.
 
-[LinkedIn](https://www.linkedin.com/in/michael-ajekigbe/) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01) · yungbayo01@gmail.com
+[LinkedIn](https://www.linkedin.com/in/michael-ajekigbe) · [GitHub](https://github.com/meosbrand) · [Medium](https://medium.com/@yungbayo01) · yungbayo01@gmail.com
 
 ---
 
@@ -87,7 +87,7 @@ Deployed on Vercel at [devmeo.me](https://devmeo.me). `vercel.json` sets a stric
 Tell me your headcount, which framework your customer is asking for, and when they need it. You get a straight answer on whether I can help and what it costs.
 
 **Email:** yungbayo01@gmail.com
-**LinkedIn:** [michael-ajekigbe](https://www.linkedin.com/in/michael-ajekigbe/)
+**LinkedIn:** [michael-ajekigbe](https://www.linkedin.com/in/michael-ajekigbe)
 
 ---
 
