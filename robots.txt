@@ -1,0 +1,21 @@
+# https://devmeo.me/
+User-agent: *
+Allow: /
+
+# AI search & answer engines (retrieval — these can cite you)
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://devmeo.me/sitemap.xml

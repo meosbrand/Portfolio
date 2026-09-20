@@ -541,3 +541,159 @@ main { position: relative; z-index: 1; }
     .hero-meta { gap: 1.6rem 2rem; }
 }
 @media (min-width: 781px) { .mobile-menu { display: none; } }
+
+/* =========================================================
+   Offer (grand slam) + FAQ + a11y additions
+   ========================================================= */
+
+.skip {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+    background: var(--green); color: var(--on-green);
+    padding: .8rem 1.3rem; border-radius: 0 0 12px 0; font-weight: 600;
+}
+.skip:focus { left: 0; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- Offer layout ---------- */
+.offer-grid { display: grid; grid-template-columns: 1.4fr .85fr; gap: clamp(1.5rem, 3.5vw, 2.6rem); align-items: start; }
+
+.stack-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    box-shadow: var(--shadow);
+}
+.stack-title {
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 1.6rem;
+}
+.stack { list-style: none; padding: 0; margin: 0; }
+.stack li {
+    display: grid; grid-template-columns: auto 1fr; gap: 1.1rem;
+    padding: 1.15rem 0; border-top: 1px solid var(--line);
+}
+.stack li:first-child { border-top: 0; padding-top: 0; }
+.stack .s-n {
+    font-family: var(--font-mono); font-size: .7rem; color: var(--on-green);
+    background: var(--green); border-radius: 100px;
+    width: 30px; height: 22px; display: grid; place-items: center; margin-top: .2rem;
+}
+.stack h4 { font-family: var(--font-display); font-weight: 520; font-size: 1.16rem; letter-spacing: -0.01em; }
+.stack p { color: var(--ink-soft); font-size: .96rem; line-height: 1.6; margin-top: .35rem; }
+
+/* ---------- Offer sidebar ---------- */
+.offer-side { display: flex; flex-direction: column; gap: 1.2rem; position: sticky; top: 6rem; }
+
+.guarantee {
+    background: var(--green); color: var(--on-green);
+    border-radius: var(--radius-lg); padding: 1.8rem;
+    box-shadow: var(--shadow);
+}
+:root[data-theme="dark"] .guarantee { background: linear-gradient(155deg, #17362a, #10231a); color: #eafff5; border: 1px solid var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guarantee { background: linear-gradient(155deg, #17362a, #10231a); color: #eafff5; border: 1px solid var(--line); } }
+.g-tag { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; opacity: .75; }
+.g-main { font-family: var(--font-display); font-weight: 500; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.02em; margin-top: .9rem; }
+.g-sub { font-size: .92rem; line-height: 1.6; margin-top: .9rem; opacity: .85; }
+
+.qualify { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; background: var(--surface); }
+.qualify h4 { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--green); }
+.qualify h4.no { color: var(--clay); margin-top: 1.2rem; }
+.qualify p { font-size: .93rem; color: var(--ink-soft); line-height: 1.58; margin-top: .5rem; }
+
+.anchor { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 1.5rem; }
+.anchor p { font-size: .95rem; color: var(--ink-soft); line-height: 1.6; }
+.anchor .btn { width: 100%; justify-content: center; margin-top: 1.2rem; }
+.anchor .slots { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); margin-top: .9rem; text-align: center; line-height: 1.5; }
+
+/* ---------- FAQ ---------- */
+.faq-list { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    padding: 1.35rem 0; cursor: pointer; list-style: none;
+    transition: color .3s var(--ease);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 {
+    font-family: var(--font-display); font-weight: 480;
+    font-size: clamp(1.08rem, 2.2vw, 1.4rem); line-height: 1.25; letter-spacing: -0.01em;
+}
+.faq-item summary:hover { color: var(--green); }
+.faq-item .chev {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--line-strong); position: relative;
+    transition: transform .35s var(--ease), background-color .35s var(--ease), border-color .35s var(--ease);
+}
+.faq-item .chev::before, .faq-item .chev::after {
+    content: ""; position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+    background: currentColor; border-radius: 2px;
+}
+.faq-item .chev::before { width: 11px; height: 1.6px; }
+.faq-item .chev::after { width: 1.6px; height: 11px; transition: opacity .3s var(--ease); }
+.faq-item[open] .chev { transform: rotate(180deg); background: var(--green); color: var(--on-green); border-color: var(--green); }
+.faq-item[open] .chev::after { opacity: 0; }
+.faq-item > p {
+    color: var(--ink-soft); font-size: 1rem; line-height: 1.66;
+    max-width: 68ch; padding-bottom: 1.5rem; margin-top: -.2rem;
+}
+
+/* ---------- Work flag variant ---------- */
+.work .w-title .flag.alt { background: var(--green); }
+
+/* ---------- Manifesto inline link ---------- */
+.manifesto .attrib a { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+.manifesto .attrib a:hover { color: var(--clay-soft); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 940px) {
+    .offer-grid { grid-template-columns: 1fr; }
+    .offer-side { position: relative; top: 0; }
+}
+
+/* ---------- Writing: 4-card grid + inline code ---------- */
+.post code {
+    font-family: var(--font-mono);
+    font-size: .86em;
+    background: color-mix(in srgb, var(--green) 10%, transparent);
+    color: var(--green);
+    padding: .1em .35em;
+    border-radius: 5px;
+}
+.post h3 { text-wrap: balance; }
+@media (max-width: 940px) { .writing { grid-template-columns: 1fr; } }
+
+/* ---------- Pricing ---------- */
+.pricing-wrap { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid var(--line); }
+.pricing-head h3 { font-family: var(--font-display); font-weight: 460; font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; }
+.pricing-head p { color: var(--ink-soft); max-width: 62ch; margin-top: .9rem; font-size: 1.02rem; line-height: 1.6; }
+
+.pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 2.4rem; align-items: start; }
+.tier {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.8rem 1.6rem;
+    position: relative;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.tier:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+.tier.featured { border-color: var(--green); border-width: 1.5px; box-shadow: var(--shadow); }
+.t-flag {
+    position: absolute; top: -11px; left: 1.6rem;
+    font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
+    background: var(--green); color: var(--on-green); border-radius: 100px; padding: .3rem .75rem;
+}
+.t-name { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.t-price { font-family: var(--font-display); font-weight: 520; font-size: clamp(1.7rem, 3vw, 2.15rem); letter-spacing: -0.02em; margin-top: .7rem; line-height: 1; color: var(--green); }
+.t-who { font-size: .9rem; color: var(--ink-soft); margin-top: .7rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+.tier ul { list-style: none; padding: 0; margin-top: 1.1rem; display: flex; flex-direction: column; gap: .7rem; }
+.tier li { font-size: .92rem; color: var(--ink-soft); line-height: 1.5; padding-left: 1.5rem; position: relative; }
+.tier li::before {
+    content: ""; position: absolute; left: 0; top: .42em;
+    width: 11px; height: 6px; border-left: 1.8px solid var(--green); border-bottom: 1.8px solid var(--green);
+    transform: rotate(-45deg);
+}
+.pricing-note { margin-top: 1.8rem; font-size: .93rem; color: var(--muted); max-width: 72ch; line-height: 1.6; }
+
+@media (max-width: 940px) { .pricing { grid-template-columns: 1fr; } .tier.featured { order: -1; } }
