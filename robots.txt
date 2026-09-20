@@ -1,4 +1,4 @@
-# https://meosbrand.github.io/Portfolio/
+# https://devmeo.me/
 User-agent: *
 Allow: /
 
@@ -18,4 +18,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://meosbrand.github.io/Portfolio/sitemap.xml
+Sitemap: https://devmeo.me/sitemap.xml

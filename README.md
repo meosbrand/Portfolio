@@ -65,6 +65,8 @@ script.js     theme toggle, scroll reveals, nav, contact form
 llms.txt      structured summary for AI search and answer engines
 robots.txt    crawler rules, including AI retrieval bots
 sitemap.xml   single-URL sitemap
+vercel.json   security headers and caching
+og-image.png  social share card (1200x630)
 ```
 
 Built for search and for AI answer engines: Person, ProfessionalService, WebSite and FAQPage schema, a seven-question FAQ, semantic headings, canonical URL, and an `llms.txt`.
@@ -76,7 +78,7 @@ git clone https://github.com/meosbrand/Portfolio.git
 open Portfolio/index.html
 ```
 
-If you move this to a custom domain, update the canonical URL and the `og:url` in `index.html`, plus the URLs in `sitemap.xml`, `robots.txt` and `llms.txt`.
+Deployed on Vercel at [devmeo.me](https://devmeo.me). `vercel.json` sets a strict Content-Security-Policy, HSTS, frame-deny and a long-lived cache on static assets. If the domain ever changes, update the canonical and `og:` URLs in `index.html` plus `sitemap.xml`, `robots.txt` and `llms.txt`.
 
 ---
 
