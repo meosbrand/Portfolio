@@ -101,7 +101,7 @@ h2{font-family:var(--display); font-weight:800; font-size:clamp(1.9rem, 3.8vw, 2
 .sub{font-family:var(--display); font-weight:700; font-size:1.1rem; color:var(--fog); margin:0 0 14px; letter-spacing:0}
 .projects{list-style:none; margin:0 0 44px; padding:0; border-bottom:1px solid var(--line)}
 .proj{display:grid; grid-template-columns:minmax(180px, .9fr) 2fr auto; gap:24px; align-items:baseline; padding:22px 0; border-top:1px solid var(--line)}
-.proj h3{font-family:var(--display); font-weight:700; font-size:1.3rem; margin:0; letter-spacing:-.01em}
+.proj h4{font-family:var(--display); font-weight:700; font-size:1.3rem; margin:0; letter-spacing:-.01em}
 .proj p{margin:0; color:#C3CBDA; font-size:1rem}
 .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
 .pill{font-size:.78rem; padding:3px 10px; border-radius:999px; border:1px solid var(--line-2); color:var(--fog)}
@@ -111,7 +111,7 @@ h2{font-family:var(--display); font-weight:800; font-size:clamp(1.9rem, 3.8vw, 2
 .more:hover{border-color:var(--teal); color:var(--teal)}
 .more svg{width:15px; height:15px}
 .featured{position:relative; padding:28px 24px; margin:0 -24px; border-radius:16px; background:var(--panel-2); border-top:1px solid transparent}
-.featured h3{font-size:1.65rem}
+.featured h4{font-size:1.65rem}
 .featured + .proj{border-top-color:transparent}
 /* Writing + store */
 .two{display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px, 5vw, 64px)}

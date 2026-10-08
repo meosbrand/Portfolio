@@ -14,6 +14,7 @@
 - [403 Bypass Fuzzer](https://github.com/meosbrand/403_bypass_fuzzer): tests 77 known access-control bypass techniques
 - [Snort 3 NIDS installer](https://github.com/meosbrand/Snort3-installer-NIDS-): one-step Snort 3 install for intrusion detection labs
 - Acadexis: multi-agent RAG learning platform built with LangGraph and Qdrant (co-built final-year project)
+- [Betty Pride website](https://github.com/meosbrand/Betty-Pride-site): client website for a Nigerian garment manufacturer (TypeScript)
 
 ## Writing
 - [Medium](https://medium.com/@yungbayo01): AI and security for small businesses, including KYC deepfake attacks, WordPress RCE advisories, phishing psychology and secure AI use
@@ -21,6 +22,15 @@
 ## Products (Meo's Store)
 - [The 60-Minute Account Lockdown Kit](https://devmeo.gumroad.com/l/account-lockdown-kit): step-by-step guide to securing a small business's Instagram, WhatsApp, TikTok, email and payment accounts ($19)
 - [10 Scams That Steal Small Business Accounts](https://devmeo.gumroad.com/l/10-scams-cheat-sheet): free cheat sheet
+- [10-Minute Security Audit Checklist](https://devmeo.gumroad.com): free Notion template that tracks small business security basics
+
+## Background
+- AI training contractor (Mercor, Turing, Mindrift), 2026 to now: evaluating, stress-testing and improving AI model output
+- Cybersecurity officer intern, SamaFi Cyberhub, 2026 to now: pentest reports, control mapping to ISO 27001, PCI DSS and NDPR, SIEM alert triage
+- Cybersecurity trainee intern, Platview Technologies, 2025: firewall and IDS/IPS rules, access control and password policies
+- Freelance security consultant and developer, 2022 to now: penetration tests and security reviews for fintech, banking and pension clients
+- B.Tech Computer Science, Ladoke Akintola University of Technology (LAUTECH), Nigeria, 2026
+- Certifications: Oracle Cloud Infrastructure Foundations Associate, Google Cloud Fundamentals
 
 ## FAQ
 - **What does an AI and security consultant do for a small business?** An AI and security consultant finds and fixes the easiest ways an attacker could get into your business, sets up simple policies and compliance documents, and shows your team how to use AI tools safely to save time. For a small business, that means the essentials that make the biggest difference, sized to your budget.
@@ -34,3 +44,5 @@
 - Email: yungbayo01@gmail.com
 - Website: https://devmeo.me
 - GitHub: https://github.com/meosbrand
+- LinkedIn: https://www.linkedin.com/in/michael-ajekigbe
+- X: https://x.com/AjekigbeMichael
