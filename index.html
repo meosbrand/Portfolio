@@ -1,777 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>Michael Ajekigbe | Cybersecurity, AI &amp; Web Development</title>
-    <meta name="description" content="Cybersecurity, AI and web development from one person. I secure systems, build AI products, ship the web apps around them, and write SOC 2 and ISO 27001 documentation in 10 business days."/>
-    <link rel="canonical" href="https://devmeo.me/"/>
-    <meta name="author" content="Michael Ajekigbe"/>
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large"/>
-    <meta name="theme-color" content="#1f4a38" media="(prefers-color-scheme: light)"/>
-    <meta name="theme-color" content="#14130f" media="(prefers-color-scheme: dark)"/>
-    <meta name="geo.region" content="NG-LA"/>
-    <meta name="geo.placename" content="Lagos, Nigeria"/>
-
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="Michael Ajekigbe"/>
-    <meta property="og:url" content="https://devmeo.me/"/>
-    <meta property="og:title" content="Michael Ajekigbe | Cybersecurity, AI &amp; Web Development"/>
-    <meta property="og:description" content="Security engineer who ships. Compliance documentation, AI products and the web apps that carry them. Lagos, Nigeria."/>
-    <meta property="og:locale" content="en_NG"/>
-    <meta property="og:image" content="https://devmeo.me/og-image.png"/>
-    <meta property="og:image:width" content="1200"/>
-    <meta property="og:image:height" content="630"/>
-    <meta property="og:image:alt" content="SOC 2 and ISO 27001 paperwork, in 10 business days. Michael Ajekigbe, Lagos, Nigeria."/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:creator" content="@AjekigbeMichael"/>
-    <meta name="twitter:title" content="Michael Ajekigbe | Cybersecurity, AI &amp; Web Development"/>
-    <meta name="twitter:description" content="Security engineer who ships. Compliance documentation, AI products and the web apps that carry them. Lagos, Nigeria."/>
-    <meta name="twitter:image" content="https://devmeo.me/og-image.png"/>
-
-    <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="index.css"/>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://devmeo.me/#michael",
-          "name": "Michael Ajekigbe",
-          "alternateName": "Michael Adebayo Ajekigbe",
-          "jobTitle": "Cybersecurity Engineer, AI Developer and Web Developer",
-          "email": "yungbayo01@gmail.com",
-          "url": "https://devmeo.me/",
-          "image": "https://devmeo.me/portrait.jpg",
-          "address": { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" },
-          "knowsAbout": [
-            "SOC 2 compliance documentation",
-            "ISO 27001 information security management",
-            "NIST Cybersecurity Framework",
-            "GRC (governance, risk and compliance)",
-            "security questionnaire response",
-            "penetration testing",
-            "AI red teaming and LLM security",
-            "intrusion detection systems",
-            "small business cybersecurity",
-            "web development with Next.js and React",
-            "TypeScript and Tailwind CSS",
-            "AI application development with Google Gemini and Genkit"
-          ],
-          "knowsLanguage": ["English", "Yoruba", "Nigerian Pidgin"],
-          "sameAs": [
-            "https://github.com/meosbrand",
-            "https://www.linkedin.com/in/michael-ajekigbe",
-            "https://medium.com/@yungbayo01",
-            "https://x.com/AjekigbeMichael"
-          ],
-          "hasCredential": [
-            { "@type": "EducationalOccupationalCredential", "name": "Google Cybersecurity Certificate", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Google" } },
-            { "@type": "EducationalOccupationalCredential", "name": "Oracle Cloud Infrastructure Certified", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Oracle" } }
-          ]
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://devmeo.me/#service",
-          "name": "Michael Ajekigbe, Cybersecurity Compliance for Small Business",
-          "description": "Complete SOC 2, ISO 27001 and NIST documentation packages for small and mid-sized businesses, delivered in 10 business days.",
-          "url": "https://devmeo.me/",
-          "founder": { "@id": "https://devmeo.me/#michael" },
-          "areaServed": [
-            { "@type": "Country", "name": "Nigeria" },
-            { "@type": "Place", "name": "West Africa" },
-            { "@type": "Place", "name": "Remote worldwide" }
-          ],
-          "serviceType": "Cybersecurity compliance documentation",
-          "priceRange": "$1500-$6000",
-          "offers": {
-            "@type": "AggregateOffer",
-            "name": "The 10-Day Compliance Sprint",
-            "description": "SOC 2, ISO 27001 and NIST documentation packages for small businesses, delivered in 10 business days with a late-delivery refund.",
-            "priceCurrency": "USD",
-            "lowPrice": "1500",
-            "highPrice": "6000",
-            "offerCount": "3",
-            "availability": "https://schema.org/LimitedAvailability",
-            "eligibleQuantity": { "@type": "QuantitativeValue", "value": 2, "unitText": "engagements per month" }
-          },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "The 10-Day Compliance Sprint",
-            "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SOC 2 and ISO 27001 policy set", "description": "Fourteen policies mapped to SOC 2 Trust Services Criteria, ISO 27001 Annex A and NIST CSF." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Risk assessment and risk register", "description": "Your real risks, scored, with named owners and review dates." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Incident response plan", "description": "Plan plus a one-page runbook for phishing, ransomware and lost devices." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Security questionnaire answer bank", "description": "Pre-written answers to the questions enterprise buyers keep sending." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gap analysis and remediation roadmap", "description": "What is missing, ordered by what costs you a deal soonest." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Staff security awareness pack", "description": "Plain-language training, available in English, Nigerian Pidgin and Yoruba." } }
-            ]
-          }
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://devmeo.me/#website",
-          "url": "https://devmeo.me/",
-          "name": "Michael Ajekigbe",
-          "inLanguage": "en",
-          "publisher": { "@id": "https://devmeo.me/#michael" }
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://devmeo.me/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How can you write in 10 days what consultants take six months to do?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Consulting firms bill by the hour, so the calendar fills with meetings. Writing the documents was never the slow part. I run one 45-minute scoping call, write from your real stack, send drafts on day five and the final set on day ten." }
-            },
-            {
-              "@type": "Question",
-              "name": "Are these just templates with my logo on them?",
-              "acceptedAnswer": { "@type": "Answer", "text": "No. A template is the skeleton. Your risk register, gap analysis and questionnaire answers come from your actual tools, vendors and workflows. Generic documents do not survive an auditor or a serious buyer, which defeats the point of buying them." }
-            },
-            {
-              "@type": "Question",
-              "name": "Will this make my company SOC 2 certified?",
-              "acceptedAnswer": { "@type": "Answer", "text": "No, and be careful with anyone who promises that. Certification requires an accredited auditor and an observation window. What you get is every document the audit asks for, plus the roadmap to close your gaps. The documentation is where most companies stall, and that part is handled." }
-            },
-            {
-              "@type": "Question",
-              "name": "What do you need from me during the sprint?",
-              "acceptedAnswer": { "@type": "Answer", "text": "One 45-minute call, a list of the tools and vendors you use, and one person who can answer questions by message. Nothing else." }
-            },
-            {
-              "@type": "Question",
-              "name": "Do you work with companies outside Nigeria?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Yes. The work is remote. I am based in Lagos and work across West African, European and US time zones." }
-            },
-            {
-              "@type": "Question",
-              "name": "What does it cost?",
-              "acceptedAnswer": { "@type": "Answer", "text": "It depends on headcount and how many frameworks you need. It costs less than one month of a consulting retainer. Tell me your size on the call and you get a number that day rather than a proposal deck two weeks later." }
-            },
-            {
-              "@type": "Question",
-              "name": "Can you do the technical security work as well as the paperwork?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Yes. I build intrusion detection tooling, run access-control testing and do AI red teaming against LLM applications. Several of those tools are public on GitHub." }
-            }
-          ]
-        }
-      ]
-    }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meo Ajekigbe | AI &amp; Security Consultant for Small Businesses</title>
+<meta name="description" content="Meo Ajekigbe is an AI and security consultant for small businesses: penetration testing, defensive security, GRC and compliance, and safe AI automation.">
+<link rel="canonical" href="https://devmeo.me/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Michael Adebayo Ajekigbe">
+<meta name="theme-color" content="#0A0E1A">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://devmeo.me/">
+<meta property="og:site_name" content="Meo Ajekigbe">
+<meta property="og:title" content="Meo Ajekigbe | AI &amp; Security Consultant for Small Businesses">
+<meta property="og:description" content="Offensive security, defensive security, GRC and safe AI, sized for small businesses.">
+<meta property="og:image" content="https://devmeo.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Meo Ajekigbe | AI &amp; Security Consultant for Small Businesses">
+<meta name="twitter:description" content="Offensive security, defensive security, GRC and safe AI, sized for small businesses.">
+<meta name="twitter:image" content="https://devmeo.me/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://devmeo.me/#website", "url": "https://devmeo.me/", "name": "Meo Ajekigbe", "inLanguage": "en", "publisher": {"@id": "https://devmeo.me/#person"}}, {"@type": "Person", "@id": "https://devmeo.me/#person", "name": "Michael Adebayo Ajekigbe", "alternateName": ["Meo", "Meo Ajekigbe"], "jobTitle": "AI and Security Consultant", "url": "https://devmeo.me/", "image": "https://devmeo.me/og-image.png", "email": "mailto:yungbayo01@gmail.com", "description": "AI and security consultant for small businesses, working across offensive security, defensive security and GRC, and helping teams use AI safely to automate work.", "sameAs": ["https://github.com/meosbrand", "https://medium.com/@yungbayo01", "https://www.linkedin.com/in/michael-ajekigbe", "https://x.com/AjekigbeMichael", "https://devmeo.gumroad.com"], "knowsAbout": ["Penetration testing", "Offensive security", "Defensive security", "Security monitoring", "Governance, risk and compliance", "ISO 27001", "PCI DSS", "NDPR", "AI automation", "AI safety", "Small business cybersecurity", "Social media account security"], "alumniOf": {"@type": "CollegeOrUniversity", "name": "Ladoke Akintola University of Technology"}, "hasCredential": [{"@type": "EducationalOccupationalCredential", "name": "Oracle Cloud Infrastructure Foundations Associate"}, {"@type": "EducationalOccupationalCredential", "name": "Google Cloud Fundamentals"}]}, {"@type": "ProfessionalService", "@id": "https://devmeo.me/#service", "name": "Meo Ajekigbe, AI and Security Consulting", "url": "https://devmeo.me/", "image": "https://devmeo.me/og-image.png", "description": "Security testing, monitoring, compliance documents and safe AI automation for small businesses.", "provider": {"@id": "https://devmeo.me/#person"}, "areaServed": "Worldwide", "email": "yungbayo01@gmail.com", "serviceType": ["Penetration testing", "Security awareness training", "Compliance documentation", "AI automation", "Social media account security"]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does an AI and security consultant do for a small business?", "acceptedAnswer": {"@type": "Answer", "text": "An AI and security consultant finds and fixes the easiest ways an attacker could get into your business, sets up simple policies and compliance documents, and shows your team how to use AI tools safely to save time. For a small business, that means the essentials that make the biggest difference, sized to your budget."}}, {"@type": "Question", "name": "Which areas of cybersecurity do you cover?", "acceptedAnswer": {"@type": "Answer", "text": "All three main areas. Offensive security (penetration testing of websites, APIs and networks), defensive security (monitoring, detection rules and hardening) and GRC (governance, risk and compliance: policies, risk registers and mapping to ISO 27001, PCI DSS and NDPR). One person can find a weakness, fix it and document it."}}, {"@type": "Question", "name": "How do I protect my business Instagram and WhatsApp from being hacked?", "acceptedAnswer": {"@type": "Answer", "text": "Secure the email and phone number behind each account first, then turn on two-factor authentication with a passkey or an authenticator app, never share a verification code with anyone, and check linked devices every month. The 60-Minute Account Lockdown Kit in Meo's Store walks through every setting step by step."}}, {"@type": "Question", "name": "Can a small business use AI safely?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Choose which AI tools your team is allowed to use, never paste customer, financial or password data into public AI tools, and have a person check anything AI writes before it reaches a customer. With those rules in place, AI can take over repetitive work like replies, reports and follow-ups."}}, {"@type": "Question", "name": "Do small businesses need compliance documents?", "acceptedAnswer": {"@type": "Answer", "text": "Most need a few: a data protection policy, acceptable use rules for staff and devices, and an incident response plan. Clients, banks and regulators increasingly ask for them, and laws like Nigeria's NDPR apply to businesses of every size. They can be written quickly and in plain language."}}, {"@type": "Question", "name": "How do I work with you?", "acceptedAnswer": {"@type": "Answer", "text": "Email yungbayo01@gmail.com with what your business does and what worries you most. We'll agree on the few changes that will make the biggest difference first. I work remotely with clients worldwide."}}]}]}</script>
+<link rel="stylesheet" href="/index.css?v=20261008">
 </head>
 <body>
-
-<div class="progress" id="progress"></div>
 <a class="skip" href="#main">Skip to content</a>
-
-<!-- ================= NAV ================= -->
 <header class="nav" id="nav">
-    <a class="brand" href="#top">Michael Ajekigbe<span class="dot">.</span></a>
-
-    <nav class="nav-links" aria-label="Primary">
-        <a href="#work">Work</a>
-        <a href="#offer">The sprint</a>
-        <a href="#about">About</a>
-        <a href="#writing">Writing</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <div class="nav-right">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle colour theme">
-            <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-            <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        </button>
-        <a class="btn btn--primary nav-cta" href="#contact">Book a call</a>
-        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-    </div>
-</header>
-
-<!-- ================= MOBILE MENU ================= -->
-<div class="mobile-menu" id="mobileMenu">
-    <div class="mm-top">
-        <span class="brand">Michael Ajekigbe<span class="dot">.</span></span>
-        <button class="close-menu" id="closeMenu" aria-label="Close menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        </button>
-    </div>
-    <nav aria-label="Mobile">
-        <a href="#work"><span class="n">01</span> Work</a>
-        <a href="#offer"><span class="n">02</span> The sprint</a>
-        <a href="#about"><span class="n">03</span> About</a>
-        <a href="#writing"><span class="n">04</span> Writing</a>
-        <a href="#faq"><span class="n">05</span> FAQ</a>
-        <a href="#contact"><span class="n">06</span> Contact</a>
-    </nav>
-    <div class="mm-foot">
-        <a href="https://github.com/meosbrand" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/michael-ajekigbe" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Medium</a>
-    </div>
+<div class="wrap">
+<a class="brand" href="#top" aria-label="Meo Ajekigbe, home"><svg viewBox="0 0 2202 643" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><g fill="#E8ECF3" ><path transform="translate(7.4 585.4) scale(1 -1)" d="M36 0V293V528H173V313H181Q188 397 208.5 447.0Q229 497 263.5 519.5Q298 542 346 542Q396 542 427.0 517.5Q458 493 473.0 442.5Q488 392 487 313H495Q502 396 524.0 446.0Q546 496 582.0 519.0Q618 542 667 542Q708 542 738.0 527.0Q768 512 788.5 482.0Q809 452 819.0 406.5Q829 361 829 300V0H667V286Q667 324 660.5 349.5Q654 375 641.0 387.5Q628 400 608 400Q582 400 560.0 376.5Q538 353 524.5 306.0Q511 259 511 187V0H353V290Q353 328 346.5 352.0Q340 376 326.5 388.0Q313 400 293 400Q268 400 246.5 379.5Q225 359 211.5 312.0Q198 265 198 187V0Z"/><path transform="translate(847.4 585.4) scale(1 -1)" d="M287 -14Q212 -14 161.5 7.5Q111 29 80.0 66.5Q49 104 35.5 152.0Q22 200 22 253Q22 310 36.5 362.0Q51 414 81.5 454.5Q112 495 160.5 518.5Q209 542 277 542Q345 542 393.5 518.5Q442 495 471.0 453.0Q500 411 508.5 356.0Q517 301 506 237L123 231V319L382 324L361 273Q367 319 359.5 350.5Q352 382 332.0 398.5Q312 415 277 415Q240 415 218.0 396.0Q196 377 187.0 342.5Q178 308 178 261Q178 180 205.0 143.0Q232 106 288 106Q312 106 328.0 112.0Q344 118 354.0 129.5Q364 141 368.0 157.5Q372 174 371 195L519 187Q522 154 512.5 119.0Q503 84 477.0 54.0Q451 24 404.5 5.0Q358 -14 287 -14Z"/><path transform="translate(1364.4 585.4) scale(1 -1)" d="M282 -14Q206 -14 147.0 16.5Q88 47 55.0 108.5Q22 170 22 263Q22 360 56.5 421.5Q91 483 150.5 512.5Q210 542 285 542Q363 542 421.5 511.5Q480 481 512.5 419.5Q545 358 545 264Q545 167 510.5 105.5Q476 44 416.5 15.0Q357 -14 282 -14ZM286 105Q317 105 338.0 122.5Q359 140 370.0 174.0Q381 208 381 255Q381 307 369.0 342.5Q357 378 334.5 397.0Q312 416 280 416Q250 416 229.0 398.5Q208 381 197.0 347.0Q186 313 186 265Q186 189 212.5 147.0Q239 105 286 105Z"/></g><rect class="cursor"  x="1963.6" y="43.4" width="195.1" height="556.0" rx="32.5" fill="#2DD4BF"/></svg></a>
+<nav class="links" aria-label="Main">
+<a href="#expertise">Expertise</a>
+<a href="#projects">Projects</a>
+<a href="#writing">Writing</a>
+<a href="#writing-store">Store</a>
+<a href="#faq">FAQ</a>
+</nav>
+<a class="btn btn-primary btn-sm" href="mailto:yungbayo01@gmail.com?subject=Working%20together">Hire me</a>
+<button class="menu" id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+</button>
 </div>
-
+</header>
 <main id="main">
-    <span id="top"></span>
-
-    <!-- ================= HERO ================= -->
-    <section class="hero">
-        <div class="hero-glow" aria-hidden="true"></div>
-        <div class="hero-glow two" aria-hidden="true"></div>
-        <div class="wrap">
-            <span class="hero-badge reveal in"><span class="live" aria-hidden="true"></span> Available for work &middot; Lagos, Nigeria</span>
-
-            <h1 class="reveal in d1">
-                I secure the system, build the <em>AI inside it</em>, and ship the <span class="u">site it runs on.</span>
-            </h1>
-
-            <p class="hero-sub reveal in d2">
-                Most security people can't build. Most developers can't secure. I work across all three:
-                cybersecurity and compliance, AI products, and the web apps that hold them together.
-                That overlap is the whole point, and it is why the work below looks like one person's portfolio
-                rather than three.
-            </p>
-
-            <div class="hero-actions reveal in d3">
-                <a class="btn btn--primary" href="#work">See the work <span class="ar" aria-hidden="true">↗</span></a>
-                <a class="btn btn--ghost" href="#offer">The compliance sprint</a>
-            </div>
-
-            <div class="hero-meta reveal in d4">
-                <div class="stat"><div class="num">3</div><div class="lbl">Disciplines: security, AI, web</div></div>
-                <div class="stat"><div class="num">19</div><div class="lbl">Projects shipped on GitHub</div></div>
-                <div class="stat"><div class="num">10</div><div class="lbl">Business days for a full compliance set</div></div>
-                <div class="stat"><div class="num">2</div><div class="lbl">Certs: Google and Oracle Cloud</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= MARQUEE ================= -->
-    <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-            <span>SOC 2 documentation</span>
-            <span>ISO 27001 Annex A</span>
-            <span>Risk registers that name names</span>
-            <span>Questionnaire answer banks</span>
-            <span>NIST CSF gap analysis</span>
-            <span>SOC 2 documentation</span>
-            <span>ISO 27001 Annex A</span>
-            <span>Risk registers that name names</span>
-            <span>Questionnaire answer banks</span>
-            <span>NIST CSF gap analysis</span>
-        </div>
-    </div>
-
-    <!-- ================= DISCIPLINES ================= -->
-    <section class="section" id="disciplines">
-        <div class="wrap">
-            <div class="sec-head reveal">
-                <div>
-                    <span class="eyebrow">01 &mdash; What I do</span>
-                    <h2 class="h-sec">Three disciplines that keep running into each other.</h2>
-                </div>
-                <p class="lead">Kept apart they are three jobs. Put together they are one person who can take a thing from threat model to shipped product without a handoff.</p>
-            </div>
-
-            <div class="services">
-                <article class="svc reveal">
-                    <span class="idx">/ 01</span>
-                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
-                    <h3>Cybersecurity</h3>
-                    <p>Governance, risk and compliance for companies with no security team: SOC 2, ISO 27001 and NIST documentation, risk registers, incident response. Plus the offensive side, access-control testing and intrusion detection, because writing a policy about a control you have never tested is how you fail an audit.</p>
-                    <div class="tags"><span class="tag">SOC 2</span><span class="tag">ISO 27001</span><span class="tag">GRC</span><span class="tag">Pentesting</span><span class="tag">Snort3</span></div>
-                </article>
-
-                <article class="svc reveal d1">
-                    <span class="idx">/ 02</span>
-                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
-                    <h3>AI engineering</h3>
-                    <p>Agents and AI products that do real work, built on Gemini and Genkit. A framework that red-teams other language models on its own, a security co-pilot that explains a threat in Pidgin, a tutor that works out which subject a student is asking about. I build with AI and I attack it, which turns out to be the same skill set.</p>
-                    <div class="tags"><span class="tag">Gemini</span><span class="tag">Genkit</span><span class="tag">Python</span><span class="tag">LLM red teaming</span><span class="tag">FastAPI</span></div>
-                </article>
-
-                <article class="svc reveal d2">
-                    <span class="idx">/ 03</span>
-                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14l2 2 4-4"/></svg></div>
-                    <h3>Web design and development</h3>
-                    <p>Sites and web apps for real businesses, built in Next.js, React and TypeScript. A garment manufacturer with forty years of history, a real estate firm, a cybersecurity company. I design them too, which is why they don't look like a developer picked the colours.</p>
-                    <div class="tags"><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">UI design</span></div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= WORK ================= -->
-    <section class="section section--alt" id="work">
-        <div class="wrap">
-            <div class="sec-head reveal">
-                <div>
-                    <span class="eyebrow">02 &mdash; Work</span>
-                    <h2 class="h-sec">Things I built that run.</h2>
-                </div>
-                <a class="btn btn--ghost" href="https://github.com/meosbrand" target="_blank" rel="noopener">All 19 repos <span class="ar" aria-hidden="true">↗</span></a>
-            </div>
-
-            <div class="work-list">
-                <a class="work reveal" href="https://github.com/meosbrand/Aabo" target="_blank" rel="noopener">
-                    <div class="w-idx">01</div>
-                    <div>
-                        <span class="w-cat">Security · AI · Web</span>
-                        <div class="w-title">Ààbò <span class="flag">Building now</span></div>
-                        <p class="w-desc">Yoruba for shelter. A security co-pilot for small African businesses, built as a Next.js app with Google Genkit running the AI flows. It has an onboarding flow, a protection dashboard, a backup centre, a panic trigger, and a chatbot that explains threats in the language the owner actually speaks, Pidgin included.</p>
-                        <div class="w-tech"><span>Next.js</span><span>TypeScript</span><span>Genkit</span><span>Tailwind</span><span>WhatsApp</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-
-                <a class="work reveal" href="https://github.com/meosbrand/autonomous-ai-pentesting-tool" target="_blank" rel="noopener">
-                    <div class="w-idx">02</div>
-                    <div>
-                        <span class="w-cat">AI · Security</span>
-                        <div class="w-title">Auto-RedTeam ADK</div>
-                        <p class="w-desc">An autonomous red-teaming framework that attacks other LLMs so you don't have to prompt them by hand. An attacker agent writes the adversarial prompt, the target answers, a judge scores it out of ten, and a Tree of Attacks strategy prunes the dead ends and pushes on the promising ones. Runs on Gemini 2.0 Flash behind FastAPI, streaming over WebSocket to a live dashboard.</p>
-                        <div class="w-tech"><span>Python 3.12</span><span>Gemini 2.0</span><span>FastAPI</span><span>Next.js 14</span><span>Docker</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-
-                <a class="work reveal" href="https://github.com/meosbrand/403_bypass_fuzzer" target="_blank" rel="noopener">
-                    <div class="w-idx">03</div>
-                    <div>
-                        <span class="w-cat">Security</span>
-                        <div class="w-title">403 Bypass Fuzzer</div>
-                        <p class="w-desc">When a page returns 403 Forbidden, that often means the access control is misconfigured rather than absent. This script throws 70-odd mutations at the endpoint, path traversal, semicolon insertion, null bytes, Unicode, case flips, and prints the status code beside each attempt. Pure Bash, no dependencies beyond curl.</p>
-                        <div class="w-tech"><span>Bash</span><span>Access control</span><span>Offensive security</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-
-                <a class="work reveal" href="https://github.com/meosbrand/Team-Blaze" target="_blank" rel="noopener">
-                    <div class="w-idx">04</div>
-                    <div>
-                        <span class="w-cat">AI · Web</span>
-                        <div class="w-title">Ẹgbọ́n Study Partner <span class="flag alt">Hackathon</span></div>
-                        <p class="w-desc">Ẹgbọ́n means elder sibling, which is roughly the tone we wanted. An AI study companion for Nigerian students that detects the subject on its own, picks an explanation strategy to match, and adapts when a student asks the same thing a third time. Built for the Build with Oyo 2026 hackathon on Django, React and Gemini.</p>
-                        <div class="w-tech"><span>Django REST</span><span>React</span><span>Vite</span><span>Gemini</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-
-                <a class="work reveal" href="https://github.com/meosbrand/Snort3-installer-NIDS-" target="_blank" rel="noopener">
-                    <div class="w-idx">05</div>
-                    <div>
-                        <span class="w-cat">Security</span>
-                        <div class="w-title">Snort3 NIDS Installer</div>
-                        <p class="w-desc">Installing Snort3 by hand means chasing a dependency chain for an afternoon. This script does the whole thing in one command, which matters when you are standing up intrusion detection for a client who is paying for outcomes rather than your afternoon.</p>
-                        <div class="w-tech"><span>Bash</span><span>Linux</span><span>Snort3</span><span>Intrusion detection</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-
-                <a class="work reveal" href="https://github.com/meosbrand/betty-pride-website" target="_blank" rel="noopener">
-                    <div class="w-idx">06</div>
-                    <div>
-                        <span class="w-cat">Web</span>
-                        <div class="w-title">Betty Pride</div>
-                        <p class="w-desc">A site for a Nigerian garment manufacturer with four decades behind it: uniforms, kids wear, custom branding. The brief was to make a company that has earned its reputation offline look like it online, which is mostly a design problem rather than a code one.</p>
-                        <div class="w-tech"><span>Client work</span><span>HTML</span><span>TypeScript</span><span>UI design</span></div>
-                    </div>
-                    <div class="w-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></div>
-                </a>
-            </div>
-
-            <p class="work-note reveal">Two more client builds live in private repos: the official site for <strong>SamaFi Cyberhub</strong>, where I work, and a property site for <strong>Tony Multiventures</strong>. Happy to walk through either on a call.</p>
-        </div>
-    </section>
-
-    <!-- ================= THE OFFER ================= -->
-    <section class="section" id="offer">
-        <div class="wrap">
-            <div class="sec-head reveal">
-                <div>
-                    <span class="eyebrow">03 &mdash; The offer</span>
-                    <h2 class="h-sec">The 10-Day <em>Compliance Sprint</em></h2>
-                </div>
-                <p class="lead">
-                    A buyer sends a security questionnaire. You have no answers. The deal goes quiet, then it dies.
-                    That is what missing paperwork actually costs, and it is the thing this fixes.
-                </p>
-            </div>
-
-            <div class="offer-grid">
-                <div class="stack-card reveal">
-                    <h3 class="stack-title">What lands in your inbox on day ten</h3>
-                    <ol class="stack">
-                        <li>
-                            <span class="s-n">01</span>
-                            <div>
-                                <h4>The full policy set</h4>
-                                <p>Fourteen policies mapped to SOC 2 Trust Services Criteria, ISO 27001 Annex A and NIST CSF. Written so a new hire understands them on the first read.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">02</span>
-                            <div>
-                                <h4>Risk assessment and register</h4>
-                                <p>Your risks, not a generic list. Scored, with a named owner and a review date against each one.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">03</span>
-                            <div>
-                                <h4>Incident response plan</h4>
-                                <p>Plus a one-page runbook for the three things that actually happen: phishing, ransomware, and someone leaving a laptop in a taxi.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">04</span>
-                            <div>
-                                <h4>Security questionnaire answer bank</h4>
-                                <p>Pre-written answers to the questions enterprise buyers keep sending. This is the piece that gets stalled deals moving again.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">05</span>
-                            <div>
-                                <h4>Gap analysis and roadmap</h4>
-                                <p>What you are missing, ordered by what costs you a deal soonest. Split into fix today, fix this month, fix this quarter.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">06</span>
-                            <div>
-                                <h4>Staff awareness pack</h4>
-                                <p>Short, plain-language training your team will finish. In English, Nigerian Pidgin or Yoruba, depending on who has to read it.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">07</span>
-                            <div>
-                                <h4>Vendor review template</h4>
-                                <p>So you can run the same assessment on your own suppliers instead of paying someone again next quarter.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="s-n">08</span>
-                            <div>
-                                <h4>Thirty days of support after delivery</h4>
-                                <p>You send questions, I answer them. No hourly meter running while you read your own documents.</p>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-
-                <aside class="offer-side">
-                    <div class="guarantee reveal d1">
-                        <span class="g-tag">The guarantee</span>
-                        <p class="g-main">On time, or the sprint is free.</p>
-                        <p class="g-sub">The clock starts the morning after our call, once I have your tool and vendor list. Deliver late and you get it all back and keep the documents anyway. The only thing that pauses the clock is me waiting on you, and you'll hear from me the same day it happens.</p>
-                        <p class="g-sub">If your auditor or your customer pushes back on something I wrote, I rewrite it free for 60 days. That covers my documents. It can't cover a control you haven't built yet, because no policy closes a real gap. The roadmap tells you which ones to close first.</p>
-                    </div>
-
-                    <div class="qualify reveal d2">
-                        <h4>Worth your time if</h4>
-                        <p>You are a 5 to 200 person B2B company, and customers have started asking for SOC 2 or ISO 27001 before they'll sign.</p>
-                        <h4 class="no">Not worth your time if</h4>
-                        <p>You want a rubber stamp without changing anything. I won't write you something an auditor will laugh at.</p>
-                    </div>
-
-                    <div class="anchor reveal d3">
-                        <a class="btn btn--primary" href="#contact">Book a call <span class="ar" aria-hidden="true">↗</span></a>
-                        <p class="slots">I take two sprints a month. It is me writing them, not a template mill.</p>
-                    </div>
-                </aside>
-            </div>
-
-            <div class="pricing-wrap">
-                <div class="pricing-head reveal">
-                    <h3>What it costs</h3>
-                    <p>Priced by headcount and how many frameworks you need, because that is what actually drives the work. Half up front, half on delivery. If I run late, both come back.</p>
-                </div>
-
-                <div class="pricing">
-                    <div class="tier reveal">
-                        <span class="t-name">Small team</span>
-                        <p class="t-price">from $1,500</p>
-                        <p class="t-who">5 to 25 people, one framework</p>
-                        <ul>
-                            <li>SOC 2, ISO 27001 or NIST, pick one</li>
-                            <li>The full eight-item stack above</li>
-                            <li>30 days of support after delivery</li>
-                        </ul>
-                    </div>
-
-                    <div class="tier featured reveal d1">
-                        <span class="t-flag">Most booked</span>
-                        <span class="t-name">Growing team</span>
-                        <p class="t-price">from $3,000</p>
-                        <p class="t-who">26 to 75 people, up to two frameworks</p>
-                        <ul>
-                            <li>Two frameworks mapped against each other, so you write once</li>
-                            <li>Vendor reviews run on your actual suppliers</li>
-                            <li>Questionnaire answer bank tuned to the deals in your pipeline</li>
-                            <li>60 days of support after delivery</li>
-                        </ul>
-                    </div>
-
-                    <div class="tier reveal d2">
-                        <span class="t-name">Everything else</span>
-                        <p class="t-price">Let's talk</p>
-                        <p class="t-who">75+ people, three frameworks, or you want the technical work too</p>
-                        <ul>
-                            <li>Intrusion detection, access-control testing, AI red teaming</li>
-                            <li>Scoped on the call, quoted the same day</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <p class="pricing-note reveal">Invoiced in USD or NGN, whichever suits you. A consulting firm quotes six months and five figures for the same documents. One enterprise deal lost to a questionnaire costs more than any row in this table.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= ABOUT ================= -->
-    <section class="section" id="about">
-        <div class="wrap">
-            <div class="about-grid">
-                <div class="about-body reveal">
-                    <span class="eyebrow">04 &mdash; About</span>
-                    <h2 class="h-sec">Why I only write for small companies.</h2>
-                    <p>
-                        I started out writing Python scripts in college. Then I sat down one afternoon and read the blogs of
-                        five major security vendors back to back. CrowdStrike, Palo Alto, Fortinet, Thales, SentinelOne.
-                        Every single one was written for a CISO who already has a team and a budget.
-                    </p>
-                    <p>
-                        The companies getting hit are the ones with neither. A twenty-person agency. A clinic holding patient
-                        records with no IT person. They open that content, bounce off the acronyms, and go back to work
-                        unprotected, because nobody ever told them what they needed to hear in words they use.
-                    </p>
-                    <p>
-                        So that is the job. I write the security paperwork small companies need, build tools that automate
-                        the boring parts, and explain all of it in plain English. Right now I am a cybersecurity intern at
-                        <strong>Samafi Cyberhub</strong>, I hold the Google Cybersecurity and Oracle Cloud certificates, and
-                        I tutor students in security and AI for free because somebody did that for me.
-                    </p>
-                </div>
-
-                <div class="about-side">
-                    <figure class="portrait reveal d1">
-                    <img src="portrait.jpg" width="800" height="1000" decoding="async"
-                         alt="Michael Ajekigbe, cybersecurity engineer, at his desk in Lagos, Nigeria."/>
-                    <figcaption>Lagos, Nigeria</figcaption>
-                </figure>
-
-                <aside class="about-card reveal d2">
-                    <h3>At a glance</h3>
-                    <ul>
-                        <li><span class="k">Based in</span><span class="v">Lagos, Nigeria</span></li>
-                        <li><span class="k">Works</span><span class="v">Remote, any timezone</span></li>
-                        <li><span class="k">Focus</span><span class="v accent">GRC and AI security</span></li>
-                        <li><span class="k">Certified</span><span class="v">Google &middot; Oracle Cloud</span></li>
-                        <li><span class="k">Currently</span><span class="v">Intern, Samafi Cyberhub</span></li>
-                        <li><span class="k">Writes at</span><span class="v">Medium</span></li>
-                    </ul>
-                    </aside>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= BELIEF ================= -->
-    <section class="section manifesto" id="belief">
-        <span class="mark" aria-hidden="true">&ldquo;</span>
-        <div class="wrap reveal">
-            <span class="eyebrow">05 &mdash; What I believe</span>
-            <blockquote>
-                Big security brands can't talk to small businesses. So small businesses don't protect themselves,
-                because <em>nobody told them what they needed to hear, in words they understood.</em>
-            </blockquote>
-            <p class="attrib">
-                From something I wrote about why enterprise security content fails the 33 million small businesses
-                that need it most. A whitepaper stuffed with acronyms isn't communication, it's credential signalling.
-                My work is the opposite of that: say the true thing plainly, to the person who has to act on it.
-                <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Read the piece on Medium ↗</a>
-            </p>
-        </div>
-    </section>
-
-    <!-- ================= WRITING ================= -->
-    <section class="section" id="writing">
-        <div class="wrap">
-            <div class="sec-head reveal">
-                <div>
-                    <span class="eyebrow">06 &mdash; Writing</span>
-                    <h2 class="h-sec">I explain this stuff for a living.</h2>
-                </div>
-                <a class="btn btn--ghost" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">All posts on Medium <span class="ar" aria-hidden="true">↗</span></a>
-            </div>
-
-            <div class="writing">
-                <a class="post reveal" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
-                    <span class="cat">Positioning</span>
-                    <h3>Why big cybersecurity brands can't talk to small businesses</h3>
-                    <p>I read the blogs of five major security vendors in one sitting. CrowdStrike, Palo Alto, Fortinet, Thales, SentinelOne. Every one was written for a CISO who already has a team and a budget, while 33 million small businesses get nothing they can use.</p>
-                    <span class="more">Read it <span class="ar" aria-hidden="true">↗</span></span>
-                </a>
-
-                <a class="post reveal d1" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
-                    <span class="cat">Human risk</span>
-                    <h3>Your employees are your biggest security risk. Here's how to fix that.</h3>
-                    <p>Sarah opened one email at an eight-person architecture firm. Three hours later the attackers had the whole project database, and the final bill came to more than $150,000. She wasn't careless. She was untrained, which is a different problem with a different fix.</p>
-                    <span class="more">Read it <span class="ar" aria-hidden="true">↗</span></span>
-                </a>
-
-                <a class="post reveal d2" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
-                    <span class="cat">Authentication</span>
-                    <h3>Passwords are dead. Here's what actually protects your business now.</h3>
-                    <p>Quick quiz: is <code>Tr0ub4dor&amp;3</code> stronger than <code>correct horse battery staple</code>? The first takes about three days to crack. The second takes centuries. We have been teaching password security wrong for fifteen years.</p>
-                    <span class="more">Read it <span class="ar" aria-hidden="true">↗</span></span>
-                </a>
-
-                <a class="post reveal d3" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">
-                    <span class="cat">Remote work</span>
-                    <h3>How to protect your business data when employees work from anywhere</h3>
-                    <p>Small businesses get targeted nearly four times more often than large ones, and remote work adds about $173,000 to the average breach. Seven practices that close most of that gap, none of which need an IT department.</p>
-                    <span class="more">Read it <span class="ar" aria-hidden="true">↗</span></span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= FAQ ================= -->
-    <section class="section" id="faq">
-        <div class="wrap">
-            <div class="sec-head reveal">
-                <div>
-                    <span class="eyebrow">07 &mdash; Questions</span>
-                    <h2 class="h-sec">The things people ask before booking.</h2>
-                </div>
-                <p class="lead">Short answers. If yours isn't here, email me and I'll add it.</p>
-            </div>
-
-            <div class="faq-list reveal">
-                <details class="faq-item">
-                    <summary><h3>How can you write in 10 days what consultants take six months to do?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>Consulting firms bill by the hour, so the calendar fills up with meetings. Writing the documents was never the slow part. I run one 45-minute scoping call, write from your real stack, send drafts on day five and the final set on day ten.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>Are these just templates with my logo on them?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>No. A template is the skeleton. Your risk register, gap analysis and questionnaire answers come out of your actual tools, vendors and workflows. Generic documents don't survive an auditor or a serious buyer, which would defeat the point of buying them.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>Will this make my company SOC 2 certified?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>No, and be careful with anyone who promises it will. Certification needs an accredited auditor and an observation window. What you get is every document the audit asks for, plus the roadmap to close your gaps. Documentation is where most companies stall, and that part is handled.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>What do you need from me during the sprint?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>One 45-minute call, a list of the tools and vendors you use, and one person who can answer questions by message. That's the whole ask.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>Do you work with companies outside Nigeria?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>Yes, the work is remote. I'm in Lagos and I work across West African, European and US time zones.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>What does it cost?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>From $1,500 for a team of 5 to 25 on one framework, and from $3,000 for up to 75 people across two. Past that it gets scoped on the call and quoted the same day, never a proposal deck two weeks later. Half up front, half on delivery, and if I miss the date both come back.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary><h3>Can you do the technical security work too, or only the paperwork?</h3><span class="chev" aria-hidden="true"></span></summary>
-                    <p>Both. I build intrusion detection tooling, test access controls, and run AI red teaming against LLM applications. Several of those tools are public on my GitHub if you want to read the code before you trust the claim.</p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= CONTACT ================= -->
-    <section class="section section--alt contact" id="contact">
-        <div class="wrap">
-            <div class="contact-grid">
-                <div class="reveal">
-                    <span class="eyebrow">08 &mdash; Contact</span>
-                    <h2>Send me the questionnaire <em>that's blocking you.</em></h2>
-                    <p class="lead">
-                        Tell me your headcount, which framework your customer is asking for, and when they need it.
-                        You'll get a straight answer on whether I can help and what it costs. If a sprint isn't the
-                        right fit I'll say so.
-                    </p>
-
-                    <div class="contact-links">
-                        <a href="mailto:yungbayo01@gmail.com">
-                            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
-                            <span class="meta"><span class="k">Email</span><span class="v">yungbayo01@gmail.com</span></span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/michael-ajekigbe" target="_blank" rel="noopener">
-                            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.5 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></span>
-                            <span class="meta"><span class="k">LinkedIn</span><span class="v">michael-ajekigbe</span></span>
-                        </a>
-                        <a href="https://github.com/meosbrand" target="_blank" rel="noopener">
-                            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></span>
-                            <span class="meta"><span class="k">GitHub</span><span class="v">meosbrand</span></span>
-                        </a>
-                    </div>
-                </div>
-
-                <form class="form reveal d1" id="contactForm" action="https://formsubmit.co/yungbayo01@gmail.com" method="POST">
-                    <input type="hidden" name="_captcha" value="false"/>
-                    <input type="hidden" name="_template" value="table"/>
-                    <input type="hidden" name="_subject" value="Compliance sprint enquiry"/>
-                    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-
-                    <div class="field">
-                        <label for="name">Your name</label>
-                        <input id="name" name="name" type="text" placeholder="Jane Doe" required/>
-                    </div>
-                    <div class="field">
-                        <label for="email">Work email</label>
-                        <input id="email" name="email" type="email" placeholder="jane@company.com" required/>
-                    </div>
-                    <div class="field">
-                        <label for="company">Company size</label>
-                        <input id="company" name="company_size" type="text" placeholder="e.g. 24 people, B2B SaaS"/>
-                    </div>
-                    <div class="field">
-                        <label for="message">What's the customer asking for?</label>
-                        <textarea id="message" name="message" placeholder="SOC 2 Type I by end of quarter, or a 90-question vendor assessment we can't answer..." required></textarea>
-                    </div>
-                    <button class="btn btn--primary" type="submit">Send it over <span class="ar" aria-hidden="true">↗</span></button>
-                    <p class="form-status" id="formStatus" role="status"></p>
-                </form>
-            </div>
-        </div>
-    </section>
+<section class="hero" id="top">
+<div class="wrap">
+<div>
+<p class="hello rise d1"><img class="me" src="/portrait.jpg" alt="Portrait of Michael Meo Ajekigbe" width="44" height="44">Hi, I'm Meo (Michael Ajekigbe).</p>
+<h1 class="rise d2">AI and security consultant for small businesses</h1>
+<p class="typeline rise d3" aria-label="I work across offensive security, defensive security, GRC and compliance, and AI automation">
+<span class="lead" aria-hidden="true">I work in </span><span class="typed" id="typed" aria-hidden="true">offensive security</span><span class="caret" aria-hidden="true"></span>
+</p>
+<p class="lede rise d4">I find the gaps an attacker would use, fix them, and write the policies that prove it. Then I show your team how to use AI safely, so the repetitive work runs itself and you get your time back.</p>
+<div class="cta rise d5">
+<a class="btn btn-primary" href="mailto:yungbayo01@gmail.com?subject=Working%20together">Hire me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+<a class="btn btn-ghost" href="https://devmeo.gumroad.com/l/10-scams-cheat-sheet" target="_blank" rel="noopener">Get the free scam cheat sheet</a>
+</div>
+<div class="social rise d6">
+<a href="https://github.com/meosbrand" target="_blank" rel="noopener me" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
+<a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener me" aria-label="Medium"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="7" cy="12" rx="6" ry="6.3"/><ellipse cx="16.6" cy="12" rx="3" ry="5.9"/><ellipse cx="21.6" cy="12" rx="1.1" ry="5.3"/></svg></a>
+<a href="https://devmeo.gumroad.com" target="_blank" rel="noopener me" aria-label="Meo's Store on Gumroad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></a>
+<a href="https://www.linkedin.com/in/michael-ajekigbe" target="_blank" rel="noopener me" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm7 0h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56v4.92H10v-11Z"/></svg></a>
+<a href="https://x.com/AjekigbeMichael" target="_blank" rel="noopener me" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.78L17.75 3Zm-1.08 16.2h1.7L7.4 4.73H5.58L16.67 19.2Z"/></svg></a>
+<a href="mailto:yungbayo01@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+</div>
+</div>
+<div class="rise d4">
+<div class="term" role="img" aria-label="Terminal summary: Meo covers offensive security, defensive security, GRC and AI for small businesses.">
+<div class="term-bar"><i></i><i></i><i></i><span>meo@lab: ~</span></div>
+<pre id="term" aria-hidden="true"></pre>
+</div>
+<div class="facts">
+<span class="fact"><i style="background:var(--teal)"></i><b>Since 2022</b> freelance security and dev</span>
+<span class="fact"><i style="background:var(--ember)"></i><b>Offense, defense, GRC</b></span>
+<span class="fact"><i style="background:var(--peri)"></i><b>Writes on Medium</b> AI and security for SMBs</span>
+</div>
+</div>
+</div>
+</section>
+<section class="block" id="expertise">
+<div class="wrap">
+<div class="head">
+<h2>Three sides of security, plus the AI that saves you time</h2>
+<p class="intro">Most consultants pick one lane. I work across all three, so the same person who finds a weakness can fix it and document it for your clients, bank or regulator.</p>
+</div>
+<div class="domains">
+<article class="domain off">
+<span class="tag"><i></i>Offensive</span>
+<h3>Think like the attacker</h3>
+<p>Hands-on testing that shows exactly how someone would get in, and how to stop them.</p>
+<ul>
+<li>Web, API and network penetration tests</li>
+<li>Access control and authentication testing</li>
+<li>Recon automation with Bash and Project Discovery</li>
+<li>Clear reports with CVSS scores and fixes</li>
+</ul>
+<p class="tools"><b>Tools:</b> Burp Suite, Nmap, Nuclei, Metasploit</p>
+</article>
+<article class="domain def">
+<span class="tag"><i></i>Defensive</span>
+<h3>Catch it and contain it</h3>
+<p>Monitoring and hardening so attacks get noticed early and go nowhere.</p>
+<ul>
+<li>SIEM and EDR alert triage</li>
+<li>Firewall and IDS/IPS rules</li>
+<li>System hardening and access reviews</li>
+<li>Incident reports leadership can act on</li>
+</ul>
+<p class="tools"><b>Tools:</b> Splunk, CrowdStrike Falcon, Wazuh, Snort, FortiGate</p>
+</article>
+<article class="domain grc">
+<span class="tag"><i></i>GRC</span>
+<h3>Prove you're doing it right</h3>
+<p>The policies, risk records and evidence that clients and regulators ask for.</p>
+<ul>
+<li>Security policies in plain language</li>
+<li>Control mapping to ISO 27001, PCI DSS and NDPR</li>
+<li>Risk registers and vendor checks</li>
+<li>Essential compliance documents, fast</li>
+</ul>
+<p class="tools"><b>Frameworks:</b> ISO 27001, PCI DSS, NDPR, OWASP, MITRE ATT&amp;CK</p>
+</article>
+</div>
+<div class="ai">
+<h3>AI that makes work, and life, easier</h3>
+<ul>
+<li>Automations that remove repetitive tasks</li>
+<li>AI agents and workflows (LangGraph, Google ADK, n8n)</li>
+<li>Simple rules so your team uses AI safely</li>
+<li>Evaluating and stress-testing AI model output</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="block" id="services">
+<div class="wrap">
+<div class="head">
+<h2>How I help small businesses</h2>
+<p class="intro">Right-sized help for businesses without an IT department. No enterprise stack, no jargon, priced for a business your size.</p>
+</div>
+<div class="services">
+<div class="svc"><h3>Secure practices for your team</h3><p>Training for owners and staff on spotting scams, locking down accounts and protecting phones and customer data.</p></div>
+<div class="svc"><h3>Security testing</h3><p>A penetration test of your website, app or network, with a plain-language report and a retest once fixes are in.</p></div>
+<div class="svc"><h3>Compliance documents, fast</h3><p>Data protection, acceptable use and incident response policies written quickly, in language your team will follow.</p></div>
+<div class="svc"><h3>Safe AI and automation</h3><p>Find the repetitive work eating your week and automate it with guardrails, so customer data stays where it belongs.</p></div>
+</div>
+</div>
+</section>
+<section class="block" id="projects">
+<div class="wrap">
+<div class="head">
+<h2>Things I've built</h2>
+<p class="intro">Security tools first, with some web and AI builds on the side. Code lives on <a href="https://github.com/meosbrand" target="_blank" rel="noopener">GitHub</a>.</p>
+</div>
+<h3 class="sub">Security</h3>
+<ul class="projects">
+<li class="proj featured">
+<div><h3>Aabo</h3><div class="meta"><span class="pill live">In development</span><span class="pill def">Product</span></div></div>
+<p>A security product for individuals and small businesses, built around the phone and social accounts they already run on. No IT team required.</p>
+<a class="more" href="https://github.com/meosbrand/Aabo" target="_blank" rel="noopener">Follow on GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</li>
+<li class="proj">
+<div><h3>Auto-RedTeam ADK</h3><div class="meta"><span class="pill off">Offensive</span><span class="pill">Python</span></div></div>
+<p>An autonomous AI penetration testing framework. It runs a Red Team, Target and Judge loop against language models to find jailbreaks and unsafe output.</p>
+<a class="more" href="https://github.com/meosbrand/autonomous-ai-pentesting-tool" target="_blank" rel="noopener">View code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</li>
+<li class="proj">
+<div><h3>403 Bypass Fuzzer</h3><div class="meta"><span class="pill off">Offensive</span><span class="pill">Shell</span></div></div>
+<p>Tries 77 known ways to get past broken access control on protected pages, config files and admin dashboards.</p>
+<a class="more" href="https://github.com/meosbrand/403_bypass_fuzzer" target="_blank" rel="noopener">View code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</li>
+<li class="proj">
+<div><h3>Snort 3 NIDS installer</h3><div class="meta"><span class="pill def">Defensive</span><span class="pill">Shell</span></div></div>
+<p>Installs Snort 3 and all its dependencies in one go, for network intrusion detection labs and small deployments.</p>
+<a class="more" href="https://github.com/meosbrand/Snort3-installer-NIDS-" target="_blank" rel="noopener">View code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</li>
+</ul>
+<h3 class="sub">Also building for the web and AI</h3>
+<ul class="projects">
+<li class="proj">
+<div><h3>Acadexis</h3><div class="meta"><span class="pill">AI</span><span class="pill">LangGraph</span></div></div>
+<p>A personalized learning platform powered by multi-agent RAG with LangGraph and Qdrant vector search. Final-year project, co-built with two classmates.</p>
+<span></span>
+</li>
+<li class="proj">
+<div><h3>Betty Pride website</h3><div class="meta"><span class="pill">Client work</span><span class="pill">TypeScript</span></div></div>
+<p>A website for a Nigerian garment manufacturer with four decades of history, showcasing uniforms, kids' wear and custom branding.</p>
+<a class="more" href="https://github.com/meosbrand/Betty-Pride-site" target="_blank" rel="noopener">View code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</li>
+</ul>
+</div>
+</section>
+<section class="block" id="writing">
+<div class="wrap two">
+<div>
+<h2>Writing on Medium</h2>
+<p class="intro">I write about AI and security for small businesses: what attackers are doing right now, and what a small team can actually do about it.</p>
+<ul class="topics">
+<li><b>Deepfake attacks on KYC checks</b><span>How AI-generated faces get injected into identity verification, and how to defend against it.</span></li>
+<li><b>WordPress core RCE (WP2Shell)</b><span>What the vulnerability means for site owners and how to patch it.</span></li>
+<li><b>Phishing psychology</b><span>Why smart people click, and how small teams can train for it.</span></li>
+<li><b>Secure AI for small businesses</b><span>Practical rules for using AI tools without leaking customer data.</span></li>
+</ul>
+<a class="btn btn-ghost" href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Read on Medium <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</div>
+<div id="writing-store">
+<h2>Meo's Store</h2>
+<p class="intro">Practical security guides for business owners who run everything from their phone.</p>
+<ul class="products">
+<li><a href="https://devmeo.gumroad.com/l/account-lockdown-kit" target="_blank" rel="noopener"><b>The 60-Minute Account Lockdown Kit</b><em>$19</em><span>Secure your Instagram, WhatsApp, TikTok and email in four 15-minute blocks.</span></a></li>
+<li><a href="https://devmeo.gumroad.com/l/10-scams-cheat-sheet" target="_blank" rel="noopener"><b>10 Scams That Steal Small Business Accounts</b><em>Free</em><span>The messages behind most account takeovers, and what to do instead.</span></a></li>
+<li><a href="https://devmeo.gumroad.com" target="_blank" rel="noopener"><b>10-Minute Security Audit Checklist</b><em>Free</em><span>A Notion template that tracks your small business security basics.</span></a></li>
+</ul>
+<a class="btn btn-ghost" href="https://devmeo.gumroad.com" target="_blank" rel="noopener">Visit Meo's Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</div>
+</div>
+</section>
+<section class="block" id="background">
+<div class="wrap">
+<div class="head"><h2>Background</h2></div>
+<ol class="timeline" reversed>
+<li><span class="when">2026 to now</span><div><b>AI training contractor</b><span>Mercor, Turing and Mindrift. Evaluating, stress-testing and improving AI model output.</span></div></li>
+<li><span class="when">2026 to now</span><div><b>Cybersecurity officer (intern)</b><span>SamaFi Cyberhub. Pentest reports, control mapping to ISO 27001, PCI DSS and NDPR, and SIEM alert triage.</span></div></li>
+<li><span class="when">2025</span><div><b>Cybersecurity trainee (intern)</b><span>Platview Technologies. Firewall and IDS/IPS rules, access control and password policies.</span></div></li>
+<li><span class="when">2022 to now</span><div><b>Freelance security consultant and developer</b><span>Penetration tests and security reviews for fintech, banking and pension clients, plus websites and AI tools for growing businesses.</span></div></li>
+<li><span class="when">2026</span><div><b>B.Tech Computer Science</b><span>Ladoke Akintola University of Technology (LAUTECH), Nigeria. CGPA 4.48/5.00.</span></div></li>
+</ol>
+<p class="certs"><b>Certifications:</b> Oracle Cloud Infrastructure Foundations Associate, Google Cloud Fundamentals.</p>
+</div>
+</section>
+<section class="block" id="faq">
+<div class="wrap">
+<div class="head"><h2>Questions people ask</h2></div>
+<div class="faq"><details><summary>What does an AI and security consultant do for a small business?</summary><p>An AI and security consultant finds and fixes the easiest ways an attacker could get into your business, sets up simple policies and compliance documents, and shows your team how to use AI tools safely to save time. For a small business, that means the essentials that make the biggest difference, sized to your budget.</p></details><details><summary>Which areas of cybersecurity do you cover?</summary><p>All three main areas. Offensive security (penetration testing of websites, APIs and networks), defensive security (monitoring, detection rules and hardening) and GRC (governance, risk and compliance: policies, risk registers and mapping to ISO 27001, PCI DSS and NDPR). One person can find a weakness, fix it and document it.</p></details><details><summary>How do I protect my business Instagram and WhatsApp from being hacked?</summary><p>Secure the email and phone number behind each account first, then turn on two-factor authentication with a passkey or an authenticator app, never share a verification code with anyone, and check linked devices every month. The 60-Minute Account Lockdown Kit in Meo&#x27;s Store walks through every setting step by step.</p></details><details><summary>Can a small business use AI safely?</summary><p>Yes. Choose which AI tools your team is allowed to use, never paste customer, financial or password data into public AI tools, and have a person check anything AI writes before it reaches a customer. With those rules in place, AI can take over repetitive work like replies, reports and follow-ups.</p></details><details><summary>Do small businesses need compliance documents?</summary><p>Most need a few: a data protection policy, acceptable use rules for staff and devices, and an incident response plan. Clients, banks and regulators increasingly ask for them, and laws like Nigeria&#x27;s NDPR apply to businesses of every size. They can be written quickly and in plain language.</p></details><details><summary>How do I work with you?</summary><p>Email yungbayo01@gmail.com with what your business does and what worries you most. We&#x27;ll agree on the few changes that will make the biggest difference first. I work remotely with clients worldwide.</p></details></div>
+</div>
+</section>
+<section class="block contact" id="contact">
+<div class="wrap">
+<h2>What's slowing your business down, or keeping you up at night?</h2>
+<p class="intro">Tell me what your business does and what worries you. We'll start with the few changes that make the biggest difference. I work remotely with clients worldwide.</p>
+<a class="mail" href="mailto:yungbayo01@gmail.com?subject=Working%20together">yungbayo01@gmail.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+</div>
+</section>
 </main>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-    <div class="wrap footer-grid">
-        <div>
-            <a class="brand" href="#top">Michael Ajekigbe<span class="dot">.</span></a>
-            <p class="copy">Cybersecurity compliance for small business &middot; Lagos, Nigeria &middot; &copy; 2026</p>
-        </div>
-        <div class="socials">
-            <a href="https://github.com/meosbrand" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
-            <a href="https://www.linkedin.com/in/michael-ajekigbe" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.5 8.65 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3-2 0-2.3 1.57-2.3 3.2V21H9z"/></svg></a>
-            <a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener" aria-label="Medium"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.54 12c0 3.04-2.46 5.5-5.49 5.5S2.56 15.04 2.56 12s2.46-5.5 5.49-5.5S13.54 8.96 13.54 12zM19.5 12c0 2.86-1.23 5.18-2.74 5.18S14.02 14.86 14.02 12s1.23-5.18 2.74-5.18S19.5 9.14 19.5 12zM22 12c0 2.56-.43 4.64-.97 4.64S20.06 14.56 20.06 12s.43-4.64.97-4.64S22 9.44 22 12z"/></svg></a>
-        </div>
-    </div>
+<footer>
+<div class="wrap">
+<a href="#top" aria-label="Back to top"><img src="/logo.svg" alt="meo" width="69" height="20"></a>
+<span>&copy; <span id="year">2026</span> Michael Adebayo Ajekigbe</span>
+<nav aria-label="Footer">
+<a href="https://github.com/meosbrand" target="_blank" rel="noopener">GitHub</a>
+<a href="https://medium.com/@yungbayo01" target="_blank" rel="noopener">Medium</a>
+<a href="https://www.linkedin.com/in/michael-ajekigbe" target="_blank" rel="noopener">LinkedIn</a>
+<a href="https://devmeo.gumroad.com" target="_blank" rel="noopener">Store</a>
+<a href="mailto:yungbayo01@gmail.com">Email</a>
+</nav>
+</div>
 </footer>
-
-<script src="script.js"></script>
+<script src="/script.js?v=20261008" defer></script>
 </body>
 </html>

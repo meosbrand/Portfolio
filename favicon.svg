@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="22" fill="#1f4a38"/>
-  <!-- sanctuary shield mark (Ààbò) -->
-  <path d="M50 20 L74 29 V49 C74 64 63 74 50 80 C37 74 26 64 26 49 V29 Z"
-        fill="none" stroke="#f5efe3" stroke-width="4.5" stroke-linejoin="round"/>
-  <path d="M41 51 l7 7 13 -15" fill="none" stroke="#bd5836"
-        stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><rect width="1000" height="1000" rx="220" fill="#0A0E1A"/><g fill="#E8ECF3"><path transform="translate(167.8 667.3) scale(0.6173 -0.6173)" d="M36 0V293V528H173V313H181Q188 397 208.5 447.0Q229 497 263.5 519.5Q298 542 346 542Q396 542 427.0 517.5Q458 493 473.0 442.5Q488 392 487 313H495Q502 396 524.0 446.0Q546 496 582.0 519.0Q618 542 667 542Q708 542 738.0 527.0Q768 512 788.5 482.0Q809 452 819.0 406.5Q829 361 829 300V0H667V286Q667 324 660.5 349.5Q654 375 641.0 387.5Q628 400 608 400Q582 400 560.0 376.5Q538 353 524.5 306.0Q511 259 511 187V0H353V290Q353 328 346.5 352.0Q340 376 326.5 388.0Q313 400 293 400Q268 400 246.5 379.5Q225 359 211.5 312.0Q198 265 198 187V0Z"/></g><rect x="709.6" y="332.7" width="100.4" height="334.6" rx="18" fill="#2DD4BF"/></svg>

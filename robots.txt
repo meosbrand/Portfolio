@@ -2,10 +2,12 @@
 User-agent: *
 Allow: /
 
-# AI search & answer engines (retrieval — these can cite you)
+# AI search and answer engines are welcome to read and cite this site
 User-agent: OAI-SearchBot
 Allow: /
 User-agent: ChatGPT-User
+Allow: /
+User-agent: GPTBot
 Allow: /
 User-agent: PerplexityBot
 Allow: /

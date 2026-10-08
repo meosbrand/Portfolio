@@ -1,111 +1,36 @@
-# Michael Ajekigbe
+# Meo Ajekigbe
 
-> Cybersecurity engineer, AI developer and web developer based in Lagos, Nigeria.
-> Works across three disciplines that usually sit in separate roles: security and compliance,
-> AI product engineering, and web design and development. Also sells a productised service,
-> the 10-Day Compliance Sprint, covering SOC 2, ISO 27001 and NIST documentation.
+> Michael "Meo" Ajekigbe is an AI and security consultant for small businesses. He works across offensive security (penetration testing), defensive security (monitoring, detection and hardening) and GRC (policies, risk and compliance), and helps teams use AI safely to automate repetitive work. Freelancing in security and web development since 2022. Works remotely with clients worldwide.
 
-## Who he is
+## Services
+- Secure practices training for owners and staff: scams, account security, phones and customer data
+- Security testing: web, API and network penetration tests with plain-language reports and retests
+- Compliance documents: data protection, acceptable use and incident response policies; control mapping to ISO 27001, PCI DSS and NDPR
+- Safe AI and automation: AI usage rules, agents and workflows that remove repetitive work
 
-Michael Ajekigbe (GitHub: meosbrand) is a cybersecurity professional specialising in GRC
-(governance, risk and compliance) for small businesses, plus AI security engineering.
-He holds the Google Cybersecurity Certificate and Oracle Cloud Infrastructure certification,
-and is a cybersecurity intern at Samafi Cyberhub. He works remotely across West African,
-European and US time zones, and speaks English, Yoruba and Nigerian Pidgin.
+## Projects
+- [Aabo](https://github.com/meosbrand/Aabo): security product for individuals and small businesses, built around phones and social accounts (in development)
+- [Auto-RedTeam ADK](https://github.com/meosbrand/autonomous-ai-pentesting-tool): autonomous AI penetration testing framework using a Red Team, Target and Judge loop against language models
+- [403 Bypass Fuzzer](https://github.com/meosbrand/403_bypass_fuzzer): tests 77 known access-control bypass techniques
+- [Snort 3 NIDS installer](https://github.com/meosbrand/Snort3-installer-NIDS-): one-step Snort 3 install for intrusion detection labs
+- Acadexis: multi-agent RAG learning platform built with LangGraph and Qdrant (co-built final-year project)
 
-His stated position: enterprise security vendors write for Fortune 500 CISOs, so small
-businesses get ignored or confused. He writes security documentation in plain language for
-companies without a dedicated security team.
+## Writing
+- [Medium](https://medium.com/@yungbayo01): AI and security for small businesses, including KYC deepfake attacks, WordPress RCE advisories, phishing psychology and secure AI use
 
-The three disciplines:
+## Products (Meo's Store)
+- [The 60-Minute Account Lockdown Kit](https://devmeo.gumroad.com/l/account-lockdown-kit): step-by-step guide to securing a small business's Instagram, WhatsApp, TikTok, email and payment accounts ($19)
+- [10 Scams That Steal Small Business Accounts](https://devmeo.gumroad.com/l/10-scams-cheat-sheet): free cheat sheet
 
-1. Cybersecurity. GRC and compliance documentation (SOC 2, ISO 27001, NIST), risk registers,
-   incident response, plus offensive work: access-control testing and intrusion detection.
-2. AI engineering. Agents and AI products on Google Gemini and Genkit, including autonomous
-   red teaming of other language models, and AI assistants that answer in local languages.
-3. Web design and development. Client sites and web apps in Next.js, React, TypeScript and
-   Tailwind, designed as well as built. Clients include Betty Pride (garment manufacturing,
-   40 years), Tony Multiventures (real estate) and SamaFi Cyberhub.
-
-## Primary service: The 10-Day Compliance Sprint
-
-A fixed-scope engagement delivering, within 10 business days:
-
-1. Fourteen policies mapped to SOC 2 Trust Services Criteria, ISO 27001 Annex A and NIST CSF
-2. Risk assessment and risk register with named owners and review dates
-3. Incident response plan plus a one-page runbook for phishing, ransomware and lost devices
-4. Security questionnaire answer bank for enterprise vendor assessments
-5. Gap analysis and remediation roadmap (fix today / this month / this quarter)
-6. Staff security awareness pack in English, Nigerian Pidgin or Yoruba
-7. Vendor review template
-8. Thirty days of post-delivery support
-
-Pricing: from $1,500 USD for 5 to 25 people on a single framework; from $3,000 for 26 to 75
-people across up to two frameworks; custom quote above 75 people, three frameworks, or when
-technical security work is included. Half payable up front, half on delivery, in USD or NGN.
-Capacity is two engagements per month.
-
-Guarantee: the ten-day clock starts the morning after the scoping call, once the client's tool
-and vendor list is in hand, and pauses only while waiting on the client, who is notified the
-same day. If delivery is late the client is refunded in full and keeps the documents. Any
-document the client's auditor or customer challenges is rewritten free for 60 days. The
-guarantee covers the documentation itself, not controls the client has not yet implemented.
-
-Who it suits: B2B companies of 5 to 200 people whose customers are requesting SOC 2 or
-ISO 27001 before signing. Requires one 45-minute scoping call and a list of tools and vendors.
-
-Important accuracy note: this service produces audit-ready documentation. It does not by
-itself confer SOC 2 certification, which requires an accredited auditor and an observation
-window.
-
-## Open-source projects
-
-- Ààbò (https://github.com/meosbrand/Aabo) — security co-pilot for small African businesses.
-  Next.js and TypeScript with Google Genkit AI flows. Onboarding, protection dashboard,
-  backup centre, panic trigger, and a chatbot explaining threats in local languages.
-- Auto-RedTeam ADK (https://github.com/meosbrand/autonomous-ai-pentesting-tool) — autonomous
-  AI penetration testing framework. An attacker agent, target LLM and judge loop with a Tree
-  of Attacks branching strategy, on Gemini 2.0 Flash, FastAPI and Next.js 14, streamed over
-  WebSocket. MIT licensed.
-- 403 Bypass Fuzzer (https://github.com/meosbrand/403_bypass_fuzzer) — Bash tool testing 70+
-  mutations (path traversal, semicolon insertion, null bytes, Unicode, case alteration)
-  against endpoints returning 403 or 401, to find misconfigured access control.
-- Ẹgbọ́n Study Partner (https://github.com/meosbrand/Team-Blaze) — AI study companion for
-  Nigerian students with automatic subject detection and adaptive explanation strategies.
-  Django REST, React, Vite and Gemini. Built for the Build with Oyo 2026 hackathon.
-- Snort3 NIDS Installer (https://github.com/meosbrand/Snort3-installer-NIDS-) — one-command
-  installer for Snort3 and its dependency chain on Linux.
-
-## Published writing
-
-All at https://medium.com/@yungbayo01
-
-- "Why big cybersecurity brands can't talk to small businesses (and what actually works)" —
-  enterprise vendors write for Fortune 500 CISOs, leaving 33 million small businesses with
-  content they cannot use. Argues that acronym-heavy whitepapers are credential signalling
-  rather than communication.
-- "Your employees are your biggest security risk. Here's how to fix that." — 68% of breaches
-  involve a human element (Verizon DBIR 2025). Walks through why phishing exploits authority
-  bias, time pressure and pattern matching, and how to build security awareness without an
-  IT department.
-- "Passwords are dead. Here's what actually protects your business now." — why complex
-  substituted passwords are weaker than long passphrases, and the three technologies replacing
-  passwords: MFA (blocks 99.9% of account compromise), passkeys, and password managers.
-- "How to protect your business data when employees work from anywhere" — SMBs are targeted
-  nearly four times more than large organisations, and remote work adds roughly $173,000 to
-  average breach cost (IBM 2025). Seven practices starting with VPN, MFA and MDM.
-
-## Topics he can speak to
-
-SOC 2 readiness, ISO 27001 Annex A controls, NIST CSF, risk registers, security questionnaire
-response, vendor risk assessment, incident response planning, small business cybersecurity,
-intrusion detection, access control testing, AI red teaming and LLM security, security
-awareness training in African languages.
+## FAQ
+- **What does an AI and security consultant do for a small business?** An AI and security consultant finds and fixes the easiest ways an attacker could get into your business, sets up simple policies and compliance documents, and shows your team how to use AI tools safely to save time. For a small business, that means the essentials that make the biggest difference, sized to your budget.
+- **Which areas of cybersecurity do you cover?** All three main areas. Offensive security (penetration testing of websites, APIs and networks), defensive security (monitoring, detection rules and hardening) and GRC (governance, risk and compliance: policies, risk registers and mapping to ISO 27001, PCI DSS and NDPR). One person can find a weakness, fix it and document it.
+- **How do I protect my business Instagram and WhatsApp from being hacked?** Secure the email and phone number behind each account first, then turn on two-factor authentication with a passkey or an authenticator app, never share a verification code with anyone, and check linked devices every month. The 60-Minute Account Lockdown Kit in Meo's Store walks through every setting step by step.
+- **Can a small business use AI safely?** Yes. Choose which AI tools your team is allowed to use, never paste customer, financial or password data into public AI tools, and have a person check anything AI writes before it reaches a customer. With those rules in place, AI can take over repetitive work like replies, reports and follow-ups.
+- **Do small businesses need compliance documents?** Most need a few: a data protection policy, acceptable use rules for staff and devices, and an incident response plan. Clients, banks and regulators increasingly ask for them, and laws like Nigeria's NDPR apply to businesses of every size. They can be written quickly and in plain language.
+- **How do I work with you?** Email yungbayo01@gmail.com with what your business does and what worries you most. We'll agree on the few changes that will make the biggest difference first. I work remotely with clients worldwide.
 
 ## Contact
-
-Email: yungbayo01@gmail.com
-Site: https://devmeo.me/
-GitHub: https://github.com/meosbrand
-LinkedIn: https://www.linkedin.com/in/michael-ajekigbe
-Medium: https://medium.com/@yungbayo01
+- Email: yungbayo01@gmail.com
+- Website: https://devmeo.me
+- GitHub: https://github.com/meosbrand
