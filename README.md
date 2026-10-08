@@ -73,10 +73,11 @@ llms.txt      structured summary for AI search and answer engines
 robots.txt    crawler rules, including AI retrieval bots
 sitemap.xml   single-URL sitemap
 vercel.json   security headers and caching
-og-image.png  social share card (1200x630)
+og-image.jpg  social share card (1200x630, kept under 300 KB for WhatsApp previews)
+favicon.*, apple-touch-icon.png, icon-*.png, site.webmanifest  browser, search and home-screen icons
 ```
 
-Built for search and for AI answer engines: Person, ProfessionalService, WebSite and FAQPage schema, a seven-question FAQ, semantic headings, canonical URL, and an `llms.txt`.
+Built for search and for AI answer engines: ProfilePage, Person, ProfessionalService, WebSite and FAQPage schema, a seven-question FAQ, semantic headings, canonical URL, and an `llms.txt`.
 
 Design: warm editorial palette drawn from the Ààbò brand (deep pine for safety, warm cream, terracotta), Fraunces and Inter, light and dark themes, reduced-motion support.
 
