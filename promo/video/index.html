@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meo promo video</title>
+<!--
+  Frame-accurate motion source for the promo videos.
+  Every frame is drawn by render(t), so render.js can step through time and
+  screenshot each frame. Open in a browser with ?play to preview in real time.
+
+  Query params:
+    format  16x9 | 9x16 | 4x5          (default 16x9)
+    cut     upwork | ad                (default: upwork for 16x9, ad otherwise)
+    hook    a | b                      (ad cut only, default a)
+    play    preview in real time
+    t       freeze at a time in seconds, for checking a single frame
+    grain   0 turns off the in-page grain (render.js adds it in ffmpeg instead)
+-->
+<style>
+@font-face{font-family:"Bricolage Grotesque"; src:url(fonts/bricolage-grotesque.woff2) format("woff2"); font-weight:200 800}
+@font-face{font-family:"IBM Plex Sans"; src:url(fonts/ibm-plex-sans.woff2) format("woff2"); font-weight:100 700}
+@font-face{font-family:"JetBrains Mono"; src:url(fonts/jetbrains-mono.woff2) format("woff2"); font-weight:100 800}
+:root{
+--ink:#0A0E1A; --panel:#101828; --panel-2:#0D1422; --line:rgba(232,236,243,.09); --line-2:rgba(232,236,243,.18);
+--bone:#E8ECF3; --fog:#8A96AD; --soft:#C3CBDA; --teal:#2DD4BF; --ember:#F5A524; --peri:#8B9CFF; --red:#F0566A;
+--display:"Bricolage Grotesque", system-ui, sans-serif;
+--body:"IBM Plex Sans", system-ui, sans-serif;
+--mono:"JetBrains Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html,body{background:#000; overflow:hidden}
+#stage{position:relative; overflow:hidden; background:var(--ink); color:var(--bone); font-family:var(--body); -webkit-font-smoothing:antialiased; text-rendering:geometricPrecision}
+
+/* Background layers */
+#glow{position:absolute; inset:0}
+.dots{position:absolute; inset:0; background:radial-gradient(circle at 1px 1px, rgba(232,236,243,.075) 1.3px, transparent 0) 0 0/calc(var(--u)*2.6) calc(var(--u)*2.6)}
+#grain{position:absolute; inset:0; opacity:.06; mix-blend-mode:overlay}
+.vignette{position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.45))}
+
+/* Scenes */
+.scene{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; transform-origin:50% 50%; will-change:transform, opacity}
+.f16 .scene{padding:calc(var(--v)*10) calc(var(--u)*11)}
+.f916 .scene{padding:calc(var(--v)*12) calc(var(--u)*8) calc(var(--v)*22)}
+.f45 .scene{padding:calc(var(--v)*8) calc(var(--u)*8)}
+.center{align-items:center; text-align:center}
+
+/* Type scale: --u is 1% of the short side, so 1080p formats share sizes */
+.xl{font-family:var(--display); font-weight:800; font-size:calc(var(--u)*10.4); line-height:1.0; letter-spacing:-.018em}
+.l{font-family:var(--display); font-weight:800; font-size:calc(var(--u)*7.6); line-height:1.04; letter-spacing:-.014em}
+.m{font-family:var(--display); font-weight:700; font-size:calc(var(--u)*5); line-height:1.1; letter-spacing:-.015em}
+.s{font-size:calc(var(--u)*3.3); line-height:1.4; color:var(--soft)}
+.xs{font-size:calc(var(--u)*2.6); line-height:1.4; color:var(--fog)}
+.ember{color:var(--ember)} .teal{color:var(--teal)} .peri{color:var(--peri)} .fog{color:var(--fog)} .bone{color:var(--bone)} .red{color:var(--red)}
+.ln{display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em}
+.ln > span{display:inline-block; will-change:transform}
+.eyebrow{font-family:var(--mono); font-size:calc(var(--u)*2.4); letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:calc(var(--u)*2.4)}
+.gap1{height:calc(var(--u)*2)} .gap2{height:calc(var(--u)*3.6)} .gap3{height:calc(var(--u)*5.5)}
+
+/* Logo */
+.logo svg{display:block; height:100%; width:auto; overflow:visible}
+.logo{height:calc(var(--u)*13)}
+#wm{position:absolute; height:calc(var(--u)*3.4); z-index:5}
+.f16 #wm{left:calc(var(--u)*11); top:calc(var(--v)*7.5)}
+.f916 #wm{left:calc(var(--u)*8); top:calc(var(--v)*6.5)}
+.f45 #wm{left:calc(var(--u)*8); top:calc(var(--v)*5)}
+
+/* Chips */
+.chips{display:flex; flex-wrap:wrap; gap:calc(var(--u)*1.3)}
+.center .chips{justify-content:center}
+.chip{display:inline-flex; align-items:center; gap:calc(var(--u)*1.1); padding:calc(var(--u)*.9) calc(var(--u)*1.8); border:1px solid var(--line-2); border-radius:999px; background:rgba(16,24,40,.75); font-size:calc(var(--u)*2.5); color:var(--soft); white-space:nowrap}
+.chip i{width:calc(var(--u)*.9); height:calc(var(--u)*.9); border-radius:50%; background:var(--c, var(--teal)); display:block}
+.chip.tool{font-family:var(--mono); font-size:calc(var(--u)*2.1); padding:calc(var(--u)*.6) calc(var(--u)*1.4); color:var(--fog)}
+
+/* Find / fix / prove rows */
+.off{--c:var(--ember)} .def{--c:var(--teal)} .grc{--c:var(--peri)} .ai{--c:var(--bone)}
+.jobs{display:flex; flex-direction:column; gap:calc(var(--u)*2.2)}
+.job{position:relative; padding:calc(var(--u)*2.3) calc(var(--u)*3) calc(var(--u)*2.4); border-radius:calc(var(--u)*2.2); background:linear-gradient(100deg, rgba(16,24,40,.95), rgba(13,20,34,.75)); border:1px solid var(--line); overflow:hidden}
+.job::before{content:""; position:absolute; left:0; top:0; bottom:0; width:calc(var(--u)*.7); background:var(--c)}
+.job b{display:block; font-family:var(--display); font-weight:800; font-size:calc(var(--u)*6); letter-spacing:-.02em; line-height:1.05; color:var(--c)}
+.job span{display:block; font-size:calc(var(--u)*3.1); color:var(--soft); line-height:1.35; margin-top:calc(var(--u)*.6)}
+.f16 .job{display:grid; grid-template-columns:calc(var(--u)*34) 1fr; align-items:center; gap:calc(var(--u)*3); padding:calc(var(--u)*2.4) calc(var(--u)*3.5)}
+.f16 .job span{margin:0 0 calc(var(--u)*1.3); font-size:calc(var(--u)*3)}
+.f16 .jobs{gap:calc(var(--u)*1.8)}
+
+/* Severity report (ad hook A) */
+.doc{border:1px solid var(--line-2); border-radius:calc(var(--u)*2.2); background:linear-gradient(180deg, #0F1729, #0B111F); overflow:hidden; box-shadow:0 calc(var(--u)*4) calc(var(--u)*10) calc(var(--u)*-4) rgba(0,0,0,.8)}
+.bar{display:flex; align-items:center; gap:calc(var(--u)*1); padding:calc(var(--u)*1.6) calc(var(--u)*2.2); border-bottom:1px solid var(--line)}
+.bar i{width:calc(var(--u)*1.2); height:calc(var(--u)*1.2); border-radius:50%; background:#2A3550; display:block}
+.bar span{margin-left:auto; font-family:var(--mono); font-size:calc(var(--u)*2.1); color:var(--fog)}
+.rows{padding:calc(var(--u)*1) calc(var(--u)*2.2) calc(var(--u)*1.6)}
+.row{display:flex; align-items:center; gap:calc(var(--u)*2); padding:calc(var(--u)*1.25) 0; border-top:1px solid var(--line); font-size:calc(var(--u)*2.9); color:var(--soft)}
+.row:first-child{border-top:0}
+.sev{font-family:var(--mono); font-weight:500; font-size:calc(var(--u)*2.1); letter-spacing:.06em; padding:calc(var(--u)*.45) calc(var(--u)*1.2); border-radius:calc(var(--u)*.8); min-width:calc(var(--u)*15); text-align:center}
+.crit{background:rgba(240,86,106,.16); color:var(--red); border:1px solid rgba(240,86,106,.45)}
+.high{background:rgba(245,165,36,.13); color:var(--ember); border:1px solid rgba(245,165,36,.4)}
+.med{background:rgba(139,156,255,.12); color:var(--peri); border:1px solid rgba(139,156,255,.4)}
+.ask{margin-left:auto; font-family:var(--mono); font-size:calc(var(--u)*2.1); color:var(--ember); border:1px dashed rgba(245,165,36,.55); border-radius:calc(var(--u)*.8); padding:calc(var(--u)*.45) calc(var(--u)*1.2); white-space:nowrap}
+.row.q{gap:calc(var(--u)*2.4)}
+
+/* Ticks */
+.ticks{list-style:none; display:flex; flex-direction:column; gap:calc(var(--u)*1.8)}
+.ticks li{position:relative; padding-left:calc(var(--u)*4.4); font-size:calc(var(--u)*3.5); line-height:1.35; color:var(--soft)}
+.ticks li::before{content:""; position:absolute; left:0; top:.42em; width:calc(var(--u)*2.2); height:calc(var(--u)*2.2); border-radius:calc(var(--u)*.6); background:rgba(45,212,191,.16); border:1px solid rgba(45,212,191,.55)}
+.ticks li::after{content:""; position:absolute; left:calc(var(--u)*.75); top:calc(.42em + var(--u)*.45); width:calc(var(--u)*.6); height:calc(var(--u)*1.05); border:solid var(--teal); border-width:0 calc(var(--u)*.32) calc(var(--u)*.32) 0; transform:rotate(45deg)}
+
+/* Avatar */
+.avatar{position:relative; width:calc(var(--u)*30); height:calc(var(--u)*30); flex:none}
+.avatar img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; border:calc(var(--u)*.55) solid var(--teal); box-shadow:0 0 0 calc(var(--u)*1.2) rgba(45,212,191,.12), 0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.6)}
+.avatar .ring{position:absolute; inset:calc(var(--u)*-2.4); border-radius:50%; border:1px solid rgba(45,212,191,.35)}
+.name{font-family:var(--display); font-weight:800; font-size:calc(var(--u)*6); letter-spacing:-.02em; line-height:1.05}
+.role{font-size:calc(var(--u)*3.2); color:var(--teal); font-weight:500}
+
+/* Cards */
+.cards{display:grid; grid-template-columns:repeat(3, 1fr); gap:calc(var(--u)*2.4)}
+.card{position:relative; border:1px solid var(--line); border-radius:calc(var(--u)*2); background:var(--panel-2); padding:calc(var(--u)*3.2) calc(var(--u)*3) calc(var(--u)*3); overflow:hidden}
+.card::before{content:""; position:absolute; inset:0 0 auto 0; height:calc(var(--u)*.55); background:var(--c)}
+.card .k{font-family:var(--mono); font-size:calc(var(--u)*2.1); letter-spacing:.1em; text-transform:uppercase; color:var(--c)}
+.card h3{font-family:var(--display); font-weight:800; font-size:calc(var(--u)*4.6); line-height:1.08; letter-spacing:-.015em; margin:calc(var(--u)*1.2) 0 calc(var(--u)*1)}
+.card p{font-size:calc(var(--u)*2.8); color:var(--soft); line-height:1.4}
+.card .chips{margin-top:calc(var(--u)*2.2)}
+.cards.two{grid-template-columns:1fr 1fr}
+.card .num{font-family:var(--mono); font-size:calc(var(--u)*2.4); color:var(--c)}
+
+/* Terminal */
+.term{border:1px solid var(--line-2); border-radius:calc(var(--u)*2); background:linear-gradient(180deg, #0F1729, #0B111F); overflow:hidden; box-shadow:0 calc(var(--u)*4) calc(var(--u)*10) calc(var(--u)*-4) rgba(0,0,0,.8), 0 0 0 1px rgba(45,212,191,.05)}
+.term-body{padding:calc(var(--u)*2.4) calc(var(--u)*3) calc(var(--u)*3); font-family:var(--mono); font-size:calc(var(--u)*2.75); line-height:1.75; color:var(--soft)}
+.tl{white-space:pre; min-height:1.75em}
+.tl .p{color:var(--teal)} .tl .c{color:var(--bone)} .tl .ok{color:var(--teal)} .tl .k{color:var(--peri)} .tl .w{color:var(--ember)}
+.caret{display:inline-block; width:.55em; height:1.05em; vertical-align:-.18em; background:var(--teal); margin-left:.05em}
+
+/* CTA */
+.btn{display:inline-flex; align-items:center; gap:calc(var(--u)*1.6); background:var(--teal); color:#04201C; font-family:var(--display); font-weight:800; font-size:calc(var(--u)*5.2); letter-spacing:-.01em; padding:calc(var(--u)*1.8) calc(var(--u)*4.4); border-radius:999px; box-shadow:0 0 0 calc(var(--u)*1.3) rgba(45,212,191,.14), 0 calc(var(--u)*2) calc(var(--u)*6) rgba(45,212,191,.25)}
+.btn svg{width:.85em; height:.85em}
+.tri span{display:block}
+.split{display:grid; grid-template-columns:auto 1fr; gap:calc(var(--u)*7); align-items:center}
+
+/* Vertical ad formats are watched on a phone, so body copy runs larger */
+.f916 .l, .f45 .l{font-size:calc(var(--u)*8.4)}
+.f916 .job b, .f45 .job b{font-size:calc(var(--u)*7)}
+.f916 .job span, .f45 .job span{font-size:calc(var(--u)*3.6)}
+.f916 .ticks li, .f45 .ticks li{font-size:calc(var(--u)*4)}
+.f916 .chip, .f45 .chip{font-size:calc(var(--u)*2.9)}
+.f916 .row, .f45 .row{font-size:calc(var(--u)*3.3)}
+.f916 .s, .f45 .s{font-size:calc(var(--u)*3.8)}
+.f916 .name{font-size:calc(var(--u)*6.6)} .f916 .role{font-size:calc(var(--u)*3.8)}
+.f916 .avatar{width:calc(var(--u)*38); height:calc(var(--u)*38)}
+.f916 .btn{font-size:calc(var(--u)*6)}
+.f916 .jobs{gap:calc(var(--u)*2.8)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glow"></div>
+  <div class="dots"></div>
+  <div id="scenes"></div>
+  <div id="wm" class="logo"></div>
+  <div class="vignette"></div>
+  <canvas id="grain"></canvas>
+</div>
+
+<script>
+// ---------- Logo ----------
+var LOGO = '<svg viewBox="0 0 2202 643" aria-label="meo"><g fill="#E8ECF3">'
+ + '<path class="lm" transform="translate(7.4 585.4) scale(1 -1)" d="M36 0V293V528H173V313H181Q188 397 208.5 447.0Q229 497 263.5 519.5Q298 542 346 542Q396 542 427.0 517.5Q458 493 473.0 442.5Q488 392 487 313H495Q502 396 524.0 446.0Q546 496 582.0 519.0Q618 542 667 542Q708 542 738.0 527.0Q768 512 788.5 482.0Q809 452 819.0 406.5Q829 361 829 300V0H667V286Q667 324 660.5 349.5Q654 375 641.0 387.5Q628 400 608 400Q582 400 560.0 376.5Q538 353 524.5 306.0Q511 259 511 187V0H353V290Q353 328 346.5 352.0Q340 376 326.5 388.0Q313 400 293 400Q268 400 246.5 379.5Q225 359 211.5 312.0Q198 265 198 187V0Z"/>'
+ + '<path class="le" transform="translate(847.4 585.4) scale(1 -1)" d="M287 -14Q212 -14 161.5 7.5Q111 29 80.0 66.5Q49 104 35.5 152.0Q22 200 22 253Q22 310 36.5 362.0Q51 414 81.5 454.5Q112 495 160.5 518.5Q209 542 277 542Q345 542 393.5 518.5Q442 495 471.0 453.0Q500 411 508.5 356.0Q517 301 506 237L123 231V319L382 324L361 273Q367 319 359.5 350.5Q352 382 332.0 398.5Q312 415 277 415Q240 415 218.0 396.0Q196 377 187.0 342.5Q178 308 178 261Q178 180 205.0 143.0Q232 106 288 106Q312 106 328.0 112.0Q344 118 354.0 129.5Q364 141 368.0 157.5Q372 174 371 195L519 187Q522 154 512.5 119.0Q503 84 477.0 54.0Q451 24 404.5 5.0Q358 -14 287 -14Z"/>'
+ + '<path class="lo" transform="translate(1364.4 585.4) scale(1 -1)" d="M282 -14Q206 -14 147.0 16.5Q88 47 55.0 108.5Q22 170 22 263Q22 360 56.5 421.5Q91 483 150.5 512.5Q210 542 285 542Q363 542 421.5 511.5Q480 481 512.5 419.5Q545 358 545 264Q545 167 510.5 105.5Q476 44 416.5 15.0Q357 -14 282 -14ZM286 105Q317 105 338.0 122.5Q359 140 370.0 174.0Q381 208 381 255Q381 307 369.0 342.5Q357 378 334.5 397.0Q312 416 280 416Q250 416 229.0 398.5Q208 381 197.0 347.0Q186 313 186 265Q186 189 212.5 147.0Q239 105 286 105Z"/>'
+ + '</g><rect class="lc" x="1963.6" y="43.4" width="195.1" height="556.0" rx="32.5" fill="#2DD4BF"/></svg>';
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+// ---------- Copy ----------
+// Each scene: [start, end, html]. Times are seconds; the music runs at 100 BPM,
+// so one bar is 2.4s and every cut lands on a bar line.
+// data-a = entrance (line, rise, fade, pop, slide, type, logo), data-t = start (scene-local), data-d = duration
+// data-o = exit time (scene-local), data-oa = exit animation
+var HOOKS = {
+  a: [
+    '<div class="scene"><h1 class="xl">'
+      + '<span class="ln" data-a="line" data-t=".1"><span>Most security</span></span>'
+      + '<span class="ln" data-a="line" data-t=".22"><span>consultants find</span></span>'
+      + '<span class="ln" data-a="line" data-t=".34"><span>the problem…</span></span>'
+      + '<span class="gap1"></span>'
+      + '<span class="ln ember" data-a="line" data-t="1.6" data-o="3.75" data-oa="exitR"><span>then leave.</span></span>'
+      + '</h1></div>',
+    '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".05"><span>You get a report</span></span><span class="ln" data-a="line" data-t=".17"><span>full of <span class="red">red</span>.</span></span></h2>'
+      + '<div class="gap2"></div>'
+      + '<div class="doc" data-a="rise" data-t=".3"><div class="bar"><i></i><i></i><i></i><span>pentest-report-final.pdf</span></div><div class="rows">'
+      + '<div class="row" data-a="slide" data-t=".55"><b class="sev crit">CRITICAL</b>SQL injection on login</div>'
+      + '<div class="row" data-a="slide" data-t=".75"><b class="sev high">HIGH</b>Admin panel exposed</div>'
+      + '<div class="row" data-a="slide" data-t=".95"><b class="sev high">HIGH</b>Default passwords</div>'
+      + '<div class="row" data-a="slide" data-t="1.15"><b class="sev med">MEDIUM</b>No MFA on email</div>'
+      + '<div class="row" data-a="slide" data-t="1.35"><b class="sev med">MEDIUM</b>No incident plan</div>'
+      + '</div></div>'
+      + '<div class="gap2"></div>'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t="2.4"><span>And nobody to</span></span><span class="ln" data-a="line" data-t="2.52"><span>fix it.</span></span></h2>'
+      + '</div>'
+  ],
+  b: [
+    '<div class="scene"><h1 class="xl">'
+      + '<span class="ln" data-a="line" data-t=".1"><span>Your biggest</span></span>'
+      + '<span class="ln" data-a="line" data-t=".22"><span>client just sent</span></span>'
+      + '<span class="ln" data-a="line" data-t=".34"><span>a <span class="teal">security</span></span></span>'
+      + '<span class="ln" data-a="line" data-t=".46"><span class="teal">questionnaire.</span></span>'
+      + '</h1></div>',
+    '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".05"><span>Can you answer it?</span></span></h2>'
+      + '<div class="gap2"></div>'
+      + '<div class="doc" data-a="rise" data-t=".25"><div class="bar"><i></i><i></i><i></i><span>vendor-security-review.xlsx</span></div><div class="rows">'
+      + '<div class="row q" data-a="slide" data-t=".55">Written security policy?<b class="ask">no answer</b></div>'
+      + '<div class="row q" data-a="slide" data-t=".8">Last penetration test?<b class="ask">no answer</b></div>'
+      + '<div class="row q" data-a="slide" data-t="1.05">Incident response plan?<b class="ask">no answer</b></div>'
+      + '<div class="row q" data-a="slide" data-t="1.3">MFA on every account?<b class="ask">no answer</b></div>'
+      + '</div></div>'
+      + '<div class="gap2"></div>'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t="2.4"><span>No answers.</span></span><span class="ln ember" data-a="line" data-t="2.7"><span>No deal.</span></span></h2>'
+      + '</div>'
+  ]
+};
+
+function adCut(hook){
+  var h = HOOKS[hook] || HOOKS.a;
+  return [
+    [0, 4.8, h[0]],
+    [4.8, 9.6, h[1]],
+    [9.6, 16.8,
+      '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>I do the whole job.</span></span></h2>'
+      + '<div class="gap2"></div><div class="jobs">'
+      + '<div class="job off" data-a="slide" data-t="1.0"><b>Find it.</b><span>Pentests on your web app, API and network</span></div>'
+      + '<div class="job def" data-a="slide" data-t="2.2"><b>Fix it.</b><span>Hardening, monitoring and alerts, so attacks go nowhere</span></div>'
+      + '<div class="job grc" data-a="slide" data-t="3.4"><b>Prove it.</b><span>Policies and compliance: ISO 27001, PCI DSS, NDPR</span></div>'
+      + '</div></div>'],
+    [16.8, 21.6,
+      '<div class="scene">'
+      + '<h2 class="xl"><span class="ln" data-a="line" data-t=".08"><span>Then I put</span></span><span class="ln" data-a="line" data-t=".2"><span>AI to work.</span></span><span class="ln teal" data-a="line" data-t=".9"><span>Safely.</span></span></h2>'
+      + '<div class="gap3"></div><ul class="ticks">'
+      + '<li data-a="rise" data-t="1.5">Automations that clear the busywork off your team</li>'
+      + '<li data-a="rise" data-t="2.1">Red-team testing so your AI can’t be turned against you</li>'
+      + '</ul></div>'],
+    [21.6, 26.4,
+      '<div class="scene center">'
+      + '<div class="avatar" data-a="pop" data-t=".05"><div class="ring"></div><img src="portrait-square.jpg" alt=""></div>'
+      + '<div class="gap2"></div>'
+      + '<div class="name" data-a="rise" data-t=".35">Michael “Meo” Ajekigbe</div>'
+      + '<div class="role" data-a="rise" data-t=".5" style="margin-top:calc(var(--u)*.8)">Security &amp; AI consultant</div>'
+      + '<div class="gap2"></div><div class="chips" style="max-width:calc(var(--u)*80)">'
+      + '<span class="chip def" data-a="pop" data-t="1.0"><i></i>Freelancing since 2022</span>'
+      + '<span class="chip off" data-a="pop" data-t="1.25"><i></i>Fintech, banking &amp; pension clients</span>'
+      + '<span class="chip grc" data-a="pop" data-t="1.5"><i></i>Built an AI red-teaming framework</span>'
+      + '<span class="chip ai" data-a="pop" data-t="1.75"><i></i>Plain-language reports</span>'
+      + '</div></div>'],
+    [26.4, 30,
+      '<div class="scene center">'
+      + '<h2 class="xl tri"><span class="ln ember" data-a="line" data-t=".05"><span>Find it.</span></span><span class="ln teal" data-a="line" data-t=".25"><span>Fix it.</span></span><span class="ln peri" data-a="line" data-t=".45"><span>Prove it.</span></span></h2>'
+      + '<div class="gap3"></div>'
+      + '<div class="btn" data-a="pop" data-t=".9">devmeo.me ' + ARROW + '</div>'
+      + '<div class="gap2"></div>'
+      + '<div class="s" data-a="rise" data-t="1.3">Tell me what keeps you up at night.</div>'
+      + '</div>']
+  ];
+}
+
+// Upwork cut: no URL, email or handle anywhere, because Upwork bars contact details in profile media.
+function upworkCut(){
+  return [
+    [0, 4.8,
+      '<div class="scene center">'
+      + '<div class="logo" data-a="logo" data-t=".15" style="height:calc(var(--u)*16)"></div>'
+      + '<div class="gap3"></div>'
+      + '<div class="m" data-a="rise" data-t="1.45">Michael “Meo” Ajekigbe</div>'
+      + '<div class="s" data-a="rise" data-t="1.7" style="margin-top:calc(var(--u)*1.2)">Security &amp; AI consultant for small businesses and startups</div>'
+      + '</div>'],
+    [4.8, 12.0,
+      '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>Most security help comes in pieces.</span></span></h2>'
+      + '<div class="gap3"></div><div class="cards">'
+      + '<div class="card off" data-a="rise" data-t=".9"><div class="k">The tester</div><h3>Finds the problems</h3><p>Then hands you a report and moves on.</p></div>'
+      + '<div class="card def" data-a="rise" data-t="1.3"><div class="k">The fixer</div><h3>Patches some of them</h3><p>If you can find one and brief them.</p></div>'
+      + '<div class="card grc" data-a="rise" data-t="1.7"><div class="k">The paperwork person</div><h3>Writes the policies</h3><p>That your clients and auditors ask for.</p></div>'
+      + '</div><div class="gap3"></div>'
+      + '<div class="m" data-a="rise" data-t="3.6"><span class="fog">You end up managing</span> all three.</div>'
+      + '</div>'],
+    [12.0, 21.6,
+      '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>I’m all three.</span></span></h2>'
+      + '<div class="gap2"></div><div class="jobs">'
+      + '<div class="job off" data-a="slide" data-t="1.0"><b>Find it.</b><div><span>Web, API and network penetration tests, with clear reports and fixes</span><div class="chips"><span class="chip tool">Burp Suite</span><span class="chip tool">Nmap</span><span class="chip tool">Nuclei</span><span class="chip tool">Metasploit</span></div></div></div>'
+      + '<div class="job def" data-a="slide" data-t="2.8"><b>Fix it.</b><div><span>Hardening, monitoring, detection rules and alert triage</span><div class="chips"><span class="chip tool">Splunk</span><span class="chip tool">Wazuh</span><span class="chip tool">CrowdStrike</span><span class="chip tool">Snort</span></div></div></div>'
+      + '<div class="job grc" data-a="slide" data-t="4.6"><b>Prove it.</b><div><span>Policies, risk registers and control mapping your clients ask for</span><div class="chips"><span class="chip tool">ISO 27001</span><span class="chip tool">PCI DSS</span><span class="chip tool">NDPR</span></div></div></div>'
+      + '</div></div>'],
+    [21.6, 31.2,
+      '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>And I build AI</span></span><span class="ln" data-a="line" data-t=".2"><span class="teal">that’s safe to use.</span></span></h2>'
+      + '<div class="gap3"></div><div class="cards two">'
+      + '<div class="card def" data-a="rise" data-t="1.2"><div class="k">AI automation</div><h3>Take the repetitive work off your team</h3><p>Agents and workflows for replies, reports and follow-ups, with rules that keep customer data where it belongs.</p><div class="chips"><span class="chip tool">LangGraph</span><span class="chip tool">Google ADK</span><span class="chip tool">n8n</span></div></div>'
+      + '<div class="card off" data-a="rise" data-t="2.4"><div class="k">AI red teaming</div><h3>Attack your AI before someone else does</h3><p>Jailbreak and unsafe-output testing for AI features, using a red-team framework I built myself.</p><div class="chips"><span class="chip tool">Auto-RedTeam ADK</span><span class="chip tool">Python</span></div></div>'
+      + '</div></div>'],
+    [31.2, 43.2,
+      '<div class="scene"><div class="split" style="grid-template-columns:.8fr 1.2fr">'
+      + '<div><h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>Receipts,</span></span><span class="ln" data-a="line" data-t=".2"><span class="fog">not promises.</span></span></h2></div>'
+      + '<div class="term" data-a="rise" data-t=".35"><div class="bar"><i></i><i></i><i></i><span>meo@lab: ~</span></div><div class="term-body" data-seq=".9">'
+      + '<div class="tl" data-a="type" data-cps="26"><span class="p">meo@lab:~$ </span><span class="c">cat track-record.txt</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="k">since 2022 </span><span>freelance security and development</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>pentests for fintech, banking, pension clients</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>ISO 27001, PCI DSS and NDPR control mapping</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>SIEM alert triage and detection rules</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>403 bypass fuzzer: 77 techniques</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>autonomous AI red-teaming framework</span></div>'
+      + '<div class="tl" data-a="type" data-cps="150"><span class="ok">✓ </span><span>AI model evaluation for AI training platforms</span></div>'
+      + '<div class="tl" data-a="type" data-cps="26" data-caret="end"><span class="p">meo@lab:~$ </span></div>'
+      + '</div></div></div></div>'],
+    [43.2, 50.4,
+      '<div class="scene">'
+      + '<h2 class="l"><span class="ln" data-a="line" data-t=".08"><span>Working with me</span></span></h2>'
+      + '<div class="gap3"></div><div class="cards">'
+      + '<div class="card def" data-a="rise" data-t=".8"><div class="num">01</div><h3>Plain language</h3><p>Reports your whole team can read. No jargon.</p></div>'
+      + '<div class="card off" data-a="rise" data-t="1.4"><div class="num">02</div><h3>Fixes, not just findings</h3><p>A retest once the fixes are in.</p></div>'
+      + '<div class="card grc" data-a="rise" data-t="2.0"><div class="num">03</div><h3>Right-sized</h3><p>No enterprise stack. Priced for a business your size.</p></div>'
+      + '</div></div>'],
+    [50.4, 60,
+      '<div class="scene"><div class="split">'
+      + '<div class="avatar" data-a="pop" data-t=".1" style="width:calc(var(--u)*40); height:calc(var(--u)*40)"><div class="ring"></div><img src="portrait-square.jpg" alt=""></div>'
+      + '<div>'
+      + '<div class="name" data-a="rise" data-t=".4">Michael “Meo” Ajekigbe</div>'
+      + '<div class="role" data-a="rise" data-t=".55" style="margin-top:calc(var(--u)*.8)">Security &amp; AI consultant</div>'
+      + '<div class="gap2"></div>'
+      + '<h2 class="xl"><span class="ln ember" data-a="line" data-t="1.0"><span>Find it.</span></span><span class="ln teal" data-a="line" data-t="1.25"><span>Fix it.</span></span><span class="ln peri" data-a="line" data-t="1.5"><span>Prove it.</span></span></h2>'
+      + '<div class="gap2"></div>'
+      + '<div class="s" data-a="rise" data-t="2.4">Send me a message and tell me what keeps you up at night.</div>'
+      + '</div></div></div>']
+  ];
+}
+
+// ---------- Engine ----------
+var Q = new URLSearchParams(location.search);
+var FORMAT = Q.get('format') || '16x9';
+var SIZES = {'16x9':[1920,1080], '9x16':[1080,1920], '4x5':[1080,1350]};
+var W = SIZES[FORMAT][0], H = SIZES[FORMAT][1];
+var CUT = Q.get('cut') || (FORMAT === '16x9' ? 'upwork' : 'ad');
+var U = Math.min(W, H) / 100, V = H / 100;
+var stage = document.getElementById('stage');
+stage.style.width = W + 'px'; stage.style.height = H + 'px';
+stage.style.setProperty('--u', U + 'px'); stage.style.setProperty('--v', V + 'px');
+stage.className = {'16x9':'f16', '9x16':'f916', '4x5':'f45'}[FORMAT];
+
+var SCENES = CUT === 'upwork' ? upworkCut() : adCut(Q.get('hook') || 'a');
+window.DURATION = SCENES[SCENES.length - 1][1];
+var EXIT = 0.32;
+
+var clamp = function(x){ return x < 0 ? 0 : x > 1 ? 1 : x; };
+var out4 = function(p){ return 1 - Math.pow(1 - p, 4); };
+var in3 = function(p){ return p * p * p; };
+var back = function(p){ var c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+var blink = function(t){ return Math.floor(t / 0.53) % 2 === 0; };
+
+var host = document.getElementById('scenes');
+var scenes = SCENES.map(function(s, i){
+  var wrap = document.createElement('div');
+  wrap.innerHTML = s[2];
+  var el = wrap.firstChild; host.appendChild(el);
+  el.querySelectorAll('[data-a="logo"]').forEach(function(n){ n.innerHTML = LOGO; });
+  var items = [];
+  // Terminal bodies: lines run one after another, so their start times are computed here
+  el.querySelectorAll('[data-seq]').forEach(function(body){
+    var t = parseFloat(body.dataset.seq);
+    body.querySelectorAll('.tl').forEach(function(line){
+      line.dataset.t = t;
+      var len = line.textContent.length, cps = parseFloat(line.dataset.cps || 40);
+      t += len / cps + (cps < 60 ? 0.35 : 0.12);
+    });
+  });
+  el.querySelectorAll('[data-a]').forEach(function(n){
+    var it = { el:n, a:n.dataset.a, t:parseFloat(n.dataset.t || 0), d:parseFloat(n.dataset.d || (n.dataset.a === 'pop' ? .55 : .7)),
+               o:n.dataset.o ? parseFloat(n.dataset.o) : null, oa:n.dataset.oa };
+    if (it.a === 'type'){
+      it.segs = [].map.call(n.childNodes, function(c){ return [c.className || '', c.textContent]; });
+      it.total = n.textContent.length; it.cps = parseFloat(n.dataset.cps || 40); it.caretEnd = n.dataset.caret === 'end'; it.last = -2;
+    }
+    if (it.a === 'logo'){
+      var svg = n.querySelector('svg');
+      it.letters = [svg.querySelector('.lm'), svg.querySelector('.le'), svg.querySelector('.lo')];
+      it.cursor = svg.querySelector('.lc');
+    }
+    items.push(it);
+  });
+  return { el:el, s:s[0], e:s[1], last:i === SCENES.length - 1, items:items };
+});
+
+var wm = document.getElementById('wm'); wm.innerHTML = LOGO; var wmCursor = wm.querySelector('.lc');
+var wmIn = SCENES[1][0], wmOut = SCENES[SCENES.length - 1][0];
+
+var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+
+function apply(it, local, T){
+  var p = clamp((local - it.t) / it.d), e, s = it.el.style;
+  switch (it.a){
+    case 'line':
+      e = out4(p); it.el.firstChild.style.transform = 'translateY(' + ((1 - e) * 115) + '%)'; break;
+    case 'rise':
+      e = out4(p); s.opacity = e; s.transform = 'translateY(' + ((1 - e) * 3.2 * U) + 'px)'; break;
+    case 'fade':
+      s.opacity = out4(p); break;
+    case 'pop':
+      e = p <= 0 ? 0 : back(p); s.opacity = clamp(p * 2.2); s.transform = 'scale(' + (0.82 + 0.18 * e) + ')'; break;
+    case 'slide':
+      e = out4(p); s.opacity = clamp(p * 1.6); s.transform = 'translateX(' + ((1 - e) * -6 * U) + 'px)'; break;
+    case 'logo':
+      var dt = local - it.t, shown = dt < 0.45 ? 0 : dt < 0.62 ? 1 : dt < 0.79 ? 2 : 3;
+      var cx = [40, 880, 1395, 1963.6];
+      it.letters.forEach(function(l, k){ l.style.opacity = k < shown ? 1 : 0; });
+      it.cursor.setAttribute('x', cx[shown]);
+      it.cursor.style.opacity = (shown > 0 && shown < 3) || blink(Math.max(0, dt)) ? 1 : 0;
+      s.opacity = clamp(dt / 0.2); break;
+    case 'type':
+      if (local < it.t){ s.visibility = 'hidden'; break; }
+      s.visibility = 'visible';
+      var n = Math.min(it.total, Math.floor((local - it.t) * it.cps));
+      var typing = n < it.total, caretOn = typing || (it.caretEnd && blink(T));
+      var key = n * 2 + (caretOn ? 1 : 0);
+      if (key === it.last) break;
+      it.last = key;
+      var html = '', left = n;
+      for (var k = 0; k < it.segs.length && left > 0; k++){
+        var take = Math.min(left, it.segs[k][1].length); left -= take;
+        html += '<span class="' + it.segs[k][0] + '">' + esc(it.segs[k][1].slice(0, take)) + '</span>';
+      }
+      it.el.innerHTML = html + (caretOn ? '<span class="caret"></span>' : ''); break;
+  }
+  if (it.o !== null && local >= it.o){
+    var q = clamp((local - it.o) / 0.5);
+    if (it.oa === 'exitR'){ var x = in3(q); it.el.firstChild.style.transform = 'translateX(' + (x * 110) + '%)'; it.el.style.opacity = 1 - clamp(q * 1.4 - 0.4); }
+  }
+}
+
+// Grain: one static frame of noise keeps the dark gradients from banding after compression
+// render.js passes grain=0 and adds the same grain in ffmpeg, which is far cheaper than capturing noise
+(function(){
+  var c = document.getElementById('grain');
+  if (Q.get('grain') === '0'){ c.style.display = 'none'; return; }
+  c.width = W; c.height = H;
+  var g = c.getContext('2d'), img = g.createImageData(W, H), d = img.data, seed = 7;
+  for (var i = 0; i < d.length; i += 4){ seed = (seed * 16807) % 2147483647; var v = seed % 256; d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255; }
+  g.putImageData(img, 0, 0);
+})();
+
+var glow = document.getElementById('glow');
+window.render = function(T){
+  var gx = 82 + 6 * Math.sin(T * 0.18), gy = -6 + 5 * Math.cos(T * 0.13), px = -8 + 5 * Math.cos(T * 0.11), py = 70 + 6 * Math.sin(T * 0.15);
+  glow.style.background =
+    'radial-gradient(' + (60 * U) + 'px ' + (40 * U) + 'px at ' + gx + '% ' + gy + '%, rgba(45,212,191,.16), transparent 62%),' +
+    'radial-gradient(' + (50 * U) + 'px ' + (40 * U) + 'px at ' + px + '% ' + py + '%, rgba(139,156,255,.09), transparent 62%)';
+
+  scenes.forEach(function(sc){
+    var on = T >= sc.s && (sc.last ? true : T < sc.e);
+    sc.el.style.display = on ? 'flex' : 'none';
+    if (!on) return;
+    var local = T - sc.s, dur = sc.e - sc.s;
+    var x = sc.last ? 0 : in3(clamp((T - (sc.e - EXIT)) / EXIT));
+    var push = 1 + 0.018 * clamp(local / dur);
+    sc.el.style.opacity = 1 - x;
+    sc.el.style.transform = 'translateY(' + (-x * 3 * U) + 'px) scale(' + push + ')';
+    sc.el.style.filter = x > 0 ? 'blur(' + (x * 10) + 'px)' : 'none';
+    sc.items.forEach(function(it){ apply(it, local, T); });
+  });
+
+  var w = clamp((T - wmIn) / 0.5) * (1 - clamp((T - wmOut + 0.3) / 0.3));
+  wm.style.opacity = w * 0.9;
+  wmCursor.style.opacity = blink(T) ? 1 : 0.15;
+};
+
+window.ready = document.fonts.ready.then(function(){
+  return Promise.all([].map.call(document.images, function(im){ return im.complete ? 0 : new Promise(function(r){ im.onload = im.onerror = r; }); }));
+}).then(function(){ window.render(0); return true; });
+
+if (Q.has('t')) window.ready.then(function(){ window.render(parseFloat(Q.get('t'))); });
+if (Q.has('play')) window.ready.then(function(){
+  var t0 = performance.now();
+  (function loop(){ var t = (performance.now() - t0) / 1000 % window.DURATION; window.render(t); requestAnimationFrame(loop); })();
+});
+</script>
+</body>
+</html>
