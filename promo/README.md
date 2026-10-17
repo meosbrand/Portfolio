@@ -4,6 +4,9 @@ Everything here is built from the live portfolio (devmeo.me). No claims were add
 
 | File | Length | Use it for |
 |---|---|---|
+| `out/meo-motion-intro-16x9.mp4` | 48s, 60fps | **The full motion-design intro.** Upwork profile, LinkedIn, YouTube. Ends on "Send me a message", with no URL |
+| `out/meo-motion-intro-16x9-web.mp4` | 48s, 60fps | The same intro ending on devmeo.me, for YouTube and LinkedIn ads |
+| `out/meo-motion-intro-9x16.mp4` | 48s | The same intro in vertical, ending on devmeo.me, for Reels, TikTok and Shorts |
 | `out/meo-upwork-intro-16x9.mp4` | 60s | Upwork profile, LinkedIn, YouTube. No URL or contact details, so it's Upwork-safe |
 | `out/meo-upwork-opener-16x9.mp4` | 4.8s | Silent logo opener to put in front of your on-camera recording |
 | `out/meo-upwork-endcard-16x9.mp4` | 9.6s | Silent closing card to put after your on-camera recording |
@@ -27,6 +30,42 @@ Every video is designed to work with the sound off, since most feed video is wat
 The three colours from the site carry the same idea in the video. Ember is Find it (offence), teal is Fix it (defence) and periwinkle is Prove it (GRC).
 
 **Who it's for:** small businesses and startups without a security team, especially fintech, SaaS and e-commerce companies whose customers have started asking security questions.
+
+---
+
+## The motion intro
+
+A 48-second motion-design piece at 120 BPM. One idea carries it: the teal cursor from your logo. Every scene turns into the next one instead of cutting, and every sound effect is placed on the frame it belongs to.
+
+| Time | What happens |
+|---|---|
+| 0 to 4 | A lone cursor blinks, types **meo**, and the logo lands with a shockwave through the dot grid. Then the cursor stretches into a scan line and backspaces the screen |
+| 4 to 8 | A grid of padlocks. One springs open in amber as "Attackers look for **the easiest way in.**" slams in word by word. A reticle locks onto it: "I find it **first.**" The camera dives into the lock |
+| 8 to 14 | **Find it.** The dive lands in a radar sweep. Findings ping as the sweep passes them (exposed admin panel, SQLi, open RDP port, outdated plugin) |
+| 14 to 20 | **Fix it.** The findings get pulled into the centre and become a shield that draws itself, with a check mark, "patched / MFA on / alerts on / hardened", and a live monitoring line |
+| 20 to 26 | **Prove it.** The shield flips over into a security policy. Lines write themselves, boxes tick, an ISO 27001 stamp slams down, and PCI DSS and NDPR tabs slide out |
+| 26 to 30 | The policy shrinks into a row of three icons, Find, Fix and Prove: "One consultant. **The whole job.**" |
+| 30 to 36 | The three icons become nodes in an AI agent network, with data pulsing along the edges. A jailbreak and a prompt injection hit the agent's guard ring and bounce off: "Then I put AI to work. **Safely.**" |
+| 36 to 42 | The nodes fly into a ring around your portrait. Name, role, and stats that count up: 4+ years, 77 bypass techniques, 3 regulated sectors |
+| 42 to 48 | The ring collapses back into the cursor. "Find it. Fix it. Prove it." slams in on the beat, collapses into the logo with a final hit, then the call to action |
+
+The headline in scenes 8 to 26 is one element that rolls from Find to Fix to Prove, with a progress bar showing 1 of 3, 2 of 3, 3 of 3.
+
+**Upwork.** This is the strongest opener for your profile video. Upwork wants you on camera, so the safest setup is the motion intro followed by about 30 seconds of you talking (the Who, Offer and Ask blocks of the script below). It also works as the whole video, since your photo appears in it.
+
+**Re-rendering it:**
+
+```bash
+cd promo/video
+node render.js --page motion.html --cues-out ../out/motion-cues.json
+python3 music.py --bpm 120 --seconds 48 --chord-offset 1 --kick-from 2 --mute 13,14,21 --drums-to 22 \
+  --cues ../out/motion-cues.json --out /tmp/motion.wav
+ffmpeg -i /tmp/motion.wav -af loudnorm=I=-15:TP=-2 -ar 48000 -c:a aac -b:a 256k ../out/motion-bed.m4a
+node render.js --page motion.html --format 16x9 --cta upwork --fps 60 --audio ../out/motion-bed.m4a --out ../out/meo-motion-intro-16x9.mp4
+node render.js --page motion.html --format 9x16 --cta web --audio ../out/motion-bed.m4a --out ../out/meo-motion-intro-9x16.mp4
+```
+
+If you change a scene's timing, export the cues again so the sound follows. Preview in a browser with `motion.html?format=9x16&play`.
 
 ---
 

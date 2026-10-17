@@ -1,13 +1,18 @@
-"""Generates the music bed for the promo videos: 100 BPM, Am7 / Fmaj7 / Cadd9 / G6,
-soft pad, plucked arpeggio, light drums, and a swell + low hit into the scenes that
-need a lift. Numpy only, so it runs anywhere and the track is ours to use in ads.
+"""Generates the music bed for the promo videos: Am7 / Fmaj7 / Cadd9 / G6, soft pad,
+plucked arpeggio, light drums, and a swell + low hit into the scenes that need a lift.
+With --cues it also synthesises the sound effects a page asks for (whooshes, blips,
+stamps, impacts) at the exact times the visuals hit them. Numpy only, so it runs
+anywhere and the track is ours to use in ads.
 
     python3 music.py --seconds 60 --kick-from 2 --swells 5,21 --drums-to 24 --out ../out/music-60.wav
     python3 music.py --seconds 30 --kick-from 2 --swells 4,11 --drums-to 12 --out ../out/music-30.wav
+    python3 music.py --bpm 120 --seconds 48 --chord-offset 1 --kick-from 2 --mute 13,14,21 --drums-to 22 \
+        --cues ../out/motion-cues.json --out ../out/motion.wav
 
-Bar numbers count from 0; one bar is 2.4s.
+Bar numbers count from 0; one bar is four beats (2.4s at 100 BPM, 2s at 120).
 """
 import argparse
+import json
 import wave
 
 import numpy as np
@@ -70,6 +75,148 @@ def reverb(x, seconds=2.2, wet=0.28):
     return x * (1 - wet) + y * wet * 1.6
 
 
+def noise(seconds):
+    return rng.standard_normal(int(seconds * SR))
+
+
+def decay(n, rate):
+    return np.exp(-np.arange(n) / SR * rate)
+
+
+def fit(sig, n):
+    """Pad with silence or trim, so short layers can be summed with a longer one."""
+    return np.pad(sig, (0, max(0, n - len(sig))))[:n]
+
+
+def chirp(f0, f1, seconds, curve="exp"):
+    """Sine whose pitch glides from f0 to f1."""
+    x = np.linspace(0, 1, int(seconds * SR))
+    f = f0 * (f1 / f0) ** x if curve == "exp" else f0 + (f1 - f0) * x
+    return np.sin(2 * np.pi * np.cumsum(f) / SR)
+
+
+# ---- Sound effects, one function per cue type. Each returns a mono signal. ----
+
+def sfx_whoosh(dur=0.6, rev=False, **_):
+    n = int(dur * SR)
+    x = np.linspace(0, 1, n)
+    nz = noise(dur)
+    body = spectral(nz, lo=250, hi=1800) * (1 - x) + spectral(nz, lo=1800, hi=9000) * x * 0.8
+    env = np.where(x < 0.65, (x / 0.65) ** 2, ((1 - x) / 0.35) ** 1.5)
+    sig = body * env * 0.55
+    return sig[::-1] if rev else sig
+
+
+def sfx_impact(**_):
+    sub = chirp(95, 32, 1.8) * decay(int(1.8 * SR), 2.2)
+    thump = fit(spectral(noise(0.3), hi=900) * decay(int(0.3 * SR), 14), len(sub))
+    click = fit(spectral(noise(0.012), lo=2500), len(sub))
+    return sub * 0.9 + thump * 0.3 + click * 0.15
+
+
+def sfx_hit(**_):
+    body = chirp(120, 45, 0.45) * decay(int(0.45 * SR), 7)
+    snap = fit(spectral(noise(0.12), hi=2500) * decay(int(0.12 * SR), 28), len(body))
+    return body * 0.75 + snap * 0.35
+
+
+def sfx_pop(**_):
+    return chirp(520, 1150, 0.09) * decay(int(0.09 * SR), 45) * 0.32
+
+
+def sfx_tick(**_):
+    t = np.arange(int(0.03 * SR)) / SR
+    return np.sin(2 * np.pi * 2600 * t) * decay(len(t), 170) * 0.22
+
+
+def sfx_blip(**_):
+    t = np.arange(int(0.6 * SR)) / SR
+    ping = (np.sin(2 * np.pi * 1320 * t) + 0.45 * np.sin(2 * np.pi * 1980 * t)) * decay(len(t), 13)
+    echo = np.zeros_like(ping)
+    d = int(0.12 * SR)
+    echo[d:] = ping[:-d] * 0.35
+    return (ping + echo) * 0.24
+
+
+def sfx_lockon(**_):
+    t = np.arange(int(0.12 * SR)) / SR
+    a = np.sin(2 * np.pi * 1760 * t) * decay(len(t), 40)
+    b = np.sin(2 * np.pi * 2640 * t) * decay(len(t), 40)
+    out = np.zeros(int(0.25 * SR))
+    out[: len(a)] += a
+    out[int(0.07 * SR): int(0.07 * SR) + len(b)] += b
+    return out * 0.24
+
+
+def sfx_clack(**_):
+    out = np.zeros(int(0.2 * SR))
+    for at, g in ((0, 1.0), (0.06, 0.55)):
+        n = int(0.04 * SR)
+        click = spectral(noise(0.04), lo=1200, hi=6000) * decay(n, 110) + np.sin(2 * np.pi * 260 * np.arange(n) / SR) * decay(n, 60)
+        i = int(at * SR)
+        out[i: i + n] += click * g
+    return out * 0.5
+
+
+def sfx_chime(**_):
+    t = np.arange(int(1.6 * SR)) / SR
+    tone = sum(a * np.sin(2 * np.pi * f * t) for f, a in ((880, .5), (1322, .35), (1760, .2), (2637, .1)))
+    return tone * decay(len(t), 3) * env_adsr(len(t), 0.004, 0.2) * 0.2
+
+
+def sfx_shield(**_):
+    glide = chirp(300, 900, 0.7) * np.sin(np.linspace(0, np.pi, int(0.7 * SR))) ** 2
+    swell = spectral(noise(0.7), lo=2000, hi=8000) * np.linspace(0, 1, int(0.7 * SR)) ** 2
+    return (glide * 0.2 + swell * 0.12)
+
+
+def sfx_stamp(**_):
+    thud = chirp(130, 55, 0.35) * decay(int(0.35 * SR), 12)
+    body = fit(spectral(noise(0.15), hi=1500) * decay(int(0.15 * SR), 40), len(thud))
+    slap = fit(spectral(noise(0.03), lo=2500) * decay(int(0.03 * SR), 90), len(thud))
+    return thud * 0.7 + body * 0.35 + slap * 0.25
+
+
+def sfx_zap(**_):
+    n = int(0.35 * SR)
+    zap = chirp(2200, 240, 0.35) * decay(n, 8)
+    crackle = spectral(noise(0.35), lo=3000) * decay(n, 20)
+    t = np.arange(int(0.8 * SR)) / SR
+    ding = (np.sin(2 * np.pi * 1047 * t) + 0.6 * np.sin(2 * np.pi * 1568 * t)) * decay(len(t), 5)
+    out = np.zeros(int(0.85 * SR))
+    out[:n] += zap * 0.6 + crackle * 0.25
+    out[int(0.05 * SR): int(0.05 * SR) + len(ding)] += ding * 0.22
+    return out * 0.6
+
+
+def sfx_riser(dur=2.0, **_):
+    x = np.linspace(0, 1, int(dur * SR))
+    return spectral(noise(dur), lo=800, hi=10000) * x ** 2.5 * 0.3 + chirp(220, 880, dur) * x ** 2 * 0.08
+
+
+def sfx_sparkle(dur=0.9, **_):
+    out = np.zeros(int((dur + 0.1) * SR))
+    for k in range(11):
+        f = 1500 + rng.random() * 2000
+        t = np.arange(int(0.08 * SR)) / SR
+        i = int(k / 11 * dur * SR)
+        out[i: i + len(t)] += np.sin(2 * np.pi * f * t) * decay(len(t), 60) * 0.11
+    return out
+
+
+def sfx_roll(dur=1.0, **_):
+    # Ticks follow the count-up's ease-out: dense at first, then slowing to a stop
+    out = np.zeros(int((dur + 0.1) * SR))
+    tick = sfx_tick()
+    for p in np.linspace(0, 1, 16):
+        i = int((1 - (1 - p) ** 0.25) * dur * SR)
+        out[i: i + len(tick)] += tick * 0.8
+    return out
+
+
+SFX = {k[4:]: v for k, v in globals().items() if k.startswith("sfx_")}
+
+
 def place(buf, start, sig):
     i = int(start * SR)
     if i >= len(buf):
@@ -85,7 +232,18 @@ def main():
     ap.add_argument("--swells", default="")
     ap.add_argument("--drums-to", type=int, default=999)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--bpm", type=float, default=100)
+    ap.add_argument("--chord-offset", type=int, default=0, help="start the progression on a later chord")
+    ap.add_argument("--mute", default="", help="bars with no kick or clap, e.g. a breakdown")
+    ap.add_argument("--cues", help="JSON from render.js --cues-out")
     a = ap.parse_args()
+
+    global BPM, BEAT, BAR
+    BPM = a.bpm
+    BEAT = 60 / BPM
+    BAR = 4 * BEAT
+    mute = {int(b) for b in a.mute.split(",") if b}
+    chord_at = lambda bar: CHORDS[(bar // 2 + a.chord_offset) % len(CHORDS)]
 
     n = int(a.seconds * SR)
     bars = int(np.ceil(a.seconds / BAR))
@@ -100,7 +258,7 @@ def main():
 
     # Pad and bass: one chord per two bars, overlapping releases
     for c in range(0, bars, 2):
-        root, notes = CHORDS[(c // 2) % len(CHORDS)]
+        root, notes = chord_at(c)
         start, length = c * BAR, 2 * BAR + 0.9
         t = np.arange(int(length * SR)) / SR
         e = env_adsr(len(t), 0.35, 0.9)
@@ -123,7 +281,7 @@ def main():
     for s in range(int(a.seconds / (BEAT / 2)) + 1):
         start = s * BEAT / 2
         bar = int(start / BAR)
-        _, notes = CHORDS[(bar // 2) % len(CHORDS)]
+        _, notes = chord_at(bar)
         m = notes[pattern[s % len(pattern)]] + 12
         tp = np.arange(int(0.6 * SR)) / SR
         f = hz(m)
@@ -151,7 +309,7 @@ def main():
         bar = b // 4
         if bar >= a.drums_to:
             break
-        if bar >= a.kick_from:
+        if bar >= a.kick_from and bar not in mute:
             place(drums, start, kick * 0.5)
             i = int(start * SR)
             j = min(n, i + len(duck))
@@ -173,13 +331,34 @@ def main():
         hit = np.sin(2 * np.pi * (38 * th + 30 * (1 - np.exp(-th * 6)) / 6)) * np.exp(-th * 2.6)
         place(fx, end, hit * 0.55)
 
-    music = (pad + bass + pluck) * side + drums
+    # Sound effects from the page's cue list, panned, with the music ducking under the big hits
+    sfxL, sfxR = np.zeros(n), np.zeros(n)
+    if a.cues:
+        with open(a.cues) as f:
+            cues = json.load(f)["cues"]
+        for c in cues:
+            sig = SFX[c["type"]](**{k: v for k, v in c.items() if k in ("dur", "rev")})
+            pan = c.get("pan", 0)
+            gl, gr = np.cos((pan + 1) * np.pi / 4), np.sin((pan + 1) * np.pi / 4)
+            place(sfxL, c["t"], sig * gl * 1.41)
+            place(sfxR, c["t"], sig * gr * 1.41)
+            if c["type"] in ("impact", "stamp", "hit"):
+                i = int(c["t"] * SR)
+                k = np.arange(min(n - i, int(1.2 * SR)))
+                if len(k):
+                    side[i: i + len(k)] *= 1 - 0.45 * np.exp(-k / SR * 4)
+        print(f"{len(cues)} sound cues")
+
+    music = (pad + bass + pluck) * side + drums * np.sqrt(side)
     music = reverb(music, wet=0.22) + reverb(fx, wet=0.35)
     music = spectral(music, lo=38)  # nothing useful lives below this on a phone or laptop
 
     # Stereo: pluck echo and pad slightly wider than the drums
     width = 0.12 * reverb(pad + pluck, seconds=1.1, wet=1.0)
     L, R = music + width, music - width
+    if a.cues:
+        L = L + spectral(reverb(sfxL, seconds=1.4, wet=0.2), lo=30)
+        R = R + spectral(reverb(sfxR, seconds=1.4, wet=0.2), lo=30)
     stereo = np.stack([L, R], axis=1)
 
     fade_in = int(0.4 * SR)

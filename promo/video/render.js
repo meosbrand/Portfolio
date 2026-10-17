@@ -3,6 +3,8 @@
 //   node render.js --format 16x9 --cut upwork --out ../out/meo-upwork-intro-16x9.mp4 --audio ../out/music-60.wav
 //   node render.js --format 9x16 --hook b --out ../out/meo-ad-b-9x16.mp4 --audio ../out/music-30.wav
 //   node render.js --format 9x16 --stills 0,5,12 --out ../out/stills    (PNG frames for checking layout)
+//   node render.js --page motion.html --format 16x9 --cta upwork --fps 60 --audio ../out/motion-bed.m4a --out ../out/meo-motion-intro-16x9.mp4
+//   node render.js --page motion.html --cues-out ../out/motion-cues.json    (sound cues for music.py)
 //
 // Needs Node 18+, Playwright with Chromium (npm i playwright && npx playwright install chromium) and ffmpeg.
 
@@ -22,9 +24,9 @@ const SIZES = { '16x9': [1920, 1080], '9x16': [1080, 1920], '4x5': [1080, 1350] 
 const [W, H] = SIZES[format];
 
 const query = new URLSearchParams({ format, grain: args.stills ? '1' : '0' });
-if (args.cut) query.set('cut', args.cut);
-if (args.hook) query.set('hook', args.hook);
-const url = 'file://' + path.join(__dirname, 'index.html') + '?' + query;
+for (const k of ['cut', 'hook', 'cta']) if (args[k]) query.set(k, args[k]);
+const pageFile = args.page || 'index.html';
+const url = 'file://' + path.join(__dirname, pageFile) + '?' + query;
 
 (async () => {
   const browser = await chromium.launch();
@@ -34,11 +36,18 @@ const url = 'file://' + path.join(__dirname, 'index.html') + '?' + query;
   const duration = await page.evaluate(() => window.DURATION);
   const stage = await page.$('#stage');
 
+  if (args['cues-out']) {
+    const cues = await page.evaluate(() => window.CUES || []);
+    fs.writeFileSync(args['cues-out'], JSON.stringify({ duration, cues }, null, 1));
+    console.log(`${args['cues-out']}: ${cues.length} cues`);
+    if (!args.out) { await browser.close(); return; }
+  }
+
   if (args.stills) {
     fs.mkdirSync(args.out, { recursive: true });
     for (const t of args.stills.split(',').map(Number)) {
       await page.evaluate((t) => window.render(t), t);
-      const file = path.join(args.out, `${format}-${args.cut || ''}${args.hook || ''}-${t}.png`);
+      const file = path.join(args.out, `${path.basename(pageFile, '.html')}-${format}-${args.cut || args.cta || ''}${args.hook || ''}-${t}.png`);
       await stage.screenshot({ path: file });
       console.log(file);
     }

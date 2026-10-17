@@ -1,0 +1,186 @@
+{
+ "duration": 48,
+ "cues": [
+  {
+   "t": 1,
+   "type": "pop"
+  },
+  {
+   "t": 1.25,
+   "type": "pop"
+  },
+  {
+   "t": 1.5,
+   "type": "pop"
+  },
+  {
+   "t": 2,
+   "type": "impact"
+  },
+  {
+   "t": 3.68,
+   "type": "whoosh",
+   "dur": 0.6,
+   "pan": -0.6
+  },
+  {
+   "t": 5,
+   "type": "clack"
+  },
+  {
+   "t": 6.85,
+   "type": "lockon"
+  },
+  {
+   "t": 7.48,
+   "type": "whoosh",
+   "dur": 0.75
+  },
+  {
+   "t": 8.7,
+   "type": "blip"
+  },
+  {
+   "t": 9.05,
+   "type": "blip"
+  },
+  {
+   "t": 9.55,
+   "type": "blip"
+  },
+  {
+   "t": 9.95,
+   "type": "blip"
+  },
+  {
+   "t": 13.4,
+   "type": "whoosh",
+   "dur": 0.5,
+   "rev": true
+  },
+  {
+   "t": 13.95,
+   "type": "hit"
+  },
+  {
+   "t": 15.5,
+   "type": "tick"
+  },
+  {
+   "t": 15.75,
+   "type": "tick"
+  },
+  {
+   "t": 16,
+   "type": "tick"
+  },
+  {
+   "t": 16.25,
+   "type": "tick"
+  },
+  {
+   "t": 14,
+   "type": "shield"
+  },
+  {
+   "t": 15,
+   "type": "chime"
+  },
+  {
+   "t": 19.6,
+   "type": "whoosh",
+   "dur": 0.45,
+   "pan": 0.5
+  },
+  {
+   "t": 22.6,
+   "type": "tick"
+  },
+  {
+   "t": 23,
+   "type": "tick"
+  },
+  {
+   "t": 21.98,
+   "type": "stamp"
+  },
+  {
+   "t": 25.45,
+   "type": "whoosh",
+   "dur": 0.6
+  },
+  {
+   "t": 26.2,
+   "type": "pop"
+  },
+  {
+   "t": 26.4,
+   "type": "pop"
+  },
+  {
+   "t": 28,
+   "type": "riser",
+   "dur": 2
+  },
+  {
+   "t": 29.45,
+   "type": "whoosh",
+   "dur": 0.75
+  },
+  {
+   "t": 37.6,
+   "type": "roll",
+   "dur": 1
+  },
+  {
+   "t": 41.5,
+   "type": "whoosh",
+   "dur": 0.5,
+   "rev": true
+  },
+  {
+   "t": 33.6,
+   "type": "zap"
+  },
+  {
+   "t": 34.9,
+   "type": "zap"
+  },
+  {
+   "t": 30.2,
+   "type": "sparkle",
+   "dur": 0.9
+  },
+  {
+   "t": 42,
+   "type": "hit"
+  },
+  {
+   "t": 42.5,
+   "type": "hit"
+  },
+  {
+   "t": 43,
+   "type": "hit"
+  },
+  {
+   "t": 42,
+   "type": "riser",
+   "dur": 2
+  },
+  {
+   "t": 43.55,
+   "type": "whoosh",
+   "dur": 0.45,
+   "rev": true
+  },
+  {
+   "t": 44,
+   "type": "impact"
+  },
+  {
+   "t": 45.1,
+   "type": "pop"
+  }
+ ]
+}

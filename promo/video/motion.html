@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meo motion intro</title>
+<!--
+  Full motion-design intro, 48s at 120 BPM (one bar = 2s).
+  Same contract as index.html: render(t) draws any frame, render.js steps through
+  time and pipes frames to ffmpeg. window.CUES lists every sound cue so music.py
+  can land each whoosh, blip and stamp on the frame it belongs to.
+
+  Query params:
+    format  16x9 | 9x16                  (default 16x9)
+    cta     upwork | web                 (default: upwork for 16x9, web for 9x16)
+    play    preview in real time
+    t       freeze at a time in seconds
+    grain   0 turns off the in-page grain (render.js adds it in ffmpeg instead)
+
+  The idea: the teal cursor from the logo carries the whole piece. It types "meo",
+  backspaces the screen, and every scene morphs into the next: an open padlock
+  becomes a radar (find it), the findings collapse into a shield (fix it), the
+  shield flips into a stamped policy (prove it), the three line up, turn into an
+  AI agent network, then into the ring around the portrait, and finally back into
+  the cursor for the call to action.
+-->
+<style>
+@font-face{font-family:"Bricolage Grotesque"; src:url(fonts/bricolage-grotesque.woff2) format("woff2"); font-weight:200 800}
+@font-face{font-family:"IBM Plex Sans"; src:url(fonts/ibm-plex-sans.woff2) format("woff2"); font-weight:100 700}
+@font-face{font-family:"JetBrains Mono"; src:url(fonts/jetbrains-mono.woff2) format("woff2"); font-weight:100 800}
+:root{
+--ink:#0A0E1A; --panel:#0F1729; --line-2:rgba(232,236,243,.18);
+--bone:#E8ECF3; --fog:#8A96AD; --soft:#C3CBDA; --teal:#2DD4BF; --ember:#F5A524; --peri:#8B9CFF;
+--display:"Bricolage Grotesque", system-ui, sans-serif;
+--body:"IBM Plex Sans", system-ui, sans-serif;
+--mono:"JetBrains Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html,body{background:#000; overflow:hidden}
+#stage{position:relative; overflow:hidden; background:var(--ink); color:var(--bone); font-family:var(--body); -webkit-font-smoothing:antialiased}
+.layer{position:absolute; inset:0}
+.abs{position:absolute}
+svg{display:block; overflow:visible}
+.disp{font-family:var(--display); font-weight:800; letter-spacing:-.018em; line-height:1.02}
+.mono{font-family:var(--mono)}
+.w{display:inline-block; transform-origin:50% 75%; will-change:transform}
+.mask{position:relative; overflow:hidden}
+.roll{position:absolute; left:0; right:0; top:0; white-space:nowrap}
+.ember{color:var(--ember)} .teal{color:var(--teal)} .peri{color:var(--peri)} .fog{color:var(--fog)} .soft{color:var(--soft)}
+#grain{position:absolute; inset:0; opacity:.06; mix-blend-mode:overlay}
+.vignette{position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.5))}
+.pill{display:inline-flex; align-items:center; gap:.35em; background:var(--teal); color:#04201C; font-family:var(--display); font-weight:800; border-radius:999px; padding:.32em .9em; box-shadow:0 0 0 .25em rgba(45,212,191,.14), 0 .4em 1.2em rgba(45,212,191,.28)}
+.pill svg{width:.8em; height:.8em}
+.bars{display:flex; gap:calc(var(--u)*1)}
+.bars i{display:block; width:calc(var(--u)*6); height:calc(var(--u)*.5); border-radius:9px; background:rgba(232,236,243,.14); overflow:hidden}
+.bars b{display:block; height:100%; width:0}
+.stats{display:grid; grid-template-columns:repeat(3, 1fr); gap:calc(var(--u)*3)}
+.stat .n{font-family:var(--display); font-weight:800; line-height:1; letter-spacing:-.02em}
+.stat .l{color:var(--soft); line-height:1.35; margin-top:calc(var(--u)*.8)}
+.avatar{position:absolute; border-radius:50%; overflow:hidden}
+.avatar img{width:100%; height:100%; object-fit:cover; display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="grid" class="layer"></canvas>
+  <div id="glow" class="layer"></div>
+  <div id="cam" class="layer"><div id="scenes" class="layer"></div></div>
+  <div id="flash" class="layer" style="background:#2DD4BF; opacity:0"></div>
+  <svg id="fx" class="layer"></svg>
+  <div id="wm" class="abs"></div>
+  <div class="vignette"></div>
+  <canvas id="grain"></canvas>
+</div>
+
+<script>
+// ---------- Setup ----------
+var Q = new URLSearchParams(location.search);
+var FORMAT = Q.get('format') === '9x16' ? '9x16' : '16x9';
+var WIDE = FORMAT === '16x9';
+var W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920;
+var U = Math.min(W, H) / 100;
+var CTA = Q.get('cta') || (WIDE ? 'upwork' : 'web');
+var stage = document.getElementById('stage');
+stage.style.width = W + 'px'; stage.style.height = H + 'px';
+stage.style.setProperty('--u', U + 'px');
+window.DURATION = 48;
+
+var NS = 'http://www.w3.org/2000/svg';
+function S(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function el(tag, cls, parent, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
+function px(e, o){ for (var k in o) e.style[k] = o[k] + 'px'; }
+
+var clamp = function(x){ return x < 0 ? 0 : x > 1 ? 1 : x; };
+var seg = function(T, a, b){ return clamp((T - a) / (b - a)); };
+var lerp = function(a, b, p){ return a + (b - a) * p; };
+var E = {
+  outC: function(p){ return 1 - Math.pow(1 - p, 3); },
+  outQ: function(p){ return 1 - Math.pow(1 - p, 4); },
+  outX: function(p){ return p >= 1 ? 1 : 1 - Math.pow(2, -10 * p); },
+  inC: function(p){ return p * p * p; },
+  inX: function(p){ return p <= 0 ? 0 : Math.pow(2, 10 * p - 10); },
+  inOut: function(p){ return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; },
+  back: function(p){ var c1 = 1.7, c3 = c1 + 1; return p <= 0 ? 0 : 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); }
+};
+var C = { bone:[232,236,243], fog:[138,150,173], soft:[195,203,218], teal:[45,212,191], ember:[245,165,36], peri:[139,156,255], panel:[15,23,41] };
+function rgba(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + (a == null ? 1 : a) + ')'; }
+function mix(a, b, p){ return [lerp(a[0], b[0], p), lerp(a[1], b[1], p), lerp(a[2], b[2], p)]; }
+var blink = function(T){ return Math.floor(T / 0.25) % 2 === 0; };   // half-beat blink at 120 BPM
+
+// Layout: one visual box and one text block per format
+var L = WIDE ? {
+  vis: { x: W * .705, y: H * .53, s: H * .68 },
+  txt: { x: W * .075, y: H * .5, w: W * .42, align: 'left' },
+  por: { x: W * .285, y: H * .5, r: H * .25 },
+  info: { x: W * .48, y: H * .5, w: W * .45, align: 'left' },
+  slotY: H * .64, slotDX: W * .2, slotR: H * .105, recapY: H * .27,
+  wm: { x: W * .075, y: H * .075 }
+} : {
+  vis: { x: W * .5, y: H * .33, s: W * .74 },
+  txt: { x: W * .08, y: H * .69, w: W * .84, align: 'center' },
+  por: { x: W * .5, y: H * .3, r: W * .25 },
+  info: { x: W * .06, y: H * .6, w: W * .88, align: 'center' },
+  slotY: H * .52, slotDX: W * .3, slotR: W * .12, recapY: H * .28,
+  wm: { x: W * .08, y: H * .065 }
+};
+var VB = L.vis;
+function vp(x, y){ return [VB.x + x * VB.s / 1000, VB.y + y * VB.s / 1000]; }
+var UNIT = VB.s / 1000;   // px per vis unit
+
+// ---------- Cues, ripples, rings, flashes, shakes ----------
+var CUES = []; window.CUES = CUES;
+function cue(t, type, o){ var c = { t: +t.toFixed(3), type: type }; for (var k in (o || {})) c[k] = o[k]; CUES.push(c); }
+var RIPPLES = [], SHAKES = [], FLASHES = [], RINGS = [];
+function ripple(t, x, y){ RIPPLES.push({ t: t, x: x, y: y }); }
+function shake(t, amp, dur){ SHAKES.push({ t: t, amp: amp, dur: dur }); }
+function flash(t, a){ FLASHES.push({ t: t, a: a }); }
+var fx = document.getElementById('fx'); fx.setAttribute('viewBox', '0 0 ' + W + ' ' + H); fx.setAttribute('width', W); fx.setAttribute('height', H);
+function ringFx(t, x, y, r1, col, w, dur){ RINGS.push({ t: t, r1: r1, w: w, dur: dur, c: S('circle', { cx: x, cy: y, r: 0, fill: 'none', stroke: rgba(col) }, fx) }); }
+
+// ---------- Background: dot grid with ripples, drifting motes, tinted glow ----------
+var grid = document.getElementById('grid'); grid.width = W; grid.height = H;
+var g2 = grid.getContext('2d');
+var SP = 2.6 * U, DOTS = [];
+for (var gy = SP / 2; gy < H; gy += SP) for (var gx = SP / 2; gx < W; gx += SP) DOTS.push([gx, gy]);
+var seed = 3; function rnd(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+var MOTES = []; for (var m = 0; m < 46; m++) MOTES.push({ x: rnd() * W, y: rnd() * H, r: .12 * U + rnd() * .25 * U, v: .4 * U + rnd() * 1.4 * U, ph: rnd() * 6.28, a: .08 + rnd() * .18 });
+function drawBG(T){
+  g2.clearRect(0, 0, W, H);
+  g2.fillStyle = 'rgba(232,236,243,.075)';
+  var hot = [], d0 = .13 * U;
+  for (var i = 0; i < DOTS.length; i++){
+    var d = DOTS[i], inf = 0;
+    for (var k = 0; k < RIPPLES.length; k++){
+      var R = RIPPLES[k], dt = T - R.t;
+      if (dt < 0 || dt > 2.4) continue;
+      var dist = Math.hypot(d[0] - R.x, d[1] - R.y), front = dt * 140 * U;
+      inf += Math.exp(-Math.pow((dist - front) / (5 * U), 2)) * Math.exp(-dt * 1.3);
+    }
+    if (inf > .03) hot.push([d[0], d[1], inf]); else g2.fillRect(d[0] - d0, d[1] - d0, 2 * d0, 2 * d0);
+  }
+  for (var h = 0; h < hot.length; h++){
+    var q = Math.min(1, hot[h][2]), r = d0 + .3 * U * q;
+    g2.fillStyle = rgba(C.teal, .1 + .7 * q);
+    g2.beginPath(); g2.arc(hot[h][0], hot[h][1], r, 0, 6.2832); g2.fill();
+  }
+  for (var j = 0; j < MOTES.length; j++){
+    var M = MOTES[j], y = ((M.y - T * M.v) % H + H) % H, x = M.x + Math.sin(T * .35 + M.ph) * 2 * U;
+    g2.fillStyle = 'rgba(232,236,243,' + M.a + ')';
+    g2.beginPath(); g2.arc(x, y, M.r, 0, 6.2832); g2.fill();
+  }
+}
+var TINTS = [[0, C.teal], [3.6, C.ember], [13.9, C.teal], [19.9, C.peri], [25.9, C.teal], [29.6, C.peri], [35.7, C.teal]];
+var glow = document.getElementById('glow');
+function drawGlow(T){
+  var col = TINTS[0][1];
+  for (var i = 1; i < TINTS.length; i++) col = mix(col, TINTS[i][1], E.inOut(seg(T, TINTS[i][0], TINTS[i][0] + .8)));
+  var gx = 80 + 7 * Math.sin(T * .2), gy = -4 + 5 * Math.cos(T * .15), qx = 6 + 6 * Math.cos(T * .12), qy = 92 + 5 * Math.sin(T * .17);
+  glow.style.background =
+    'radial-gradient(' + 70 * U + 'px ' + 46 * U + 'px at ' + gx + '% ' + gy + '%, ' + rgba(col, .17) + ', transparent 62%),' +
+    'radial-gradient(' + 60 * U + 'px ' + 44 * U + 'px at ' + qx + '% ' + qy + '%, ' + rgba(mix(col, C.peri, .5), .09) + ', transparent 62%)';
+}
+
+// ---------- Shared pieces ----------
+var LOGO_PATHS = [
+  [7.4, 'M36 0V293V528H173V313H181Q188 397 208.5 447.0Q229 497 263.5 519.5Q298 542 346 542Q396 542 427.0 517.5Q458 493 473.0 442.5Q488 392 487 313H495Q502 396 524.0 446.0Q546 496 582.0 519.0Q618 542 667 542Q708 542 738.0 527.0Q768 512 788.5 482.0Q809 452 819.0 406.5Q829 361 829 300V0H667V286Q667 324 660.5 349.5Q654 375 641.0 387.5Q628 400 608 400Q582 400 560.0 376.5Q538 353 524.5 306.0Q511 259 511 187V0H353V290Q353 328 346.5 352.0Q340 376 326.5 388.0Q313 400 293 400Q268 400 246.5 379.5Q225 359 211.5 312.0Q198 265 198 187V0Z'],
+  [847.4, 'M287 -14Q212 -14 161.5 7.5Q111 29 80.0 66.5Q49 104 35.5 152.0Q22 200 22 253Q22 310 36.5 362.0Q51 414 81.5 454.5Q112 495 160.5 518.5Q209 542 277 542Q345 542 393.5 518.5Q442 495 471.0 453.0Q500 411 508.5 356.0Q517 301 506 237L123 231V319L382 324L361 273Q367 319 359.5 350.5Q352 382 332.0 398.5Q312 415 277 415Q240 415 218.0 396.0Q196 377 187.0 342.5Q178 308 178 261Q178 180 205.0 143.0Q232 106 288 106Q312 106 328.0 112.0Q344 118 354.0 129.5Q364 141 368.0 157.5Q372 174 371 195L519 187Q522 154 512.5 119.0Q503 84 477.0 54.0Q451 24 404.5 5.0Q358 -14 287 -14Z'],
+  [1364.4, 'M282 -14Q206 -14 147.0 16.5Q88 47 55.0 108.5Q22 170 22 263Q22 360 56.5 421.5Q91 483 150.5 512.5Q210 542 285 542Q363 542 421.5 511.5Q480 481 512.5 419.5Q545 358 545 264Q545 167 510.5 105.5Q476 44 416.5 15.0Q357 -14 282 -14ZM286 105Q317 105 338.0 122.5Q359 140 370.0 174.0Q381 208 381 255Q381 307 369.0 342.5Q357 378 334.5 397.0Q312 416 280 416Q250 416 229.0 398.5Q208 381 197.0 347.0Q186 313 186 265Q186 189 212.5 147.0Q239 105 286 105Z']
+];
+function makeLogo(parent, h){
+  var w = h * 2202 / 643, svg = S('svg', { viewBox: '0 0 2202 643', width: w, height: h }, parent);
+  var letters = LOGO_PATHS.map(function(p){
+    var g = S('g', {}, svg);
+    S('path', { transform: 'translate(' + p[0] + ' 585.4) scale(1 -1)', d: p[1], fill: '#E8ECF3' }, g);
+    g.style.transformBox = 'fill-box'; g.style.transformOrigin = '50% 100%';
+    return g;
+  });
+  var cur = S('rect', { x: 1963.6, y: 43.4, width: 195.1, height: 556, rx: 32.5, fill: '#2DD4BF' }, svg);
+  return { svg: svg, w: w, h: h, k: h / 643, letters: letters, cur: cur };
+}
+// Letters pop in one per step while the cursor slides along behind them
+function typeLogo(lg, T, t0, step){
+  var CX = [40, 880, 1395, 1963.6], cx = CX[0];
+  for (var k = 0; k < 3; k++){
+    var t = t0 + k * step, p = seg(T, t, t + .42);
+    lg.letters[k].style.opacity = T >= t ? 1 : 0;
+    lg.letters[k].style.transform = 'translateY(' + (1 - E.outQ(p)) * 22 + '%) scale(' + (.45 + .55 * E.back(p)) + ')';
+    cx = lerp(cx, CX[k + 1], E.outQ(seg(T, t, t + .1)));
+  }
+  lg.cur.setAttribute('x', cx);
+  lg.cur.style.opacity = (T >= t0 && T < t0 + 3 * step) || blink(T) ? 1 : .12;
+}
+function makeVis(root){
+  var d = el('div', 'abs', root);
+  px(d, { left: VB.x - VB.s / 2, top: VB.y - VB.s / 2, width: VB.s, height: VB.s });
+  var svg = S('svg', { viewBox: '-500 -500 1000 1000', width: VB.s, height: VB.s }, d);
+  return { div: d, svg: svg };
+}
+function txtBlock(root, lay){
+  var outer = el('div', 'abs', root);
+  px(outer, { left: lay.x, top: lay.y, width: lay.w });
+  outer.style.transform = 'translateY(-50%)';
+  outer.style.textAlign = lay.align;
+  return el('div', '', outer);
+}
+// A line of words, each its own span so it can slam in on the beat
+function words(parent, parts){
+  var spans = [];
+  parts.forEach(function(part, pi){
+    part[0].split(' ').forEach(function(wd, i, all){
+      var s = el('span', 'w' + (part[1] ? ' ' + part[1] : ''), parent, wd);
+      spans.push(s);
+      if (i < all.length - 1 || pi < parts.length - 1) parent.appendChild(document.createTextNode(' '));
+    });
+  });
+  return spans;
+}
+function chars(parent, text){ return text.split('').map(function(ch){ var s = el('span', 'w', parent, ch === ' ' ? '&nbsp;' : ch); return s; }); }
+function slam(el, T, t0){
+  if (T < t0){ el.style.opacity = 0; return; }
+  var p = seg(T, t0, t0 + .38), e = E.outX(p);
+  el.style.opacity = clamp(p * 3);
+  el.style.transform = 'scale(' + lerp(1.55, 1, e) + ')';
+  el.style.filter = p < 1 ? 'blur(' + (1 - e) * 10 + 'px)' : 'none';
+}
+function rise(el, T, t0, dur, dist){
+  var p = E.outQ(seg(T, t0, t0 + dur));
+  el.style.opacity = p; el.style.transform = 'translateY(' + (1 - p) * dist + 'px)';
+}
+// Masked line: rolls up into view at tIn and out through the top at tOut
+function roll(el, T, tIn, tOut){
+  var y = (1 - E.outX(seg(T, tIn, tIn + .55))) * 112 - (tOut ? E.inC(seg(T, tOut - .32, tOut)) * 112 : 0);
+  el.style.transform = 'translateY(' + y + '%)';
+}
+function maskLine(parent, html, fs, cls){
+  var m = el('div', 'mask', parent); m.style.height = fs * 1.14 + 'px';
+  var r = el('div', 'roll disp' + (cls ? ' ' + cls : ''), m, html); r.style.fontSize = fs + 'px';
+  return r;
+}
+function draw(el, len, p){ el.setAttribute('stroke-dasharray', len); el.setAttribute('stroke-dashoffset', len * (1 - p)); }
+function show(el, on){ el.style.display = on ? '' : 'none'; }
+
+var SCENES = [];
+var scenesEl = document.getElementById('scenes');
+function scene(a, b, build){
+  var root = el('div', 'layer', scenesEl); root.style.display = 'none';
+  var s = { a: a, b: b, root: root }; s.update = build(root); SCENES.push(s); return s;
+}
+var eraseX = null;
+
+// ---------- 0 to 4s: cursor types the logo, then backspaces the screen ----------
+scene(0, 4.45, function(root){
+  var c = el('div', 'layer', root);
+  var lh = (WIDE ? 17 : 15) * U, cy = H * (WIDE ? .43 : .42);
+  var lw = el('div', 'abs', c), lg = makeLogo(lw, lh);
+  px(lw, { left: (W - lg.w) / 2, top: cy - lh / 2, width: lg.w, height: lh });
+  var tag = el('div', 'abs disp', c); px(tag, { left: 0, width: W, top: cy + lh / 2 + 4.5 * U });
+  tag.style.textAlign = 'center'; tag.style.fontWeight = 700; tag.style.fontSize = (WIDE ? 4.8 : 5.2) * U + 'px';
+  var tc = chars(tag, 'Security & AI consultant');
+  var sub = el('div', 'abs fog', c, 'for small businesses and startups'); px(sub, { left: 0, width: W, top: cy + lh / 2 + 11.5 * U });
+  sub.style.textAlign = 'center'; sub.style.fontSize = (WIDE ? 3 : 3.6) * U + 'px';
+  var bar = el('div', 'abs', root); bar.style.background = 'var(--teal)'; bar.style.boxShadow = '0 0 ' + 3 * U + 'px rgba(45,212,191,.75)';
+  var k = lg.k, X0 = (W - lg.w) / 2 + 1963.6 * k, BW = 195.1 * k, Y0 = cy - lh / 2 + 43.4 * k, BH = 556 * k;
+
+  cue(1.0, 'pop'); cue(1.25, 'pop'); cue(1.5, 'pop');
+  cue(2.0, 'impact'); ripple(2.0, W / 2, cy); ringFx(2.0, W / 2, cy, Math.max(W, H) * .75, C.teal, .7 * U, 1.2); shake(2.0, .5, .4); flash(2.0, .1);
+  cue(3.68, 'whoosh', { dur: .6, pan: -.6 });
+
+  return function(T){
+    typeLogo(lg, T, 1.0, .25);
+    var bump = T >= 2 ? .06 * Math.exp(-(T - 2) * 6) * Math.cos((T - 2) * 16) : 0;
+    lw.style.transform = 'scale(' + (1 + bump) + ')';
+    var out = 1 - seg(T, 3.4, 3.62);
+    tc.forEach(function(s, i){ rise(s, T, 2.3 + i * .022, .5, 2.4 * U); s.style.opacity *= out; });
+    rise(sub, T, 2.85, .6, 2 * U); sub.style.opacity *= out;
+    if (T < 3.42){ bar.style.display = 'none'; c.style.clipPath = 'none'; return; }
+    lg.cur.style.opacity = 0;
+    var pA = E.inOut(seg(T, 3.42, 3.68)), pB = E.inOut(seg(T, 3.68, 4.22));
+    var bw = lerp(BW, 1.1 * U, pA), bh = lerp(BH, H, pA), bt = lerp(Y0, 0, pA), mid = lerp(X0 + BW / 2, -3 * U, pB);
+    bar.style.display = 'block';
+    px(bar, { left: mid - bw / 2, top: bt, width: bw, height: bh, borderRadius: lerp(32.5 * k, .5 * U, pA) });
+    bar.style.opacity = 1 - seg(T, 4.15, 4.42);
+    eraseX = mid;
+    c.style.clipPath = 'inset(0 ' + Math.max(0, W - mid) + 'px 0 0)';
+  };
+});
+
+// ---------- 4 to 8s: one open padlock among closed ones, found first ----------
+scene(3.68, 8.25, function(root){
+  var vis = makeVis(root), cam = S('g', {}, vis.svg);
+  var dim = 'rgba(232,236,243,.42)', locks = [], OPEN = null, OX = 190, OY = -95;
+  for (var r = 0; r < 4; r++) for (var c = 0; c < 5; c++){
+    var x = (c - 2) * 190, y = (r - 1.5) * 190;
+    var gl = S('g', { transform: 'translate(' + x + ' ' + y + ')' }, cam), gi = S('g', {}, gl);
+    var sh = S('path', { d: 'M-26 -8 V-34 A26 26 0 0 1 26 -34 V-8', fill: 'none', stroke: dim, 'stroke-width': 7, 'stroke-linecap': 'round' }, gi);
+    var body = S('rect', { x: -40, y: -10, width: 80, height: 64, rx: 12, fill: '#0F1729', stroke: dim, 'stroke-width': 6 }, gi);
+    var hole = S('path', { d: 'M0 9 a7 7 0 1 1 -.01 0 Z M-3 17 h6 v15 a3 3 0 0 1 -6 0 Z', fill: dim }, gi);
+    var lk = { gi: gi, sh: sh, body: body, hole: hole, d: c + r, open: c === 3 && r === 1 };
+    if (lk.open) OPEN = lk;
+    locks.push(lk);
+  }
+  var pulses = [0, 1, 2].map(function(){ return S('circle', { cx: OX, cy: OY, r: 0, fill: 'none', stroke: rgba(C.ember), 'stroke-width': 4 }, cam); });
+  var corners = [0, 1, 2, 3].map(function(){ return S('path', { d: 'M0 34 V0 H34', fill: 'none', stroke: rgba(C.teal), 'stroke-width': 8, 'stroke-linecap': 'round' }, cam); });
+
+  var tb = txtBlock(root, L.txt), fs = (WIDE ? 7.4 : 8.6) * U;
+  var l1 = el('div', 'disp', tb), l2 = el('div', 'disp', tb), gap = el('div', '', tb), l3 = el('div', 'disp', tb);
+  [l1, l2, l3].forEach(function(l){ l.style.fontSize = fs + 'px'; });
+  gap.style.height = 2.4 * U + 'px';
+  var w1 = words(l1, [['Attackers look for']]), w2 = words(l2, [['the'], ['easiest way in.', 'ember']]), w3 = words(l3, [['I find it'], ['first.', 'teal']]);
+  var times = [4.0, 4.22, 4.44, 4.75, 5.0, 5.18, 5.36, 6.5, 6.62, 6.74, 6.95];
+  var all = w1.concat(w2, w3);
+
+  cue(5.0, 'clack'); cue(6.85, 'lockon'); cue(7.48, 'whoosh', { dur: .75 });
+
+  return function(T){
+    root.style.clipPath = eraseX !== null && T < 4.3 ? 'inset(0 0 0 ' + eraseX + 'px)' : 'none';
+    locks.forEach(function(lk){
+      var t0 = 3.82 + lk.d * .05, p = seg(T, t0, t0 + .45);
+      var fade = lk.open ? 1 : lerp(1, .28, E.inOut(seg(T, 6.4, 6.9)));
+      lk.gi.setAttribute('transform', 'scale(' + E.back(p) + ')');
+      lk.gi.setAttribute('opacity', clamp(p * 3) * fade);
+    });
+    var po = E.back(seg(T, 5.0, 5.32)), hot = T >= 5.0 ? rgba(C.ember) : dim;
+    OPEN.sh.setAttribute('transform', 'translate(0 ' + (-18 * po) + ') rotate(' + (-32 * po) + ' 26 -8)');
+    OPEN.sh.setAttribute('stroke', hot); OPEN.body.setAttribute('stroke', hot); OPEN.hole.setAttribute('fill', hot);
+    pulses.forEach(function(c, i){
+      var dt = T - 5.0 - i * .5;
+      if (dt < 0){ c.setAttribute('opacity', 0); return; }
+      var ph = (dt % 1.5) / 1.5;
+      c.setAttribute('r', lerp(50, 175, E.outC(ph)));
+      c.setAttribute('opacity', (1 - ph) * .65 * (1 - seg(T, 7.3, 7.6)));
+    });
+    var pr = E.outX(seg(T, 6.5, 6.9)), d = lerp(430, 84, pr) + (T > 6.9 ? 4 * Math.sin((T - 6.9) * 9) : 0), rot = lerp(90, 0, pr);
+    corners.forEach(function(cp, i){
+      cp.setAttribute('transform', 'translate(' + OX + ' ' + OY + ') rotate(' + (i * 90 + rot) + ') translate(' + (-d) + ' ' + (-d) + ')');
+      cp.setAttribute('opacity', clamp(pr * 2));
+    });
+    var pz = E.inX(seg(T, 7.45, 8.15));
+    cam.setAttribute('transform', 'translate(' + OX + ' ' + OY + ') scale(' + (1 + 9 * pz) + ') translate(' + (-OX) + ' ' + (-OY) + ')');
+    vis.div.style.opacity = 1 - seg(T, 7.9, 8.2);
+    all.forEach(function(s, i){ slam(s, T, times[i]); });
+    var q = E.inC(seg(T, 7.4, 7.8));
+    tb.style.transform = 'translateY(' + (-q * 5 * U) + 'px)'; tb.style.opacity = 1 - q;
+  };
+});
+
+// ---------- 8 to 26s: the find / fix / prove headline that rolls between scenes ----------
+scene(7.9, 26.35, function(root){
+  var items = [
+    { n: '01', k: 'Offense', w: 'Find it.', c: 'ember', s: 'Web, API and network pentests that show exactly how someone would get in.', a: 8, b: 14 },
+    { n: '02', k: 'Defense', w: 'Fix it.', c: 'teal', s: 'Hardening, monitoring and alerts, so attacks get caught early and go nowhere.', a: 14, b: 20 },
+    { n: '03', k: 'GRC', w: 'Prove it.', c: 'peri', s: 'Policies, risk registers and control mapping your clients and auditors ask for.', a: 20, b: 26 }
+  ];
+  var tb = txtBlock(root, L.txt);
+  var efs = 2.4 * U, wfs = (WIDE ? 14 : 13.5) * U, sfs = (WIDE ? 3.2 : 3.6) * U;
+  var bars = el('div', 'bars', tb); if (!WIDE) bars.style.justifyContent = 'center';
+  var fills = items.map(function(it){ var i = el('i', '', bars); var b = el('b', '', i); b.style.background = 'var(--' + it.c + ')'; return b; });
+  el('div', '', tb).style.height = 2.4 * U + 'px';
+  var em = el('div', 'mask mono', tb); em.style.height = efs * 1.5 + 'px';
+  var wm = el('div', 'mask', tb); wm.style.height = wfs * 1.12 + 'px';
+  var sm = el('div', 'mask', tb); sm.style.height = sfs * 1.45 * 3 + 'px'; sm.style.marginTop = 1.2 * U + 'px';
+  var rows = items.map(function(it){
+    var e = el('div', 'roll mono ' + it.c, em, it.n + ' &middot; ' + it.k.toUpperCase());
+    e.style.fontSize = efs + 'px'; e.style.letterSpacing = '.18em';
+    var w = el('div', 'roll disp ' + it.c, wm, it.w); w.style.fontSize = wfs + 'px';
+    var s = el('div', 'roll soft', sm, it.s); s.style.fontSize = sfs + 'px'; s.style.whiteSpace = 'normal'; s.style.lineHeight = 1.45;
+    if (WIDE) s.style.maxWidth = 50 * U + 'px'; else { s.style.left = 4 * U + 'px'; s.style.right = 4 * U + 'px'; }
+    return { e: e, w: w, s: s };
+  });
+  return function(T){
+    items.forEach(function(it, i){
+      roll(rows[i].e, T, it.a + .05, it.b);
+      roll(rows[i].w, T, it.a, it.b);
+      var ps = E.outQ(seg(T, it.a + .2, it.a + .75)), pso = seg(T, it.b - .3, it.b - .05);
+      rows[i].s.style.opacity = ps * (1 - pso);
+      rows[i].s.style.transform = 'translateY(' + ((1 - ps) * 2 * U - pso * 1.5 * U) + 'px)';
+      fills[i].style.width = 100 * seg(T, it.a, it.b) + '%';
+    });
+    bars.style.opacity = seg(T, 7.95, 8.3) * (1 - seg(T, 25.7, 26.0));
+  };
+});
+
+// ---------- 8 to 14s: find it. The padlock zoom lands in a radar sweep ----------
+scene(7.95, 14.2, function(root){
+  var vis = makeVis(root), top = S('g', {}, vis.svg);
+  var rings = [110, 220, 330, 440].map(function(r){ return S('circle', { cx: 0, cy: 0, r: r, fill: 'none', stroke: 'rgba(232,236,243,.16)', 'stroke-width': 2 }, top); });
+  var cross = S('path', { d: 'M-470 0 H470 M0 -470 V470', stroke: 'rgba(232,236,243,.09)', 'stroke-width': 2 }, top);
+  var ticks = S('g', {}, top);
+  for (var a = 0; a < 360; a += 5){
+    var long = a % 30 === 0, r0 = long ? 448 : 458, t = a * Math.PI / 180;
+    S('line', { x1: r0 * Math.cos(t), y1: r0 * Math.sin(t), x2: 472 * Math.cos(t), y2: 472 * Math.sin(t), stroke: long ? 'rgba(245,165,36,.55)' : 'rgba(232,236,243,.18)', 'stroke-width': long ? 4 : 2 }, ticks);
+  }
+  var sweep = S('g', {}, top);
+  for (var i = 0; i < 26; i++){
+    var a1 = -(i + 1) * 2 * Math.PI / 180, a2 = -i * 2 * Math.PI / 180;
+    S('path', { d: 'M0 0 L' + 450 * Math.cos(a1) + ' ' + 450 * Math.sin(a1) + ' A450 450 0 0 1 ' + 450 * Math.cos(a2) + ' ' + 450 * Math.sin(a2) + ' Z', fill: rgba(C.ember, .3 * (1 - i / 26)) }, sweep);
+  }
+  S('line', { x1: 0, y1: 0, x2: 450, y2: 0, stroke: rgba(C.ember), 'stroke-width': 4 }, sweep);
+  var core = S('circle', { cx: 0, cy: 0, r: 10, fill: rgba(C.ember) }, top);
+  var BLIPS = [[-50, 300, '/admin exposed'], [20, 150, 'outdated plugin'], [120, 350, 'port 3389 open'], [200, 210, 'SQLi on /login']].map(function(b){
+    var ang = b[0] * Math.PI / 180, t0 = 8.5 + ((b[0] + 90 + 360) % 360) / 200;
+    var g = S('g', {}, vis.svg);
+    var ping = S('circle', { r: 10, fill: 'none', stroke: rgba(C.ember), 'stroke-width': 4 }, g);
+    var dot = S('circle', { r: 12, fill: rgba(C.ember) }, g);
+    var lab = S('g', {}, g);
+    var w = 30 + b[2].length * 20.4;
+    var right = Math.cos(ang) > -.2;
+    var bg = S('rect', { x: right ? 26 : -26 - w, y: -26, width: w, height: 50, rx: 12, fill: 'rgba(10,14,26,.85)', stroke: rgba(C.ember, .45), 'stroke-width': 2 }, lab);
+    var tx = S('text', { x: right ? 41 : -11 - w, y: 11, fill: rgba(C.ember), 'font-family': 'JetBrains Mono', 'font-size': 34 }, lab);
+    cue(t0, 'blip');
+    return { x: b[1] * Math.cos(ang), y: b[1] * Math.sin(ang), t0: t0, text: b[2], g: g, ping: ping, dot: dot, lab: lab, tx: tx };
+  });
+  var count = S('text', { x: 0, y: 545, 'text-anchor': 'middle', fill: rgba(C.ember), 'font-family': 'JetBrains Mono', 'font-size': 32, 'letter-spacing': 4 }, vis.svg);
+  var merge = S('circle', { r: 0, fill: 'none', stroke: rgba(C.teal), 'stroke-width': 6 }, vis.svg);
+  cue(13.4, 'whoosh', { dur: .5, rev: true }); cue(13.95, 'hit');
+
+  return function(T){
+    var pe = E.outX(seg(T, 7.95, 8.6)), pk = E.inC(seg(T, 13.4, 13.9));
+    top.setAttribute('transform', 'scale(' + (lerp(2.4, 1, pe) * lerp(1, .12, pk)) + ')');
+    top.setAttribute('opacity', clamp(seg(T, 7.95, 8.2)) * (1 - seg(T, 13.65, 13.95)));
+    rings.forEach(function(r, i){ draw(r, 2 * Math.PI * r.r.baseVal.value, E.outC(seg(T, 8.0 + i * .08, 8.65 + i * .08))); });
+    ticks.setAttribute('transform', 'rotate(' + (-(T - 8) * 7) + ')');
+    var ang = -90 + (T - 8.5) * 200;
+    sweep.setAttribute('transform', 'rotate(' + ang + ')');
+    sweep.setAttribute('opacity', seg(T, 8.45, 8.7) * (1 - seg(T, 13.2, 13.5)));
+    var found = 0;
+    BLIPS.forEach(function(b){
+      if (T < b.t0){ b.g.setAttribute('opacity', 0); return; }
+      found++;
+      var since = (T - b.t0) % 1.8, heat = Math.exp(-since * 3);
+      var pm = E.inC(seg(T, 13.35, 13.85)), col = mix(C.ember, C.teal, seg(T, 13.55, 13.85));
+      b.g.setAttribute('opacity', 1 - seg(T, 13.85, 13.95));
+      b.g.setAttribute('transform', 'translate(' + lerp(b.x, 0, pm) + ' ' + lerp(b.y, 0, pm) + ')');
+      b.dot.setAttribute('fill', rgba(col)); b.dot.setAttribute('r', 11 + 6 * heat);
+      var pp = seg(T, b.t0, b.t0 + .7);
+      b.ping.setAttribute('r', lerp(12, 80, E.outC(pp))); b.ping.setAttribute('opacity', (1 - pp) * .9);
+      var n = Math.max(0, Math.floor((T - b.t0 - .1) * 45));
+      b.tx.textContent = b.text.slice(0, n);
+      b.lab.setAttribute('opacity', clamp((T - b.t0 - .05) * 8) * (1 - seg(T, 13.25, 13.45)));
+    });
+    count.textContent = 'FINDINGS: ' + found;
+    count.setAttribute('opacity', seg(T, 8.6, 8.9) * (1 - seg(T, 13.2, 13.45)));
+    core.setAttribute('opacity', 1 - seg(T, 13.4, 13.6));
+    var pf = seg(T, 13.92, 14.2);
+    merge.setAttribute('r', lerp(10, 110, E.outC(pf))); merge.setAttribute('opacity', T < 13.92 ? 0 : 1 - pf);
+  };
+});
+
+// ---------- 14 to 20s: fix it. Findings collapse into a shield that draws itself ----------
+scene(13.9, 20.05, function(root){
+  var vis = makeVis(root), gS = S('g', {}, vis.svg);
+  var defs = S('defs', {}, vis.svg), rg = S('radialGradient', { id: 'shieldGlow' }, defs);
+  S('stop', { offset: '0', 'stop-color': rgba(C.teal), 'stop-opacity': .28 }, rg); S('stop', { offset: '1', 'stop-color': rgba(C.teal), 'stop-opacity': 0 }, rg);
+  var halo = S('circle', { r: 420, fill: 'url(#shieldGlow)' }, gS);
+  var FULL = 'M0 -300 L240 -210 V-20 C240 140 130 250 0 300 C-130 250 -240 140 -240 -20 V-210 Z';
+  var fill = S('path', { d: FULL, fill: rgba(C.teal, .12) }, gS);
+  var halves = ['M0 -300 L-240 -210 V-20 C-240 140 -130 250 0 300', 'M0 -300 L240 -210 V-20 C240 140 130 250 0 300'].map(function(d){
+    return S('path', { d: d, fill: 'none', stroke: rgba(C.teal), 'stroke-width': 12, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', pathLength: 1000 }, gS);
+  });
+  var inner = S('path', { d: FULL, transform: 'scale(.8)', fill: 'none', stroke: rgba(C.teal, .35), 'stroke-width': 4, pathLength: 1000 }, gS);
+  var check = S('path', { d: 'M-95 10 L-28 78 L112 -72', fill: 'none', stroke: rgba(C.teal), 'stroke-width': 24, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1000 }, gS);
+  var pills = [['patched', -1, -1], ['MFA on', 1, -1], ['alerts on', -1, 1], ['hardened', 1, 1]].map(function(p, i){
+    var w = 86 + p[0].length * 19.5, cx = p[1] * 385, cy = p[2] * 175;
+    var link = S('path', { d: 'M' + (p[1] * 228) + ' ' + (p[2] * 120) + ' L' + (cx - p[1] * w / 2) + ' ' + cy, stroke: rgba(C.teal, .45), 'stroke-width': 3, 'stroke-dasharray': '8 8', fill: 'none' }, vis.svg);
+    var g = S('g', {}, vis.svg);
+    S('rect', { x: -w / 2, y: -30, width: w, height: 60, rx: 30, fill: '#0F1729', stroke: rgba(C.teal, .55), 'stroke-width': 3 }, g);
+    S('circle', { cx: -w / 2 + 32, cy: 0, r: 14, fill: rgba(C.teal) }, g);
+    S('path', { d: 'M' + (-w / 2 + 25) + ' 0 l5 6 l10 -11', stroke: '#04201C', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, g);
+    var t = S('text', { x: -w / 2 + 56, y: 11, fill: rgba(C.bone), 'font-family': 'JetBrains Mono', 'font-size': 32 }, g); t.textContent = p[0];
+    var t0 = 15.5 + i * .25; cue(t0, 'tick');
+    return { g: g, link: link, x: cx, y: cy, t0: t0 };
+  });
+  var ekg = '';
+  for (var b = 0; b < 3; b++){ var x0 = -400 + b * 266.7; ekg += (b ? ' L' : 'M') + x0 + ' 0 L' + (x0 + 70) + ' 0 L' + (x0 + 88) + ' -14 L' + (x0 + 106) + ' 0 L' + (x0 + 124) + ' 0 L' + (x0 + 140) + ' -78 L' + (x0 + 158) + ' 56 L' + (x0 + 174) + ' 0'; }
+  ekg += ' L400 0';
+  var mon = S('g', { transform: 'translate(0 425)' }, vis.svg);
+  var ekgBase = S('path', { d: ekg, fill: 'none', stroke: rgba(C.teal, .22), 'stroke-width': 4, 'stroke-linejoin': 'round' }, mon);
+  var ekgPulse = S('path', { d: ekg, fill: 'none', stroke: rgba(C.teal), 'stroke-width': 6, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', pathLength: 1000, 'stroke-dasharray': '120 1880' }, mon);
+  var live = S('g', { transform: 'translate(-400 -48)' }, mon);
+  var liveDot = S('circle', { cx: 8, cy: -10, r: 9, fill: rgba(C.teal) }, live);
+  var liveTx = S('text', { x: 28, y: 0, fill: rgba(C.fog), 'font-family': 'JetBrains Mono', 'font-size': 26, 'letter-spacing': 3 }, live); liveTx.textContent = 'MONITORING: LIVE';
+  var spark = S('circle', { r: 0, fill: 'none', stroke: rgba(C.teal), 'stroke-width': 6 }, vis.svg);
+  cue(14.0, 'shield'); cue(15.0, 'chime'); cue(19.6, 'whoosh', { dur: .45, pan: .5 });
+
+  return function(T){
+    halves.forEach(function(h){ draw(h, 1000, E.inOut(seg(T, 14.0, 14.7))); });
+    fill.setAttribute('opacity', seg(T, 14.5, 14.95));
+    halo.setAttribute('opacity', seg(T, 14.4, 15.0) * (.75 + .25 * Math.sin(T * 3)));
+    draw(inner, 1000, E.outC(seg(T, 14.4, 15.0)));
+    draw(check, 1000, E.outC(seg(T, 15.0, 15.32)));
+    gS.setAttribute('transform', 'translate(0 ' + Math.sin((T - 14) * 2) * 7 + ') scale(' + (1 + .04 * Math.exp(-Math.max(0, T - 15.0) * 6) * (T >= 15 ? 1 : 0)) + ')');
+    var ps = seg(T, 13.92, 14.3);
+    spark.setAttribute('r', lerp(10, 140, E.outC(ps))); spark.setAttribute('opacity', T < 13.92 ? 0 : 1 - ps);
+    pills.forEach(function(p){
+      var pp = seg(T, p.t0, p.t0 + .45);
+      p.g.setAttribute('transform', 'translate(' + p.x + ' ' + p.y + ') scale(' + E.back(pp) + ')');
+      p.g.setAttribute('opacity', clamp(pp * 3));
+      p.link.setAttribute('opacity', seg(T, p.t0 + .1, p.t0 + .4));
+      p.link.setAttribute('stroke-dashoffset', -T * 40);
+    });
+    mon.setAttribute('opacity', seg(T, 15.2, 15.6));
+    ekgPulse.setAttribute('stroke-dashoffset', 1000 - ((T - 15.2) * 520) % 2000);
+    liveDot.setAttribute('opacity', blink(T) ? 1 : .25);
+    var rot = 90 * E.inC(seg(T, 19.6, 20.0));
+    vis.div.style.transform = 'perspective(' + 160 * U + 'px) rotateY(' + rot + 'deg)';
+  };
+});
+
+// ---------- 20 to 26s: prove it. The shield flips into a policy that gets stamped ----------
+scene(19.95, 26.3, function(root){
+  var vis = makeVis(root), gD = S('g', {}, vis.svg);
+  var tabs = [['PCI DSS', -150, 22.6], ['NDPR', -60, 23.0]].map(function(t){
+    var g = S('g', {}, gD);
+    S('rect', { x: 160, y: t[1] - 35, width: 230, height: 70, rx: 14, fill: '#121C33', stroke: rgba(C.peri, .6), 'stroke-width': 3 }, g);
+    var tx = S('text', { x: 310, y: t[1] + 11, 'text-anchor': 'middle', fill: rgba(C.peri), 'font-family': 'Bricolage Grotesque', 'font-weight': 800, 'font-size': 32 }, g); tx.textContent = t[0];
+    cue(t[2], 'tick');
+    return { g: g, t0: t[2] };
+  });
+  S('path', { d: 'M-212 -300 H170 L230 -240 V282 Q230 300 212 300 H-212 Q-230 300 -230 282 V-282 Q-230 -300 -212 -300 Z', fill: '#0F1729', stroke: 'rgba(232,236,243,.28)', 'stroke-width': 3 }, gD);
+  S('path', { d: 'M170 -300 V-240 H230 Z', fill: '#1B2642' }, gD);
+  var title = S('text', { x: -180, y: -222, fill: rgba(C.bone), 'font-family': 'Bricolage Grotesque', 'font-weight': 700, 'font-size': 36 }, gD); title.textContent = 'Security Policy';
+  var under = S('rect', { x: -180, y: -202, width: 90, height: 7, rx: 3.5, fill: rgba(C.peri) }, gD);
+  var LW = [360, 320, 350, 250, 340, 200];
+  var lines = LW.map(function(w, i){ return S('rect', { x: -180, y: -168 + i * 38, width: 0, height: 13, rx: 6.5, fill: 'rgba(232,236,243,.17)' }, gD); });
+  var checks = ['risk register', 'incident plan', 'vendor review'].map(function(t, i){
+    var y = 100 + i * 52, g = S('g', {}, gD);
+    S('rect', { x: -180, y: y - 17, width: 32, height: 32, rx: 7, fill: 'none', stroke: rgba(C.peri), 'stroke-width': 3 }, g);
+    var ck = S('path', { d: 'M-172 ' + (y - 1) + ' l7 8 l13 -15', fill: 'none', stroke: rgba(C.peri), 'stroke-width': 4.5, 'stroke-linecap': 'round', pathLength: 100 }, g);
+    var tx = S('text', { x: -132, y: y + 9, fill: rgba(C.soft), 'font-family': 'JetBrains Mono', 'font-size': 27 }, g); tx.textContent = t;
+    return { g: g, ck: ck, t0: 20.9 + i * .15 };
+  });
+  var stamp = S('g', {}, gD);
+  S('circle', { r: 116, fill: rgba(C.peri, .1), stroke: rgba(C.peri), 'stroke-width': 8 }, stamp);
+  S('circle', { r: 97, fill: 'none', stroke: rgba(C.peri, .8), 'stroke-width': 2.5 }, stamp);
+  var s1 = S('text', { y: -42, 'text-anchor': 'middle', fill: rgba(C.peri), 'font-family': 'JetBrains Mono', 'font-size': 18, 'letter-spacing': 5 }, stamp); s1.textContent = 'AUDIT READY';
+  var s2 = S('text', { y: 15, 'text-anchor': 'middle', fill: rgba(C.peri), 'font-family': 'Bricolage Grotesque', 'font-weight': 800, 'font-size': 44 }, stamp); s2.textContent = 'ISO 27001';
+  var s3 = S('text', { y: 60, 'text-anchor': 'middle', fill: rgba(C.peri), 'font-family': 'JetBrains Mono', 'font-size': 18, 'letter-spacing': 5 }, stamp); s3.textContent = 'POLICY SET';
+  var ST = vp(125, 160);
+  cue(21.98, 'stamp'); shake(22.0, 1.1, .35); ringFx(22.0, ST[0], ST[1], 34 * U, C.peri, .5 * U, .7); flash(22.0, .05);
+  cue(25.45, 'whoosh', { dur: .6 });
+  var slot = [W / 2 + L.slotDX, L.slotY];
+
+  return function(T){
+    var rot = -90 * (1 - E.outC(seg(T, 20.0, 20.4)));
+    var pX = E.inOut(seg(T, 25.45, 26.15)), sc = lerp(1, L.slotR * 1.05 / (VB.s * .3), pX);
+    vis.div.style.transform = 'translate(' + (slot[0] - VB.x) * pX + 'px,' + (slot[1] - VB.y) * pX + 'px) perspective(' + 160 * U + 'px) rotateY(' + rot + 'deg) scale(' + sc + ')';
+    vis.div.style.opacity = 1 - seg(T, 26.0, 26.25);
+    title.setAttribute('opacity', seg(T, 20.3, 20.5)); under.setAttribute('width', 90 * E.outQ(seg(T, 20.35, 20.7)));
+    lines.forEach(function(l, i){ l.setAttribute('width', LW[i] * E.outQ(seg(T, 20.4 + i * .07, 20.75 + i * .07))); });
+    checks.forEach(function(c){ c.g.setAttribute('opacity', seg(T, c.t0, c.t0 + .15)); draw(c.ck, 100, E.outC(seg(T, c.t0 + .12, c.t0 + .3))); });
+    var ps = seg(T, 21.82, 22.0), land = T >= 22 ? 1 + .05 * Math.exp(-(T - 22) * 12) * Math.cos((T - 22) * 38) : 1;
+    stamp.setAttribute('transform', 'translate(125 160) rotate(-14) scale(' + lerp(2.6, 1, E.inC(ps)) * land + ')');
+    stamp.setAttribute('opacity', T < 21.82 ? 0 : clamp(ps * 3));
+    tabs.forEach(function(tb){ tb.g.setAttribute('transform', 'translate(' + lerp(-215, 0, E.outX(seg(T, tb.t0, tb.t0 + .45))) + ' 0)'); });
+  };
+});
+
+// ---------- 26 to 30s: recap. One consultant, the whole job ----------
+var SLOTS = [-1, 0, 1].map(function(i){ return [W / 2 + i * L.slotDX, L.slotY]; });
+scene(25.9, 30.1, function(root){
+  var fs = (WIDE ? 9 : 9.6) * U;
+  var head = el('div', 'abs', root); px(head, { left: 0, width: W, top: L.recapY - fs * 1.14 });
+  head.style.textAlign = 'center';
+  var r1 = maskLine(head, 'One consultant.', fs), r2 = maskLine(head, 'The whole job.', fs, 'teal');
+  var labels = [['Find', 'ember'], ['Fix', 'teal'], ['Prove', 'peri']].map(function(l, i){
+    var d = el('div', 'abs disp ' + l[1], root, l[0]); d.style.fontWeight = 700; d.style.fontSize = (WIDE ? 3.6 : 4.2) * U + 'px';
+    px(d, { left: SLOTS[i][0] - 20 * U, width: 40 * U, top: L.slotY + L.slotR + 2.6 * U }); d.style.textAlign = 'center';
+    return d;
+  });
+  cue(26.2, 'pop'); cue(26.4, 'pop'); cue(28.0, 'riser', { dur: 2.0 }); cue(29.45, 'whoosh', { dur: .75 });
+  return function(T){
+    roll(r1, T, 26.1, 29.75); roll(r2, T, 26.25, 29.8);
+    labels.forEach(function(l, i){ rise(l, T, 26.35 + i * .15, .5, 2 * U); l.style.opacity *= 1 - seg(T, 29.35, 29.6); });
+  };
+});
+
+// ---------- 30 to 36s: AI. The three become nodes in an agent network ----------
+scene(29.9, 36.1, function(root){
+  // The vertical cut has more text here than elsewhere, so it sits a little higher
+  var tb = txtBlock(root, WIDE ? L.txt : { x: L.txt.x, y: H * .665, w: L.txt.w, align: 'center' }), fs = (WIDE ? 7.6 : 8) * U;
+  var eb = el('div', 'mono teal', tb, '+ AI'); eb.style.fontSize = 2.6 * U + 'px'; eb.style.letterSpacing = '.18em'; eb.style.marginBottom = 1.6 * U + 'px';
+  var r1 = maskLine(tb, 'Then I put AI', fs), r2 = maskLine(tb, 'to work.', fs), r3 = maskLine(tb, 'Safely.', fs, 'teal');
+  var sub = el('div', 'soft', tb, 'Agents and automations that clear the busywork, red-team tested so they can’t be turned against you.');
+  sub.style.fontSize = (WIDE ? 3.1 : 3.6) * U + 'px'; sub.style.lineHeight = 1.45; sub.style.marginTop = 2.2 * U + 'px';
+  if (WIDE) sub.style.maxWidth = 50 * U + 'px';
+  return function(T){
+    rise(eb, T, 30.2, .5, 1.5 * U);
+    roll(r1, T, 30.3); roll(r2, T, 30.42); roll(r3, T, 31.55);
+    rise(sub, T, 31.9, .6, 2 * U);
+    var q = E.inC(seg(T, 35.45, 35.85));
+    tb.style.transform = 'translateY(' + (-q * 4 * U) + 'px)'; tb.style.opacity = 1 - q;
+  };
+});
+
+// ---------- 36 to 42s: the network becomes the ring around the portrait ----------
+var RING_R = L.por.r * 1.04;
+scene(35.8, 42.05, function(root){
+  var av = el('div', 'avatar', root); px(av, { left: L.por.x - L.por.r, top: L.por.y - L.por.r, width: 2 * L.por.r, height: 2 * L.por.r });
+  el('img', '', av).src = 'portrait-square.jpg';
+  var info = txtBlock(root, L.info);
+  var nfs = (WIDE ? 6.2 : 6.8) * U;
+  var name = maskLine(info, 'Michael “Meo” Ajekigbe', nfs);
+  var role = el('div', 'teal', info, 'Security &amp; AI consultant'); role.style.fontSize = (WIDE ? 3.3 : 3.8) * U + 'px'; role.style.fontWeight = 500; role.style.marginTop = .6 * U + 'px';
+  el('div', '', info).style.height = (WIDE ? 4.5 : 3.6) * U + 'px';
+  var grid = el('div', 'stats', info);
+  var STATS = [[4, '+', 'years freelancing in security and dev', 'ember'], [77, '', 'bypass techniques in my open-source fuzzer', 'teal'], [3, '', 'regulated sectors: fintech, banking, pensions', 'peri']].map(function(s, i){
+    var d = el('div', 'stat', grid), n = el('div', 'n ' + s[3], d), l = el('div', 'l', d, s[2]);
+    n.style.fontSize = (WIDE ? 7.5 : 8.4) * U + 'px'; l.style.fontSize = (WIDE ? 2.4 : 2.7) * U + 'px';
+    return { d: d, n: n, to: s[0], suf: s[1], t0: 37.6 + i * .15 };
+  });
+  var blob = el('div', 'abs', root);
+  cue(37.6, 'roll', { dur: 1.0 }); cue(41.5, 'whoosh', { dur: .5, rev: true });
+  return function(T){
+    var pa = E.outQ(seg(T, 36.55, 37.15)), pq = E.inC(seg(T, 41.42, 41.72));
+    av.style.opacity = pa * (1 - pq);
+    av.style.transform = 'scale(' + lerp(.86, 1, pa) * lerp(1, .2, pq) + ')';
+    roll(name, T, 37.0);
+    rise(role, T, 37.2, .5, 1.5 * U);
+    STATS.forEach(function(s){
+      rise(s.d, T, s.t0, .5, 2 * U);
+      var p = E.outQ(seg(T, s.t0, s.t0 + .95)), v = Math.round(s.to * p);
+      s.n.textContent = v + (p >= 1 ? s.suf : '');
+    });
+    var q = E.inC(seg(T, 41.3, 41.7));
+    info.style.opacity = 1 - q; info.style.transform = 'translateY(' + (-q * 3 * U) + 'px)';
+    // The ring morphs into the cursor bar the CTA starts from
+    if (T < 41.5){ blob.style.display = 'none'; return; }
+    var pm = E.inOut(seg(T, 41.5, 41.98));
+    var w = lerp(2 * RING_R, 1.3 * U, pm), h = lerp(2 * RING_R, 15 * U, pm);
+    var cx = lerp(L.por.x, W / 2, pm), cy = lerp(L.por.y, H * (WIDE ? .44 : .4), pm);
+    blob.style.display = 'block';
+    px(blob, { left: cx - w / 2, top: cy - h / 2, width: w, height: h, borderRadius: lerp(RING_R, .5 * U, pm), borderWidth: .55 * U });
+    blob.style.border = .55 * U + 'px solid var(--teal)';
+    blob.style.background = rgba(C.teal, pm);
+    blob.style.boxShadow = '0 0 ' + 3 * U + 'px ' + rgba(C.teal, .5 * pm);
+  };
+});
+
+// ---------- 26 to 42s: one SVG layer for everything that travels between scenes ----------
+var NODES = [
+  { p: [0, 0], r: 3.4, label: 'AI agent' }, { p: [-300, -250], r: 1.9, label: 'inbox' }, { p: [320, -230], r: 1.9, label: 'CRM' },
+  { p: [-370, 150], r: 1.9, label: 'reports' }, { p: [330, 215], r: 1.9, label: 'follow-ups' },
+  { p: [-80, -410], r: 1 }, { p: [130, 395], r: 1 }, { p: [-190, 365], r: 1 }, { p: [455, -10], r: 1 }, { p: [-465, -60], r: 1 }, { p: [190, -425], r: 1 }
+];
+var SLOT_OF = { 1: 0, 0: 1, 2: 2 };   // node -> recap slot it grows out of
+var SLOT_COL = [C.ember, C.teal, C.peri];
+var EDGES = [[0, 1], [0, 2], [0, 3], [0, 4], [1, 5], [5, 10], [10, 2], [2, 8], [8, 4], [4, 6], [6, 7], [7, 3], [3, 9], [9, 1]];
+scene(25.9, 41.6, function(root){
+  var svg = S('svg', { width: W, height: H, viewBox: '0 0 ' + W + ' ' + H }, root);
+  var link = S('line', { y1: L.slotY, y2: L.slotY, stroke: 'rgba(232,236,243,.25)', 'stroke-width': .3 * U }, svg);
+  var linkDots = [0, 1].map(function(){ return S('circle', { r: .7 * U, fill: rgba(C.teal) }, svg); });
+  var edges = EDGES.map(function(e, i){ return { a: e[0], b: e[1], main: i < 4, el: S('line', { stroke: 'rgba(232,236,243,.22)', 'stroke-width': i < 4 ? .32 * U : .2 * U }, svg), t0: 30.5 + i * .04 }; });
+  var pulses = []; edges.forEach(function(e, i){ for (var k = 0; k < (e.main ? 2 : 1); k++) pulses.push({ e: e, k: k, i: i, el: S('circle', { r: (e.main ? .6 : .4) * U, fill: e.main ? rgba(C.teal) : 'rgba(232,236,243,.7)' }, svg) }); });
+  var guardR = 115 * UNIT;
+  var guard = S('circle', { r: guardR, fill: 'none', stroke: rgba(C.teal, .8), 'stroke-width': .35 * U, 'stroke-dasharray': (1.6 * U) + ' ' + (1.1 * U) }, svg);
+  var nodes = NODES.map(function(n, j){
+    var g = S('g', {}, svg);
+    var c = S('circle', { r: 0 }, g);
+    var icon = null, si = SLOT_OF[j];
+    if (si !== undefined){
+      icon = S('g', {}, g);
+      var col = rgba(SLOT_COL[si]);
+      if (si === 0){ S('circle', { r: 42, fill: 'none', stroke: col, 'stroke-width': 7 }, icon); S('path', { d: 'M-64 0 H-26 M26 0 H64 M0 -64 V-26 M0 26 V64', stroke: col, 'stroke-width': 7, 'stroke-linecap': 'round' }, icon); S('circle', { r: 8, fill: col }, icon); }
+      if (si === 1){ S('path', { d: 'M0 -54 L44 -38 V-4 C44 26 23 46 0 54 C-23 46 -44 26 -44 -4 V-38 Z', fill: rgba(C.teal, .15), stroke: col, 'stroke-width': 7, 'stroke-linejoin': 'round' }, icon); S('path', { d: 'M-17 2 L-4 15 L21 -12', fill: 'none', stroke: col, 'stroke-width': 7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, icon); }
+      if (si === 2){ S('rect', { x: -36, y: -48, width: 72, height: 96, rx: 8, fill: 'none', stroke: col, 'stroke-width': 7 }, icon); S('path', { d: 'M-20 -20 H20 M-20 -2 H24 M-20 16 H10', stroke: col, 'stroke-width': 6, 'stroke-linecap': 'round' }, icon); }
+    }
+    var lab = null;
+    if (n.label){ lab = S('text', { 'text-anchor': 'middle', fill: rgba(C.fog), 'font-family': 'JetBrains Mono', 'font-size': (WIDE ? 2.2 : 2.5) * U, 'letter-spacing': 1 }, svg); lab.textContent = n.label; }
+    return { g: g, c: c, icon: icon, si: si, lab: lab, n: n, j: j };
+  });
+  var ATT = [[560, -520, 33.0, 'jailbreak'], [560, 470, 34.3, 'prompt injection']].map(function(a){
+    var tail = S('line', { stroke: rgba(C.ember, .5), 'stroke-width': .35 * U, 'stroke-linecap': 'round' }, svg);
+    var dot = S('circle', { r: .85 * U, fill: rgba(C.ember) }, svg);
+    var bits = []; for (var b = 0; b < 10; b++) bits.push(S('circle', { r: .35 * U, fill: rgba(C.ember) }, svg));
+    var lab = S('text', { 'font-family': 'JetBrains Mono', 'font-size': (WIDE ? 2.3 : 2.4) * U }, svg);
+    var t1 = S('tspan', { fill: rgba(C.ember) }, lab), t2 = S('tspan', { fill: rgba(C.teal) }, lab);
+    cue(a[2] + .6, 'zap');
+    return { from: vp(a[0], a[1]), t0: a[2], hit: a[2] + .6, name: a[3], tail: tail, dot: dot, bits: bits, lab: lab, t1: t1, t2: t2 };
+  });
+  var ring = S('circle', { cx: L.por.x, cy: L.por.y, r: RING_R, fill: 'none', stroke: rgba(C.teal), 'stroke-width': .6 * U, transform: 'rotate(-90 ' + L.por.x + ' ' + L.por.y + ')' }, svg);
+  var ring2 = S('circle', { cx: L.por.x, cy: L.por.y, r: RING_R * 1.12, fill: 'none', stroke: rgba(C.teal, .25), 'stroke-width': .2 * U, transform: 'rotate(-90 ' + L.por.x + ' ' + L.por.y + ')' }, svg);
+  var orbit = S('circle', { r: .6 * U, fill: rgba(C.teal) }, svg);
+  cue(30.2, 'sparkle', { dur: .9 });
+
+  function ringPos(j){ var a = -Math.PI / 2 + j * 2 * Math.PI / NODES.length; return [L.por.x + RING_R * Math.cos(a), L.por.y + RING_R * Math.sin(a)]; }
+  function pos(j, T){
+    var n = NODES[j], net = vp(n.p[0], n.p[1]);
+    net = [net[0] + Math.sin(T * 1.3 + j) * .45 * U, net[1] + Math.cos(T * 1.1 + j * 1.7) * .45 * U];
+    var p = net, si = SLOT_OF[j];
+    if (si !== undefined){ var m = E.inOut(seg(T, 29.5, 30.35)); p = [lerp(SLOTS[si][0], net[0], m), lerp(SLOTS[si][1], net[1], m)]; }
+    var rp = ringPos(j), q = E.inOut(seg(T, 35.6 + j * .025, 36.4 + j * .025));
+    return [lerp(p[0], rp[0], q), lerp(p[1], rp[1], q)];
+  }
+  function radius(j, T){
+    var n = NODES[j], base = n.r * U, si = SLOT_OF[j], r;
+    if (si !== undefined){
+      var pop = si === 2 ? 1 : E.back(seg(T, 26.15 + si * .2, 26.6 + si * .2));
+      r = lerp(L.slotR, base, E.inOut(seg(T, 29.5, 30.35))) * pop;
+    } else { var t0 = 30.15 + j * .06; r = base * E.back(seg(T, t0, t0 + .4)); }
+    return lerp(r, .7 * U, E.inOut(seg(T, 35.6, 36.4)));
+  }
+
+  return function(T){
+    var P = NODES.map(function(n, j){ return pos(j, T); });
+    // recap link
+    var pl = E.outQ(seg(T, 26.5, 27.1)), x0 = SLOTS[0][0] - L.slotR - 5 * U, x1 = SLOTS[2][0] + L.slotR + 5 * U, lo = 1 - seg(T, 29.3, 29.6);
+    link.setAttribute('x1', x0); link.setAttribute('x2', lerp(x0, x1, pl)); link.setAttribute('opacity', lo * (T >= 26.5 ? 1 : 0));
+    linkDots.forEach(function(d, k){ var ph = ((T - 27.1) / 1.0 + k * .5) % 1; d.setAttribute('cx', lerp(x0, x1, ph)); d.setAttribute('cy', L.slotY); d.setAttribute('opacity', T < 27.1 ? 0 : Math.sin(Math.PI * ph) * lo); });
+    // edges and pulses
+    var eo = 1 - seg(T, 35.5, 35.85);
+    edges.forEach(function(e){
+      var p = E.outQ(seg(T, e.t0, e.t0 + .45)), a = P[e.a], b = P[e.b];
+      e.el.setAttribute('x1', a[0]); e.el.setAttribute('y1', a[1]);
+      e.el.setAttribute('x2', lerp(a[0], b[0], p)); e.el.setAttribute('y2', lerp(a[1], b[1], p));
+      e.el.setAttribute('opacity', T < e.t0 ? 0 : eo);
+    });
+    pulses.forEach(function(q){
+      var e = q.e, ph = ((T - 31.2) / (e.main ? 1.1 : 2.2) + q.k * .5 + q.i * .23) % 1;
+      if (q.k === 1 || q.i % 2) ph = 1 - ph;
+      var a = P[e.a], b = P[e.b];
+      q.el.setAttribute('cx', lerp(a[0], b[0], ph)); q.el.setAttribute('cy', lerp(a[1], b[1], ph));
+      q.el.setAttribute('opacity', T < 31.2 ? 0 : Math.sin(Math.PI * ph) * eo * seg(T, 31.2, 31.5));
+    });
+    // nodes
+    nodes.forEach(function(nd, j){
+      var r = radius(j, T), p = P[j], si = nd.si, morph = E.inOut(seg(T, 29.5, 30.35));
+      var on = si !== undefined ? T >= 25.95 : T >= 30.1;
+      var frac = j / NODES.length, gone = seg(T, 36.45 + frac * .6, 36.6 + frac * .6);
+      nd.g.setAttribute('transform', 'translate(' + p[0] + ' ' + p[1] + ')');
+      nd.g.setAttribute('opacity', on ? (si === 2 ? seg(T, 26.0, 26.2) : 1) * (1 - gone) : 0);
+      nd.c.setAttribute('r', Math.max(0, r));
+      if (j === 0){ nd.c.setAttribute('fill', rgba(mix(C.panel, C.teal, seg(T, 30.0, 30.4)))); nd.c.setAttribute('stroke', rgba(C.teal)); }
+      else if (si !== undefined){ nd.c.setAttribute('fill', rgba(C.panel)); nd.c.setAttribute('stroke', rgba(mix(SLOT_COL[si], C.teal, morph))); }
+      else if (nd.n.label){ nd.c.setAttribute('fill', rgba(C.panel)); nd.c.setAttribute('stroke', rgba(C.teal)); }
+      else { nd.c.setAttribute('fill', 'rgba(232,236,243,.55)'); nd.c.setAttribute('stroke', 'none'); }
+      nd.c.setAttribute('stroke-width', .4 * U);
+      if (T > 35.6){ nd.c.setAttribute('fill', rgba(C.teal)); nd.c.setAttribute('stroke', 'none'); }
+      if (nd.icon){ nd.icon.setAttribute('transform', 'scale(' + r / 100 + ')'); nd.icon.setAttribute('opacity', 1 - seg(T, 29.5, 29.85)); }
+      if (nd.lab){
+        var ly = j === 0 ? p[1] + guardR + 3.4 * U : p[1] + r + 3 * U;
+        nd.lab.setAttribute('x', p[0]); nd.lab.setAttribute('y', ly);
+        nd.lab.setAttribute('opacity', seg(T, 31.0 + j * .08, 31.4 + j * .08) * eo);
+      }
+    });
+    // the guard ring around the agent, and two attacks that bounce off it
+    var A = P[0], pg = E.outX(seg(T, 31.5, 32.0));
+    var hitFlash = 0; ATT.forEach(function(at){ if (T >= at.hit) hitFlash += Math.exp(-(T - at.hit) * 7); });
+    guard.setAttribute('cx', A[0]); guard.setAttribute('cy', A[1]); guard.setAttribute('r', guardR * lerp(.6, 1, pg) * (1 + .06 * hitFlash));
+    guard.setAttribute('stroke-dashoffset', -T * 3 * U);
+    guard.setAttribute('stroke-width', (.35 + .5 * hitFlash) * U);
+    guard.setAttribute('opacity', pg * eo);
+    ATT.forEach(function(at){
+      var dx = at.from[0] - A[0], dy = at.from[1] - A[1], len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len;
+      var hx = A[0] + ux * guardR, hy = A[1] + uy * guardR;
+      var pt = E.inC(seg(T, at.t0, at.hit)), x = lerp(at.from[0], hx, pt), y = lerp(at.from[1], hy, pt);
+      var flying = T >= at.t0 && T < at.hit;
+      show(at.dot, flying); show(at.tail, flying);
+      at.dot.setAttribute('cx', x); at.dot.setAttribute('cy', y);
+      at.tail.setAttribute('x1', x); at.tail.setAttribute('y1', y); at.tail.setAttribute('x2', x + ux * 7 * U); at.tail.setAttribute('y2', y + uy * 7 * U);
+      var pb = seg(T, at.hit, at.hit + .6);
+      at.bits.forEach(function(b, k){
+        var a = Math.atan2(uy, ux) + (k / 9 - .5) * 2.4, d = E.outC(pb) * (5 + (k % 3) * 2.5) * U;
+        b.setAttribute('cx', hx + Math.cos(a) * d); b.setAttribute('cy', hy + Math.sin(a) * d);
+        b.setAttribute('opacity', T < at.hit ? 0 : 1 - pb);
+      });
+      var tx = hx + 2.2 * U, ty = hy + (uy < 0 ? -2.2 * U : 4 * U);
+      at.lab.setAttribute('x', tx); at.lab.setAttribute('y', ty);
+      at.t1.textContent = at.name.slice(0, Math.max(0, Math.floor((T - at.t0) * 40)));
+      at.t2.textContent = T >= at.hit ? ' → blocked' : '';
+      at.lab.setAttribute('opacity', (T >= at.t0 ? 1 : 0) * (1 - seg(T, 35.3, 35.55)));
+    });
+    // ring around the portrait draws through the arriving nodes
+    var pr = E.inOut(seg(T, 36.35, 37.0)), C1 = 2 * Math.PI * RING_R;
+    draw(ring, C1, pr); draw(ring2, C1 * 1.12, E.inOut(seg(T, 36.6, 37.3)));
+    var ro = T < 41.5 ? 1 : 0;
+    ring.setAttribute('opacity', (T >= 36.35 ? 1 : 0) * ro); ring2.setAttribute('opacity', (T >= 36.6 ? 1 : 0) * ro * (1 - seg(T, 41.3, 41.5)));
+    var oa = -Math.PI / 2 + (T - 37) * 1.2;
+    orbit.setAttribute('cx', L.por.x + RING_R * 1.12 * Math.cos(oa)); orbit.setAttribute('cy', L.por.y + RING_R * 1.12 * Math.sin(oa));
+    orbit.setAttribute('opacity', seg(T, 37.2, 37.5) * (1 - seg(T, 41.3, 41.5)));
+  };
+});
+
+// ---------- 42 to 48s: find it, fix it, prove it, back to the logo, and the ask ----------
+scene(41.95, 99, function(root){
+  var sl = el('div', 'abs disp', root);
+  var sfs = (WIDE ? 11 : 12.5) * U, cy = H * (WIDE ? .44 : .4);
+  px(sl, { left: 0, width: W, top: cy - (WIDE ? sfs * .55 : sfs * 1.65) }); sl.style.textAlign = 'center'; sl.style.fontSize = sfs + 'px';
+  sl.style.transformOrigin = '50% ' + (WIDE ? sfs * .55 : sfs * 1.65) + 'px';
+  var ph = [['Find it.', 'ember'], ['Fix it.', 'teal'], ['Prove it.', 'peri']].map(function(p, i){
+    var s = el('span', 'w ' + p[1], sl, p[0]);
+    if (i < 2) sl.appendChild(WIDE ? document.createTextNode(' ') : el('br'));
+    return s;
+  });
+  var lh = (WIDE ? 16 : 15) * U, ly = H * (WIDE ? .4 : .38);
+  var lw = el('div', 'abs', root), lg = makeLogo(lw, lh);
+  px(lw, { left: (W - lg.w) / 2, top: ly - lh / 2, width: lg.w, height: lh });
+  var tag = el('div', 'abs soft', root, WIDE ? 'Security &amp; AI consultant for small businesses' : 'Security &amp; AI consultant<br>for small businesses');
+  px(tag, { left: 0, width: W, top: ly + lh / 2 + 4 * U }); tag.style.textAlign = 'center'; tag.style.fontSize = (WIDE ? 3.4 : 4) * U + 'px'; tag.style.lineHeight = 1.35;
+  var ctaTop = ly + lh / 2 + (WIDE ? 12 : 17) * U;
+  var cta = el('div', 'abs', root); px(cta, { left: 0, width: W, top: ctaTop }); cta.style.textAlign = 'center';
+  var main;
+  if (CTA === 'web'){
+    main = el('div', 'pill', cta, 'devmeo.me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+    main.style.fontSize = (WIDE ? 5 : 6.2) * U + 'px';
+  } else {
+    main = el('div', 'disp teal', cta, 'Send me a message.'); main.style.display = 'inline-block'; main.style.fontSize = (WIDE ? 5.4 : 6.4) * U + 'px';
+  }
+  var small = el('div', 'fog', cta, 'Tell me what keeps you up at night.'); small.style.fontSize = (WIDE ? 3 : 3.6) * U + 'px'; small.style.marginTop = (WIDE ? 2.4 : 3) * U + 'px';
+  [42.0, 42.5, 43.0].forEach(function(t){ cue(t, 'hit'); shake(t, .45, .3); flash(t, .05); });
+  cue(42.0, 'riser', { dur: 2.0 }); cue(43.55, 'whoosh', { dur: .45, rev: true });
+  cue(44.0, 'impact'); ripple(44.0, W / 2, ly); ringFx(44.0, W / 2, ly, Math.max(W, H) * .8, C.teal, .7 * U, 1.3); shake(44.0, .6, .45); flash(44.0, .1);
+  cue(45.1, 'pop');
+  return function(T){
+    ph.forEach(function(s, i){ slam(s, T, 42.0 + i * .5); });
+    var pc = E.inC(seg(T, 43.55, 43.95));
+    sl.style.transform = 'scale(' + lerp(1, .05, pc) + ')'; sl.style.opacity = 1 - seg(T, 43.75, 43.95);
+    lw.style.opacity = T >= 43.95 ? 1 : 0;
+    typeLogo(lg, T, 44.0, .07);
+    var bump = T >= 44 ? .07 * Math.exp(-(T - 44) * 5) * Math.cos((T - 44) * 15) : 0;
+    lw.style.transform = 'scale(' + (1 + bump) + ')';
+    rise(tag, T, 44.55, .6, 2 * U);
+    var pp = seg(T, 45.1, 45.55);
+    main.style.opacity = clamp(pp * 3); main.style.transform = 'scale(' + (T < 45.1 ? 0 : E.back(pp)) + ')';
+    if (CTA === 'web') main.style.boxShadow = '0 0 0 ' + (.25 + .12 * Math.sin((T - 45) * 4)) + 'em rgba(45,212,191,.14), 0 .4em 1.2em rgba(45,212,191,.28)';
+    rise(small, T, 45.5, .6, 1.5 * U);
+  };
+});
+
+// ---------- Watermark ----------
+var wm = document.getElementById('wm'), wlg = makeLogo(wm, 3.4 * U);
+px(wm, { left: L.wm.x, top: L.wm.y });
+
+// Grain: off when render.js adds it in ffmpeg
+(function(){
+  var c = document.getElementById('grain');
+  if (Q.get('grain') === '0'){ c.style.display = 'none'; return; }
+  c.width = W; c.height = H;
+  var g = c.getContext('2d'), img = g.createImageData(W, H), d = img.data, s = 7;
+  for (var i = 0; i < d.length; i += 4){ s = (s * 16807) % 2147483647; var v = s % 256; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  g.putImageData(img, 0, 0);
+})();
+
+var camEl = document.getElementById('cam'), flashEl = document.getElementById('flash');
+window.render = function(T){
+  drawBG(T); drawGlow(T);
+  eraseX = null;
+  SCENES.forEach(function(s){
+    var on = T >= s.a && T < s.b;
+    s.root.style.display = on ? 'block' : 'none';
+    if (on) s.update(T);
+  });
+  var sx = 0, sy = 0;
+  SHAKES.forEach(function(k){ var dt = T - k.t; if (dt < 0 || dt > k.dur) return; var a = k.amp * U * Math.exp(-dt * 9); sx += a * Math.sin(dt * 93); sy += a * Math.cos(dt * 71); });
+  camEl.style.transform = 'translate(' + sx + 'px,' + sy + 'px)';
+  var fl = 0; FLASHES.forEach(function(f){ var dt = T - f.t; if (dt >= 0 && dt < .6) fl += f.a * Math.exp(-dt * 9); });
+  flashEl.style.opacity = fl;
+  RINGS.forEach(function(R){
+    var p = seg(T, R.t, R.t + R.dur), on = T >= R.t && p < 1;
+    show(R.c, on); if (!on) return;
+    R.c.setAttribute('r', R.r1 * E.outC(p)); R.c.setAttribute('stroke-width', R.w * (1 - p) + .5); R.c.setAttribute('opacity', 1 - p);
+  });
+  wm.style.opacity = .9 * seg(T, 4.3, 4.8) * (1 - seg(T, 41.1, 41.4));
+  wlg.cur.style.opacity = blink(T) ? 1 : .15;
+};
+
+window.ready = document.fonts.ready.then(function(){
+  return Promise.all([].map.call(document.images, function(im){ return im.complete ? 0 : new Promise(function(r){ im.onload = im.onerror = r; }); }));
+}).then(function(){ window.render(0); return true; });
+
+if (Q.has('t')) window.ready.then(function(){ window.render(parseFloat(Q.get('t'))); });
+if (Q.has('play')) window.ready.then(function(){
+  var t0 = performance.now();
+  (function loop(){ window.render((performance.now() - t0) / 1000 % window.DURATION); requestAnimationFrame(loop); })();
+});
+</script>
+</body>
+</html>
